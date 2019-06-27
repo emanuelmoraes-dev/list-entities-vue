@@ -1,18 +1,6 @@
 <template>
-  <div v-if="compactSecundary || !$slots.secundary" class="vuestic-widget" :class="{'no-header': !headerText}">
-    <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
-      {{headerText}}
-    </div>
-    <div v-if="$slots.headerText" class="vuestic-widget-header">
-      <slot name="headerText"></slot>
-    </div>
-    <div class="vuestic-widget-body" v-if="hasSlotData">
-      <slot></slot>
-      <slot v-if="$slots.secundary" name="secundary"></slot>
-    </div>
-  </div>
-  <div v-else>
-    <div v-show="!hidePrimary" class="vuestic-widget" :class="{'no-header': !headerText}">
+  <div class="custom-component-list-entities-vue">
+    <div v-if="compactSecundary || !$slots.secundary" class="vuestic-widget" :class="{'no-header': !headerText}">
       <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
         {{headerText}}
       </div>
@@ -21,13 +9,30 @@
       </div>
       <div class="vuestic-widget-body" v-if="hasSlotData">
         <slot></slot>
+        <slot v-if="$slots.secundary" name="secundary"></slot>
       </div>
     </div>
-    <slot v-if="$slots.secundary" name="secundary"></slot>
+    <div v-else>
+      <div v-show="!hidePrimary" class="vuestic-widget" :class="{'no-header': !headerText}">
+        <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
+          {{headerText}}
+        </div>
+        <div v-if="$slots.headerText" class="vuestic-widget-header">
+          <slot name="headerText"></slot>
+        </div>
+        <div class="vuestic-widget-body" v-if="hasSlotData">
+          <slot></slot>
+        </div>
+      </div>
+      <slot v-if="$slots.secundary" name="secundary"></slot>
+    </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/app.css'
+
 export default {
   name: 'vuestic-widget',
 
@@ -54,13 +59,7 @@ export default {
 </script>
 
 <style lang="css">
-.vuestic-widget {
-	 background: #fff;
-	 box-shadow: 0px 4px 70px -18px rgba(112, 112, 112, 1);
-	 margin-bottom: 1.875rem;
-	 padding: 0;
-}
- .vuestic-widget.larger-padding .vuestic-widget-body {
+.vuestic-widget.larger-padding .vuestic-widget-body {
 	 padding: 45px;
 }
  .vuestic-widget.no-h-padding .vuestic-widget-body {

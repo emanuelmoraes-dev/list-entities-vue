@@ -1,51 +1,56 @@
 <template>
-  <div class="vuestic-modal">
-    <transition name="modal" :duration="duration">
-      <div v-show="show" class="modal-container">
-        <div class="modal" @click.self="clickMask">
-          <div class="modal-dialog" :class="modalClass">
-            <div class="modal-content">
-              <!--Header-->
-              <div class="modal-header">
-                <slot name="header">
-                  <div class="modal-title">
-                    <slot name="title"></slot>
-                  </div>
+  <div class="custom-component-list-entities-vue">
+    <div class="vuestic-modal">
+      <transition name="modal" :duration="duration">
+        <div v-show="show" class="modal-container">
+          <div class="modal" @click.self="clickMask">
+            <div class="modal-dialog" :class="modalClass">
+              <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                  <slot name="header">
+                    <div class="modal-title">
+                      <slot name="title"></slot>
+                    </div>
 
-                  <i
-                    class="ion ion-md-close close-modal"
-                    v-if="closeIconShown"
-                    @click.prevent="cancel"
-                  />
-                </slot>
-              </div>
-              <!--Container-->
-              <div class="modal-body">
-                <slot></slot>
-              </div>
-              <!--Footer-->
-              <div class="modal-footer">
-                <slot name="footer">
-                  <button type="button" v-if="!noButtons" :class="okClass"
-                          @click="ok" :disabled="okDisabled">
-                    {{ okText }}
-                  </button>
-                  <button type="button" v-if="!noButtons" :class="cancelClass"
-                          @click="cancel" :disabled="cancelDisabled">
-                    {{ cancelText }}
-                  </button>
-                </slot>
+                    <i
+                      class="ion ion-md-close close-modal"
+                      v-if="closeIconShown"
+                      @click.prevent="cancel"
+                    />
+                  </slot>
+                </div>
+                <!--Container-->
+                <div class="modal-body">
+                  <slot></slot>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                  <slot name="footer">
+                    <button type="button" v-if="!noButtons" :class="okClass"
+                            @click="ok" :disabled="okDisabled">
+                      {{ okText }}
+                    </button>
+                    <button type="button" v-if="!noButtons" :class="cancelClass"
+                            @click="cancel" :disabled="cancelDisabled">
+                      {{ cancelText }}
+                    </button>
+                  </slot>
+                </div>
               </div>
             </div>
           </div>
+          <div class="modal-backdrop"></div>
         </div>
-        <div class="modal-backdrop"></div>
-      </div>
-    </transition>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/app.css'
+
 export default {
   name: 'vuestic-modal',
   props: {

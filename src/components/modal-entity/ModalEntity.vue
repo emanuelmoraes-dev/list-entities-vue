@@ -1,46 +1,51 @@
 <template>
-  <div class="modal-entity">
-    <vuestic-modal
-      :show.sync="show"
-      :small="small"
-      :force="force"
-      ref="modal"
-      :okClass="okClass"
-      :okText="confirmText"
-      @ok="() => $emit('ok')"
-      :cancelClass="'none'"
-    >
-      <div slot="title">{{ title }}</div>
-      <div>
-        <div
-          v-for="(property, index) of Object.keys(descriptorEntity)"
-          :key="property + '_' + index"
-        >
-          <div v-if="$scopedSlots[`${property}_slot`]">
-            <slot :name="property" :property="descriptorEntity[property]"></slot>
-          </div>
-          <div v-else class="line-modal-property">
-            <div class="property-name">{{ mapPropEntity[property] }} :</div>
-            <div class="property-value">
-              <span v-if="descriptorEntity[property].sep === '\n'">
-                <span
-                  v-for="(item, index) of $options.filters.getAttr(value, property)"
-                  :key="index"
-                >
-                  {{ item | parseItem(descriptorEntity[property]) }}
-                  <br v-if="index < $options.filters.getAttr(value, property).length">
+  <div class="custom-component-list-entities-vue">
+    <div class="modal-entity">
+      <vuestic-modal
+        :show.sync="show"
+        :small="small"
+        :force="force"
+        ref="modal"
+        :okClass="okClass"
+        :okText="confirmText"
+        @ok="() => $emit('ok')"
+        :cancelClass="'none'"
+      >
+        <div slot="title">{{ title }}</div>
+        <div>
+          <div
+            v-for="(property, index) of Object.keys(descriptorEntity)"
+            :key="property + '_' + index"
+          >
+            <div v-if="$scopedSlots[`${property}_slot`]">
+              <slot :name="property" :property="descriptorEntity[property]"></slot>
+            </div>
+            <div v-else class="line-modal-property">
+              <div class="property-name">{{ mapPropEntity[property] }} :</div>
+              <div class="property-value">
+                <span v-if="descriptorEntity[property].sep === '\n'">
+                  <span
+                    v-for="(item, index) of $options.filters.getAttr(value, property)"
+                    :key="index"
+                  >
+                    {{ item | parseItem(descriptorEntity[property]) }}
+                    <br v-if="index < $options.filters.getAttr(value, property).length">
+                  </span>
                 </span>
-              </span>
-              <span v-else>{{ value | getAttr(property) | parseValue(descriptorEntity[property]) }}</span>
+                <span v-else>{{ value | getAttr(property) | parseValue(descriptorEntity[property]) }}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </vuestic-modal>
+      </vuestic-modal>
+    </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/app.css'
+
 import VuesticModal from '../vuestic-modal/VuesticModal'
 
 import utils from '../../services/utils'

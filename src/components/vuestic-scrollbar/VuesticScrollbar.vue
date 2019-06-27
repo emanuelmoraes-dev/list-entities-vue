@@ -1,23 +1,28 @@
 <template>
-  <div class="vuestic-scrollbar" ref="vuesticScrollbar">
-    <div class="scrollbar-wrapper" ref="scrollbarWrapper">
-      <div class="scrollbar-content" ref="scrollbarContent"
-           @wheel="scroll"
-           @touchstart="startDrag"
-           @touchmove="onDrag"
-           @touchend="stopDrag"
-           @transitionend="onContentResize"
-      >
-        <slot/>
-      </div>
-      <div class="track" ref="track">
-        <div class="thumb" ref="thumb"></div>
+  <div class="custom-component-list-entities-vue">
+    <div class="vuestic-scrollbar" ref="vuesticScrollbar">
+      <div class="scrollbar-wrapper" ref="scrollbarWrapper">
+        <div class="scrollbar-content" ref="scrollbarContent"
+            @wheel="scroll"
+            @touchstart="startDrag"
+            @touchmove="onDrag"
+            @touchend="stopDrag"
+            @transitionend="onContentResize"
+        >
+          <slot/>
+        </div>
+        <div class="track" ref="track">
+          <div class="thumb" ref="thumb"></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/app.css'
+
 const browser = require('detect-browser')
 const erd = require('element-resize-detector')()
 

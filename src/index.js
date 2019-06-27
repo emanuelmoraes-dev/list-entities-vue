@@ -1,18 +1,6 @@
 import 'babel-polyfill'
 import 'es6-promise/auto'
 
-import 'open-iconic/font/css/open-iconic.min.css'
-import 'ionicons/dist/css/ionicons.min.css'
-import 'openwebicons/css/openwebicons.min.css'
-import 'glyphicons-only-bootstrap/css/bootstrap-theme.min.css'
-import 'font-awesome/css/font-awesome.min.css'
-import 'normalize.css/normalize.css'
-
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-import 'assets/css/app.styl'
-
 import Vue from 'vue'
 import router from './router'
 import App from './App'

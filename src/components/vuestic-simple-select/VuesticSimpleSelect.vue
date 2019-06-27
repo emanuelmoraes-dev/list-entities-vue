@@ -1,62 +1,67 @@
 <template>
-  <div class="vuestic-simple-select">
-    <div
-      class="form-group with-icon-right dropdown select-form-group"
-      v-dropdown="{ isBlocked: true, onDropdownClose: onDropdownClose }"
-      :class="{'has-error': hasErrors()}"
-    >
+  <div class="custom-component-list-entities-vue">
+    <div class="vuestic-simple-select">
       <div
-        class="input-group dropdown-toggle vuestic-simple-select__dropdown-toggle">
-        <div>
-          <input
-            @focus="showDropdown()"
-            :class="{'has-value': !!value, 'cursor-pointer': !editable}"
-            v-model="displayValueShow"
-            autocomplete="off"
-            :name="name"
-            :options="options"
-            :readonly="!editable"
-          >
-          <label class="control-label">{{label}}</label><i class="bar"/>
-          <small v-show="hasErrors()" class="help text-danger">
-            {{ showRequiredError() }}
-          </small>
-        </div>
-        <i
-          class="ion ion-ios-arrow-down icon-right input-icon vuestic-simple-select__dropdown-arrow"
-          @click="showDropdown"
-        />
-      </div>
-      <div v-if="isClearable">
-        <i
-          class="fa fa-close icon-cross icon-right input-icon vuestic-simple-select__unselect"
-          @click="unselectOption"
-        />
-      </div>
-      <div
-        class="dropdown-menu vuestic-simple-select__dropdown-menu"
-        aria-labelledby="dropdownMenuButton">
-        <scrollbar ref="scrollbar">
-          <div
-            class="dropdown-menu-content vuestic-simple-select__dropdown-menu-content">
-            <div
-              class="dropdown-item vuestic-simple-select__dropdown-item"
-              v-for="(option, index) in filteredList"
-              :key="index"
-              :class="{'selected': isOptionSelected(option)}"
-              @click="toggleSelection(option, index)"
+        class="form-group with-icon-right dropdown select-form-group"
+        v-dropdown="{ isBlocked: true, onDropdownClose: onDropdownClose }"
+        :class="{'has-error': hasErrors()}"
+      >
+        <div
+          class="input-group dropdown-toggle vuestic-simple-select__dropdown-toggle">
+          <div>
+            <input
+              @focus="showDropdown()"
+              :class="{'has-value': !!value, 'cursor-pointer': !editable}"
+              v-model="displayValueShow"
+              autocomplete="off"
+              :name="name"
+              :options="options"
+              :readonly="!editable"
             >
-            <span
-              class="ellipsis">{{optionKey ? option[optionKey] : option}}</span>
-            </div>
+            <label class="control-label">{{label}}</label><i class="bar"/>
+            <small v-show="hasErrors()" class="help text-danger">
+              {{ showRequiredError() }}
+            </small>
           </div>
-        </scrollbar>
+          <i
+            class="ion ion-ios-arrow-down icon-right input-icon vuestic-simple-select__dropdown-arrow"
+            @click="showDropdown"
+          />
+        </div>
+        <div v-if="isClearable">
+          <i
+            class="fa fa-close icon-cross icon-right input-icon vuestic-simple-select__unselect"
+            @click="unselectOption"
+          />
+        </div>
+        <div
+          class="dropdown-menu vuestic-simple-select__dropdown-menu"
+          aria-labelledby="dropdownMenuButton">
+          <scrollbar ref="scrollbar">
+            <div
+              class="dropdown-menu-content vuestic-simple-select__dropdown-menu-content">
+              <div
+                class="dropdown-item vuestic-simple-select__dropdown-item"
+                v-for="(option, index) in filteredList"
+                :key="index"
+                :class="{'selected': isOptionSelected(option)}"
+                @click="toggleSelection(option, index)"
+              >
+              <span
+                class="ellipsis">{{optionKey ? option[optionKey] : option}}</span>
+              </div>
+            </div>
+          </scrollbar>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/app.css'
+
 import Dropdown from '../../directives/vuestic-dropdown/VuesticDropdown'
 import Scrollbar from '../vuestic-scrollbar/VuesticScrollbar'
 export default {

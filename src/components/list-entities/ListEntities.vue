@@ -1,152 +1,158 @@
 <template>
-	<div class="list-entities">
-		<div class="row">
-		<div class="col-xs-12 col-md-12">
-			<vuestic-widget :hidePrimary="hideSearch" :compactSecundary="isCompact" :headerText="titleSearch">
-        <div v-if="$slots.headerText" slot="headerText">
-          <slot name="headerText"></slot>
-        </div>
-				<div v-if="searchShow" class="row">
-					<div class="col-md-3">
-						<vuestic-simple-select
-							label="Pesquisar por:"
-							v-model="attrSearch"
-							option-key="display"
-							:options="optionsSearch"
-							:clearable="false"
-							:editable="false"
-							:cancellable="false">
-						</vuestic-simple-select>
-					</div>
-					<div class="col-md-7">
-						<div class="form-group">
-						<div class="input-group">
-							<input
-							id="txtsearch"
-							name="search"
-							v-model="inputSearchValue"
-              @keypress="keyHandler($event)"
-              ref="txtSearch"/>
-							<label class="control-label" for="txtsearch">Buscar:</label><i
-							class="bar"></i>
-						</div>
-					</div>
-					</div>
-					<div class="col-md-2">
-						<button @click.prevent.stop="search(true)" class="btn btn-success option search">Buscar</button>
-					</div>
-				</div>
-				<div slot="secundary">
-					<div :class="{row: !isCompact}">
-					<div :class="{'col-xs-12 col-md-12': !isCompact}">
-						<component :is="componentShowTable" :headerText="titleTable">
-							<slot name="beforeTable"></slot>
-							<div class="table-responsive">
-								<table class="table table-striped first-td-padding">
-									<thead>
-										<tr>
-											<td v-if="$scopedSlots.check"></td>
-											<td
-												:class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
-												v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
-												@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
-												v-for="attr of displayAttrs" :key="attr.value + '_display'"
-											>
-                        <span v-show="sort && sort[0] !== '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="entypo entypo-down-open-mini"></span>
-                        <span v-show="sort && sort[0] === '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="entypo entypo-up-open-mini"></span>
-												{{attr.display}}:
-											</td>
-											<td
-												v-if="!hideLastAttr"
-												:class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
-												@click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
-											>
-                        <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-down-open-mini"></span>
-                        <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-up-open-mini"></span>
-                        {{lastAttr.display}}:
-                      </td>
-                      <td class="text-center" v-if="$slots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
-											<td v-for="opt of options" :key="opt + '_thead'">{{ mapTdOption[opt] || '' }}</td>
-										</tr>
-									</thead>
-									<tbody>
-										<slot name="tblpre"></slot>
-										<tr v-for="(entity, index) of entities" :key="entity.id" :class="[classLine, entity.__classLine]"
-												@click="on_click(entity, index)">
-											<td v-if="$scopedSlots.check">
-												<slot name="check" :item="{entity, index}"></slot>
-											</td>
-											<slot :name="`entity_line_${entity.id}`" :item="{entity, index}">
-												<td
-													v-for="attr of displayAttrs" :key="attr.value + '_value'"
-													v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
-												>
-													{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep) }}
-												</td>
-												<td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}</td>
-											</slot>
-											<slot name="td_option" :item="{entity, index}">
-	                      <td class="text-center" v-if="optionRemove || optionEdit || optionReport || optionView">
-	                        <button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="excluir(entity, index)">Excluir</button>
-	                        <button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="editar(entity, index)">Editar</button>
-	                        <button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="reportGenerate(entity, index)">
-	                          <span class="entypo entypo-newspaper"></span>
-	                        </button>
-	                        <button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
-	                          <span class="fa fa-eye"></span>
-	                        </button>
-	                      </td>
-											</slot>
-                      <td v-for="opt of options" :key="opt + '_tbody'">
-												<slot :name="opt" :item="{entity, index}"></slot>
-											</td>
-										</tr>
-										<slot name="tblpos"></slot>
-									</tbody>
-								</table>
-							</div>
-              <b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="totalElements" v-model="currentPage" :per-page="pageSize" />
-						</component>
-					</div>
-					</div>
-				</div>
-			</vuestic-widget>
-		</div>
-		</div>
+  <div class="custom-component-list-entities-vue">
+    <div class="list-entities">
+      <div class="row">
+      <div class="col-xs-12 col-md-12">
+        <vuestic-widget :hidePrimary="hideSearch" :compactSecundary="isCompact" :headerText="titleSearch">
+          <div v-if="$slots.headerText" slot="headerText">
+            <slot name="headerText"></slot>
+          </div>
+          <div v-if="searchShow" class="row">
+            <div class="col-md-3">
+              <vuestic-simple-select
+                label="Pesquisar por:"
+                v-model="attrSearch"
+                option-key="display"
+                :options="optionsSearch"
+                :clearable="false"
+                :editable="false"
+                :cancellable="false">
+              </vuestic-simple-select>
+            </div>
+            <div class="col-md-7">
+              <div class="form-group">
+              <div class="input-group">
+                <input
+                id="txtsearch"
+                name="search"
+                v-model="inputSearchValue"
+                @keypress="keyHandler($event)"
+                ref="txtSearch"/>
+                <label class="control-label" for="txtsearch">Buscar:</label><i
+                class="bar"></i>
+              </div>
+            </div>
+            </div>
+            <div class="col-md-2">
+              <button @click.prevent.stop="search(true)" class="btn btn-success option search">Buscar</button>
+            </div>
+          </div>
+          <div slot="secundary">
+            <div :class="{row: !isCompact}">
+            <div :class="{'col-xs-12 col-md-12': !isCompact}">
+              <component :is="componentShowTable" :headerText="titleTable">
+                <slot name="beforeTable"></slot>
+                <div class="table-responsive">
+                  <table class="table table-striped first-td-padding">
+                    <thead>
+                      <tr>
+                        <td v-if="$scopedSlots.check"></td>
+                        <td
+                          :class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
+                          v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
+                          @click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
+                          v-for="attr of displayAttrs" :key="attr.value + '_display'"
+                        >
+                          <span v-show="sort && sort[0] !== '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="ion ion-ios-arrow-down"></span>
+                          <span v-show="sort && sort[0] === '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="ion ion-ios-arrow-up"></span>
+                          {{attr.display}}:
+                        </td>
+                        <td
+                          v-if="!hideLastAttr"
+                          :class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
+                          @click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
+                        >
+                          <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-down-open-mini"></span>
+                          <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-up-open-mini"></span>
+                          {{lastAttr.display}}:
+                        </td>
+                        <td class="text-center" v-if="$slots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
+                        <td v-for="opt of options" :key="opt + '_thead'">{{ mapTdOption[opt] || '' }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <slot name="tblpre"></slot>
+                      <tr v-for="(entity, index) of entities" :key="entity.id" :class="[classLine, entity.__classLine]"
+                          @click="on_click(entity, index)">
+                        <td v-if="$scopedSlots.check">
+                          <slot name="check" :item="{entity, index}"></slot>
+                        </td>
+                        <slot :name="`entity_line_${entity.id}`" :item="{entity, index}">
+                          <td
+                            v-for="attr of displayAttrs" :key="attr.value + '_value'"
+                            v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
+                          >
+                            {{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep) }}
+                          </td>
+                          <td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}</td>
+                        </slot>
+                        <slot name="td_option" :item="{entity, index}">
+                          <td class="text-center" v-if="optionRemove || optionEdit || optionReport || optionView">
+                            <button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="excluir(entity, index)">Excluir</button>
+                            <button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="editar(entity, index)">Editar</button>
+                            <button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="reportGenerate(entity, index)">
+                              <span class="entypo entypo-newspaper"></span>
+                            </button>
+                            <button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
+                              <span class="fa fa-eye"></span>
+                            </button>
+                          </td>
+                        </slot>
+                        <td v-for="opt of options" :key="opt + '_tbody'">
+                          <slot :name="opt" :item="{entity, index}"></slot>
+                        </td>
+                      </tr>
+                      <slot name="tblpos"></slot>
+                    </tbody>
+                  </table>
+                </div>
+                <b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="totalElements" v-model="currentPage" :per-page="pageSize" />
+              </component>
+            </div>
+            </div>
+          </div>
+        </vuestic-widget>
+      </div>
+      </div>
 
-		<div class="modals-page">
-			<vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
-					:okText="okText">
-				<div slot="title">Sucesso!</div>
-				<div>
-					{{msg_modal}}
-				</div>
-			</vuestic-modal>
+      <div class="modals-page">
+        <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
+            :okText="okText">
+          <div slot="title">Sucesso!</div>
+          <div>
+            {{msg_modal}}
+          </div>
+        </vuestic-modal>
 
-			<vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
-					:okText="confirmText" :cancelText="cancelText" @ok="on_ok">
-				<div slot="title">Atenção!</div>
-				<div>
-					{{msg_modal}}
-				</div>
-			</vuestic-modal>
-		</div>
+        <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
+            :okText="confirmText" :cancelText="cancelText" @ok="on_ok">
+          <div slot="title">Atenção!</div>
+          <div>
+            {{msg_modal}}
+          </div>
+        </vuestic-modal>
+      </div>
 
-    <modal-entity
-      ref="showModalEntity"
-      :title="titleModalEntity"
-      :okClass="okClassModalEntity"
-      :confirmText="confirmTextModalEntity"
-      v-model="enityShow"
-      :small="smallModalEntity"
-      :descriptor="descriptorModalEntity || descriptorEntity"
-      :mapProp="mapPropModalEntity"
-      :force="forceModalEntity"
-    />
+      <modal-entity
+        ref="showModalEntity"
+        :title="titleModalEntity"
+        :okClass="okClassModalEntity"
+        :confirmText="confirmTextModalEntity"
+        v-model="enityShow"
+        :small="smallModalEntity"
+        :descriptor="descriptorModalEntity || descriptorEntity"
+        :mapProp="mapPropModalEntity"
+        :force="forceModalEntity"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import '../../../assets/css/ionicons/css/ionicons.min.css'
+import '../../../assets/css/font-awesome/css/font-awesome.min.css'
+import '../../../assets/css/app.css'
+
 import VuesticModal from '../vuestic-modal/VuesticModal'
 import VuesticWidget from '../vuestic-widget/VuesticWidget'
 import VuesticSimpleSelect from '../vuestic-simple-select/VuesticSimpleSelect'
@@ -811,7 +817,7 @@ export default {
     },
     smallModalEntity: {
       Type: Boolean,
-      default: true
+      default: false
     },
     forceModalEntity: {
       Type: Boolean,
@@ -880,4 +886,5 @@ button.search {
     justify-content: center;
   }
 }
+
 </style>
