@@ -156,6 +156,7 @@ import '../../../assets/css/app.css'
 import VuesticModal from '../vuestic-modal/VuesticModal'
 import VuesticWidget from '../vuestic-widget/VuesticWidget'
 import VuesticSimpleSelect from '../vuestic-simple-select/VuesticSimpleSelect'
+import show from './Show'
 
 import ModalEntity from "../modal-entity/ModalEntity"
 
@@ -170,10 +171,7 @@ export default {
     VuesticWidget,
     VuesticSimpleSelect,
     ModalEntity,
-    show: {
-      template: '<div><slot></slot></div>',
-      props: ['headerText']
-    }
+    show
   },
   mounted () {
     // this.$refs.txtSearch.focus()
