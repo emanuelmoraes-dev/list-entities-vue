@@ -847,44 +847,34 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 
-.color-icon-label-table {
-  td:first-child {
-    width: 1rem;
-  }
+.color-icon-label-table td:first-child {
+	 width: 1rem;
 }
-
-button.option {
-  padding: 0.3rem 0.2rem;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  margin-left: 0.5rem;
+ button.option {
+	 padding: 0.3rem 0.2rem;
+	 font-size: 0.9rem;
+	 border-radius: 5px;
+	 margin-left: 0.5rem;
 }
-
-button.option-icon {
-  padding: 0.2rem 0.3rem 0.2rem 0.45rem;
-  font-size: 0.9rem;
-  border-radius: 5px;
+ button.option-icon {
+	 padding: 0.2rem 0.3rem 0.2rem 0.45rem;
+	 font-size: 0.9rem;
+	 border-radius: 5px;
 }
-
-button.excluir {
-  box-shadow: 0 4px 9.6px 0.4px rgba(247, 53, 19, 0.35) !important;
+ button.excluir {
+	 box-shadow: 0 4px 9.6px 0.4px rgba(247, 53, 19, 0.35) !important;
 }
-
-button.aceitar button.search {
-  box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5) !important;
+ button.aceitar button.search {
+	 box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5) !important;
 }
-
-button.search {
-  padding: 0.5rem 0.4rem;
-  margin: 6px 0 0 20px;
+ button.search {
+	 padding: 0.5rem 0.4rem;
+	 margin: 6px 0 0 20px;
 }
-
-.list-entities {
-  .vuestic-widget-header {
-    justify-content: center;
-  }
+ .list-entities .vuestic-widget-header {
+	 justify-content: center;
 }
 
 </style>

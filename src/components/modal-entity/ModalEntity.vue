@@ -235,26 +235,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
+
 .btn-modal {
-  padding: 0.6rem 0.4rem;
-  font-size: 0.9rem;
-  border-radius: 5px;
+	 padding: 0.6rem 0.4rem;
+	 font-size: 0.9rem;
+	 border-radius: 5px;
 }
+ .line-modal-property {
+	 display: flex;
+}
+ .property-value {
+	 flex: 1;
+	 text-align: right;
+}
+ .modal-entity .modal-title {
+	 flex: 1;
+	 text-align: center;
+}
+ 
 
-.line-modal-property {
-  display: flex;
-}
-
-.property-value {
-  flex: 1;
-  text-align: right;
-}
-
-.modal-entity {
-  .modal-title {
-    flex: 1;
-    text-align: center;
-  }
-}
 </style>
