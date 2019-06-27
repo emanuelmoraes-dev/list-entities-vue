@@ -4,7 +4,10 @@
   "description": "Generic components in Vue JS to view and list entities",
   "main": "src/app.js",
   "repository": "https://github.com/emanuelmoraes-dev/list-entities-vue.git",
-  "author": "emanuelmoraes-dev",
+  "author": {
+    "name": "Emanuel Moraes",
+    "email": "emanuelmoraes297@gmail.com"
+  },
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -61,5 +64,13 @@
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.2.1"
-  }
+  },
+  "keywords": [
+    "modal",
+    "table",
+    "list",
+    "entities",
+    "vue"
+  ],
+  "readmeFilename": "README.md"
 }
