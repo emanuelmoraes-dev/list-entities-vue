@@ -75,7 +75,7 @@ export default {
   methods: {
     request(that) {
       /*
-        return promise that is instance of HttpRequest;
+        return instance of HttpRequest;
         'that' is instance of ListEntities
       */
      return new HttpRequest()
