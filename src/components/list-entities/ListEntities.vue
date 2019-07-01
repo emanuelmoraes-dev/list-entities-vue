@@ -331,7 +331,6 @@ export default {
             .split(this.descriptorEntity[attr].sep || this.sep)
             .join('|')}/${this.searchCaseSensitive ? '' : 'i'}`
         } else if (type === Number) {
-					console.log('maldito')
           valor = valor.trim()
 
           const regexp = /(>|>=|<|<=|=)(\d+([.,]\d+)?)/g
@@ -340,8 +339,6 @@ export default {
           if (valor.match(regexp)) {
             let cmp = valor.match(/>|>=|<|<=|=/)[0]
             valor = valor.match(/\d+([.,]\d+)?/)[0]
-
-						console.log(cmp, valor)
 
             switch (cmp) {
               case '>': cmp = '$gt'; break
@@ -598,6 +595,8 @@ export default {
       if (!newValue) {
         this.attrSearch = oldValue
       } else {
+        this.$emit('attrSearch', newValue)
+
         oldValue = oldValue || newValue
 
         this.updateLastAttr()
