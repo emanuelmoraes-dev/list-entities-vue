@@ -325,6 +325,8 @@ export default {
             if (date) { params[attr] = date.toISOString() }
           } else if(valor) {
             this.$emit('on_error', new Error('Valor inválido para representação de uma data!'))
+          } else {
+            type = null
           }
         } else if (type === Array) {
           params[`${attr}__regex`] = `/${utils.scape(valor)
@@ -363,12 +365,16 @@ export default {
             }
 
             params[`${attr}__${cmp}`] = valor
-          } else {
+          } else if (valor) {
             params[attr] = valor
+          } else {
+            type = null
           }
         } else {
           params[`${attr}__regex`] = `/${utils.scape(valor)}/${this.searchCaseSensitive ? '' : 'i'}`
         }
+      } else if(type === Boolean && !valor) {
+        type = null
       }
 
 			if (startList)
