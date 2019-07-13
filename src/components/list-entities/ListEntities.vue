@@ -62,8 +62,8 @@
                           :class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
                           @click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
                         >
-                          <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-down-open-mini"></span>
-                          <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="entypo entypo-up-open-mini"></span>
+                          <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="ion ion-ios-arrow-down"></span>
+                          <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="ion ion-ios-arrow-up"></span>
                           {{lastAttr.display}}:
                         </td>
                         <td class="text-center" v-if="$slots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
@@ -91,7 +91,7 @@
                             <button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="excluir(entity, index)">Excluir</button>
                             <button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="editar(entity, index)">Editar</button>
                             <button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="reportGenerate(entity, index)">
-                              <span class="entypo entypo-newspaper"></span>
+                              <span class="icon ion-md-document"></span>
                             </button>
                             <button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
                               <span class="fa fa-eye"></span>
