@@ -239,6 +239,7 @@ export default {
       }
 
       let valor = this.inputSearchValue
+      console.log('valor', valor)
       let params = {}
     
       valor = valor.trim()
@@ -270,7 +271,7 @@ export default {
               case '=': cmp = '$eq'; break
             }
 
-            let date = dateUtility.toDate(valor)
+            let date = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             if (date) { params[`${attr}__${cmp}`] = date.toISOString() }
           } else if (valor.match(regexpCmpDateTime) && valor) {
             let cmp = valor.match(/(>|>=|<|<=|=)/)[0]
@@ -284,12 +285,12 @@ export default {
               case '=': cmp = '$eq'; break
             }
 
-            let date = dateUtility.toDate(valor)
+            let date = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             if (date) { params[`${attr}__${cmp}`] = date.toISOString() }
           } else if (valor.match(regexpDate) && valor) {
             valor = valor.trim()
 
-            const dateBegin = dateUtility.toDate(valor)
+            const dateBegin = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             const dateEnd = dateUtility.plus(dateBegin, dateUtility.PERIODS.DAY, 1)
 
             params[`${attr}__$gte`] = dateBegin.toISOString()
@@ -297,7 +298,7 @@ export default {
 
           } else if (valor.match(regexpDateHora) && valor) {
             valor = valor.trim()
-            const dateBegin = dateUtility.toDate(valor)
+            const dateBegin = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             const dateEnd = dateUtility.plus(dateBegin, dateUtility.PERIODS.HOUR, 1)
 
             params[`${attr}__$gte`] = dateBegin.toISOString()
@@ -305,7 +306,7 @@ export default {
 
           }  else if (valor.match(regexpDateHoraMinuto) && valor) {
             valor = valor.trim()
-            const dateBegin = dateUtility.toDate(valor)
+            const dateBegin = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             const dateEnd = dateUtility.plus(dateBegin, dateUtility.PERIODS.MINUTE, 1)
 
             params[`${attr}__$gte`] = dateBegin.toISOString()
@@ -313,7 +314,7 @@ export default {
 
           } else if (valor.match(regexpDateHoraMinutoSegundo) && valor) {
             valor = valor.trim()
-            const dateBegin = dateUtility.toDate(valor)
+            const dateBegin = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             const dateEnd = dateUtility.plus(dateBegin, dateUtility.PERIODS.SECOND, 1)
 
             params[`${attr}__$gte`] = dateBegin.toISOString()
@@ -321,7 +322,7 @@ export default {
 
           } else if (valor.match(regexpDateTime) && valor) {
             valor = valor.trim()
-            let date = dateUtility.toDate(valor)
+            let date = dateUtility.toDate(valor, 'dd/MM/yyyy h:m:s:l')
             if (date) { params[attr] = date.toISOString() }
           } else if(valor) {
             this.$emit('on_error', new Error('Valor inválido para representação de uma data!'))
