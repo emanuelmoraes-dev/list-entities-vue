@@ -53,8 +53,8 @@
                           @click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
                           v-for="attr of displayAttrs" :key="attr.value + '_display'"
                         >
-                          <span v-show="sort && sort[0] !== '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="ion ion-ios-arrow-down"></span>
-                          <span v-show="sort && sort[0] === '-' && (sort == attr.value || sort.substring(1) == attr.value)" class="ion ion-ios-arrow-up"></span>
+                          <span v-show="sort && sort[0] !== '-' && (sort == attr.value || sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+                          <span v-show="sort && sort[0] === '-' && (sort == attr.value || sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
                           {{attr.display}}:
                         </td>
                         <td
@@ -62,8 +62,8 @@
                           :class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
                           @click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
                         >
-                          <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="ion ion-ios-arrow-down"></span>
-                          <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value)" class="ion ion-ios-arrow-up"></span>
+                          <span v-show="sort && sort[0] !== '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+                          <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
                           {{lastAttr.display}}:
                         </td>
                         <td class="text-center" v-if="$slots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
@@ -239,7 +239,6 @@ export default {
       }
 
       let valor = this.inputSearchValue
-      console.log('valor', valor)
       let params = {}
     
       valor = valor.trim()
