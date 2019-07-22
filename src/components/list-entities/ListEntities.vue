@@ -383,11 +383,11 @@ export default {
 			params = {
 				...params,
 				...this.paramsRequest
-			}
+      }
+      
+      this.$emit('on_search', params, type)
 
-      if (this.customSearch) {
-        this.$emit('on_search', params, type)
-      } else {
+      if (!this.customSearch) {
         let totalElements = this.totalElements
 
         if (!type) {
@@ -415,6 +415,7 @@ export default {
             .then(entities => {
 							this.$emit('update:totalElements', totalElements)
               this.updateLastAttr(entities)
+              this.$emit('on_search_success', entities)
             })
             .catch(err => this.$emit('on_error', err))
         } else {
@@ -441,6 +442,7 @@ export default {
             .then(entities => {
 							this.$emit('update:totalElements', totalElements)
               this.updateLastAttr(entities)
+              this.$emit('on_search_success', entities)
             })
             .catch(err => this.$emit('on_error', err))
         }
