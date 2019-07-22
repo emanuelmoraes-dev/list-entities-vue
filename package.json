@@ -1,6 +1,6 @@
 {
   "name": "list-entities-vue",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Generic components in Vue JS to view and list entities",
   "main": "src/app.js",
   "repository": "https://github.com/emanuelmoraes-dev/list-entities-vue.git",
