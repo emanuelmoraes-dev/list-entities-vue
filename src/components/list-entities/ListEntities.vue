@@ -3,7 +3,7 @@
     <div class="list-entities">
       <div class="row">
       <div class="col-xs-12 col-md-12">
-        <vuestic-widget :hidePrimary="hideSearch" :compactSecundary="isCompact" :headerText="titleSearch">
+        <vuestic-widget :hidePrimary="hideSearch" :compactSecundary="isCompact" :headerText="isCompact && titleTable || titleSearch">
           <div v-if="$slots.headerText" slot="headerText">
             <slot name="headerText"></slot>
           </div>
