@@ -66,7 +66,7 @@
                           <span v-show="sort && sort[0] === '-' && (sort == lastAttr.value || sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
                           {{lastAttr.display}}:
                         </td>
-                        <td class="text-center" v-if="$slots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
+                        <td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td>
                         <td v-for="opt of options" :key="opt + '_thead'">{{ mapTdOption[opt] || '' }}</td>
                       </tr>
                     </thead>
