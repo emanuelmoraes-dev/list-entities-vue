@@ -620,9 +620,10 @@ export default {
         }
       }
     },
-    value () {
+    value (value) {
       if (this.isUpdateLastAttr) this.updateLastAttr()
       else this.isUpdateLastAttr = true
+      this.entities = value
     },
     currentPage () {
       if (!this.customSearch) { this.search(false) }
