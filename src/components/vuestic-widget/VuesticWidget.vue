@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-component-list-entities-vue">
+  <div class="custom-component-vuestic-widget">
     <div v-if="compactSecundary || !$slots.secundary" class="vuestic-widget" :class="{'no-header': !headerText}">
       <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
         {{headerText}}
@@ -59,40 +59,40 @@ export default {
 </script>
 
 <style lang="css">
-.vuestic-widget.larger-padding .vuestic-widget-body {
+.custom-component-vuestic-widget .vuestic-widget.larger-padding .vuestic-widget-body {
 	 padding: 45px;
 }
- .vuestic-widget.no-h-padding .vuestic-widget-body {
+.custom-component-vuestic-widget .vuestic-widget.no-h-padding .vuestic-widget-body {
 	 padding-left: 0;
 	 padding-right: 0;
 }
- .vuestic-widget.no-v-padding .vuestic-widget-body {
+.custom-component-vuestic-widget .vuestic-widget.no-v-padding .vuestic-widget-body {
 	 padding-top: 0;
 	 padding-bottom: 0;
 }
- .vuestic-widget.brand-info {
+.custom-component-vuestic-widget .vuestic-widget.brand-info {
 	 background-color: #4ab2e3;
 	 color: #fff;
 	 box-shadow: 0px 4px 70px -16px #4ab2e3;
 }
- .vuestic-widget.brand-danger {
+.custom-component-vuestic-widget .vuestic-widget.brand-danger {
 	 background-color: #e34a4a;
 	 color: #fff;
 	 box-shadow: 0px 4px 70px -16px #e34a4a;
 }
- .vuestic-widget.info-widget {
+.custom-component-vuestic-widget .vuestic-widget.info-widget {
 	 border-top: 0.5rem solid #e34a4a;
 }
- .vuestic-widget.info-widget.brand-info {
+.custom-component-vuestic-widget .vuestic-widget.info-widget.brand-info {
 	 border-top-color: #4ab2e3;
 }
- .vuestic-widget.info-widget.brand-danger {
+.custom-component-vuestic-widget .vuestic-widget.info-widget.brand-danger {
 	 border-top-color: #e34a4a;
 }
- .vuestic-widget .vuestic-widget-body {
+.custom-component-vuestic-widget .vuestic-widget .vuestic-widget-body {
 	 padding: 1.5625rem;
 }
- .vuestic-widget .vuestic-widget-header {
+.custom-component-vuestic-widget .vuestic-widget .vuestic-widget-header {
 	 height: 55px;
 	 padding: 0 1.5625rem;
 	 border-bottom: 2px solid #eee;
@@ -101,5 +101,4 @@ export default {
 	 display: flex;
 	 align-items: center;
 }
- 
 </style>
