@@ -1,0 +1,196 @@
+<template>
+  <div class="wrapper-list-entities-vue"> <!-- classe que encapsula todos os componentes de list-entities-vue -->
+    <div class="wrapper-list-entities"> <!-- classe que encapsula o componente modal-entity -->
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <vuestic-widget
+            :hidePrimary="hideSearch"
+            :compactSecundary="isCompact"
+            :headerText="isCompact && titleTable || titleSearch"
+          >
+            <div v-if="$slots.headerText" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+              <slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
+            </div> <!-- end v-if -->
+
+            <div class="row">
+              <div class="col-md-3"> <!-- select de atributos a serem buscados -->
+								<div class="form-group">
+									<label>Pesquisar: </label>
+									<v-select
+										v-model="attrSearch"
+										label="display"
+										:options="definitions.optionsSearch"
+										:searchable="false"
+										:clearable="false"
+									/> <!-- select dos tributos a serem filtrados -->
+								</div> <!-- end class form-group -->
+              </div> <!-- end col -->
+              <div class="col-md-9">
+                <div class="form-group">
+                  <div class="input-group d-flex">
+										<div class="flex-1">
+											<input
+												id="txtsearch"
+												name="search"
+												v-model="inputSearch"
+												@keypress="keyHandler($event)"
+												ref="txtSearch"
+											/> <!-- campo de pesquisa -->
+											<label class="control-label" for="txtsearch">Buscar:</label>
+											<i class="bar"></i>
+										</div>
+										<button
+											@click.prevent.stop="search(true)"
+											class="btn btn-success option search"
+										>Buscar</button>
+                  </div> <!-- end class input-group -->
+                </div> <!-- end class form-group -->
+              </div> <!-- end col -->
+            </div> <!-- end class row -->
+
+						<div slot="secundary">
+							<!--
+								slot usado para passar um html a ser exibido abaixo deste widget se 'isCompact'
+								for igual a false ou dentro deste widget se 'isCompact' for true
+							-->
+
+							<div :class="{'row': !isCompact}">
+								<div :class="{'col-xs-12 col-md-12': !isCompact}">
+									<component :is="componentShowTable" :headerText="titleTable">
+										<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
+
+										<div class="table-responsive">
+											<table class="table table-striped first-td-padding">
+												<thead>
+													<tr>
+														<td v-if="$scopedSlots.check">{{tdCheckName}}</td>
+														<td
+															:class="{'pointer': !definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort}"
+															v-show="!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].hidden"
+															@click="(!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort) && onClickHeader(attr.value)"
+															v-for="attr of definitions.displayAttrs" :key="attr.value"
+														> <!--- td atributos -->
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
+															{{attr.display}}:
+														</td> <!-- end v-for td atributos -->
+
+														<td
+															v-if="!hideLastAttr && lastAttr"
+															:class="{'pointer': !definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort}"
+															@click="(!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
+														> <!-- td lastAttr -->
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
+															{{lastAttr.display}}:
+														</td> <!-- end td lastAttr -->
+
+														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt].header || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
+														<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
+													</tr> <!-- end tr -->
+												</thead> <!-- end thead -->
+
+												<tbody>
+													<slot name="tblpre"></slot> <!-- slot a ser chamado antes da exibição do conteúdo da tabela e depois do header -->
+
+													<tr v-for="(entity, index) of value" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
+														@click="on_click(entity, index)"
+													> <!-- percorre cada entidade transmitida pelo v-model -->
+														<td v-if="$scopedSlots.check"> <!-- se o usuário passou o slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
+															<slot name="check" :entity="entity" :index="index"></slot> <!-- slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
+														</td> <!-- end td slot check -->
+
+														<slot :name="`entity_line_${entity[idAttrName]}`" :entity="entity" :index="index"> <!-- slot do conteúdo da linha da tabela referente a entidade de id 'idAttrName' -->
+															<td
+																v-for="attr of definitions.displayAttrs" :key="attr.value"
+																v-show="!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].hidden"
+															> <!-- percorre os atributos que sempre serão exibidos -->
+																{{ entity | getValue(attr) | parseAttr(attr, definitions.descriptor, joinSep) }}
+															</td> <!-- end v-for displayAttrs -->
+
+															<td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, definitions.descriptor, joinSep) }}</td>
+														</slot> <!-- end slot `entity_line_${entity[idAttrName]}` -->
+
+														<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
+															<slot :name="opt" :entity="entity" :index="index"></slot>
+														</td> <!-- end v-for options -->
+
+														<slot name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
+															<td class="text-center" v-if="optionView || optionRemove || optionEdit || optionReport"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
+																<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
+																	<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
+																		<span class="fa fa-eye"></span>
+																	</button>
+																</slot> <!-- end slot optionView -->
+
+																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
+																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="excluir(entity, index)">Excluir</button>
+																</slot> <!-- end slo optionRemove -->
+
+																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
+																	<button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="editar(entity, index)">Editar</button>
+																</slot> <!-- end slot optionEdit -->
+
+																<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
+																	<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="reportGenerate(entity, index)">
+																		<span class="icon ion-md-document"></span>
+																	</button>
+																</slot> <!-- end slot optionReport -->
+															</td> <!-- end td opções padrão -->
+														</slot> <!-- end slot opções padrão -->
+													</tr> <!-- end tr v-for entities -->
+
+													<slot name="tblpos"></slot> <!-- slot a ser chamado depois da exibição do conteúdo da tabela -->
+												</tbody> <!-- end tbody -->
+											</table> <!-- end table -->
+										</div> <!-- end class table-responsive -->
+									</component> <!-- end show or vuestic-widget -->
+
+									<slot name="pagination"> <!-- slot do paginador de resultados da tabela -->
+										<b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="totalElements" v-model="page" :per-page="pageSize" /> <!-- paginador do bootstrap-vue -->
+									</slot> <!-- end slot pagination -->
+								</div> <!-- end col ? -->
+							</div> <!-- end row ? -->
+						</div> <!-- end slot secundary -->
+          </vuestic-widget> <!-- end vuestic-widget -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
+
+			<div class="modals-page">
+        <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
+            :okText="okText">
+          <div slot="title">{{title_success}}</div>
+          <div>
+            {{msg_modal}}
+          </div>
+        </vuestic-modal>
+
+        <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
+            :okText="confirmText" :cancelText="cancelText" @ok="on_ok">
+          <div slot="title">{{title_confirm}}</div>
+          <div>
+            {{msg_modal}}
+          </div>
+        </vuestic-modal>
+
+				<modal-entity
+					ref="showModalEntity"
+					:title="titleModalEntity"
+					:okClass="okClassModalEntity"
+					:confirmText="confirmTextModalEntity"
+					v-model="enityShow"
+					:small="smallModalEntity"
+					:descriptor="definitions.descriptorModalEntity || definitions.descriptorEntity"
+					:mapProp="definitions.mapPropModalEntity"
+					:force="forceModalEntity"
+				/>
+      </div>
+    </div> <!-- end class wrapper-list-entities -->
+  </div> <!-- end class wrapper-list-entities-vue -->
+</template>
+
+<script src="./list-entities.js"></script>
+
+<style lang="css">
+	@import url("./list-entities.css");
+</style>
