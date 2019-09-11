@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper-list-entities-vue"> <!-- classe que encapsula todos os componentes de list-entities-vue -->
-    <div class="wrapper-list-entities"> <!-- classe que encapsula o componente modal-entity -->
+    <div class="wrapper-list-entities"> <!-- classe que encapsula o componente list-entities -->
       <div class="row">
         <div class="col-xs-12 col-md-12">
           <vuestic-widget
@@ -119,10 +119,16 @@
 																v-for="attr of definitions.displayAttrs" :key="attr.value"
 																v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
 															> <!-- percorre os atributos que sempre serão exibidos -->
-																{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep) }}
+																<slot :name="`${attr.value}_slot`" :entity="entity" :index="index">
+																	{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep) }}
+																</slot>
 															</td> <!-- end v-for displayAttrs -->
 
-															<td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}</td>
+															<td v-if="!hideLastAttr">
+																<slot :name="`${lastAttr.value}_slot`" :entity="entity" :index="index">
+																	{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}
+																</slot>
+															</td>
 														</slot> <!-- end slot `entity_line_${entity[idAttrName]}` -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
@@ -192,12 +198,18 @@
 					:title="titleModalEntity"
 					:okClass="okClassModalEntity"
 					:confirmText="confirmTextModalEntity"
-					v-model="enityShow"
+					:entity="enityShow"
 					:small="smallModalEntity"
 					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:mapProp="definitions.mapPropModalEntity"
 					:force="forceModalEntity"
-				/>
+				>
+					<template v-for="slotName of definitions.modalSlots">
+						<div :key="slotName" :slot="slotName" slot-scope="{ property }">
+							<slot :name="`modal_${slotName}`" :property="property"></slot>
+						</div>
+					</template>
+				</modal-entity>
       </div> <!-- end class modal -->
     </div> <!-- end class wrapper-list-entities -->
   </div> <!-- end class wrapper-list-entities-vue -->

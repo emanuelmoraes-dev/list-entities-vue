@@ -645,6 +645,16 @@ export default {
 						!value.defaultLastAttr ||
 						typeof value.defaultLastAttr.display !== 'string' ||
 						typeof value.defaultLastAttr.value !== 'string') return false
+				if (
+					value.modalSlots &&
+					(
+						!(value.modalSlots instanceof Array) ||
+						value.modalSlots.length === 0 ||
+						value.modalSlots.find(s => typeof s !== 'string')
+					)
+				) return false
+
+				value.modalSlots = value.modalSlots || []
 
 				if (!(value.optionsSearch instanceof Array)) return false
 
@@ -683,6 +693,7 @@ export default {
 				delete cvalue.descriptorModal
 				delete cvalue.mapPropModalEntity
 				delete cvalue.defaultLastAttr
+				delete cvalue.modalSlots
 
 				if (Object.keys(cvalue).length) return false
 
