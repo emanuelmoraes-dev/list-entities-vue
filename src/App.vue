@@ -1,40 +1,61 @@
 <template>
   <div id="app">
-		<button type="button" @click="showModal">Show Modal</button>
-		<modal-entity
-			ref="modal"
-			title="Exibindo pessoa"
+		<list-entities
+			v-model="peoples"
+			titleTable="Pessoas"
+			attrAll="Todos"
+			:searchOperatorsShow="true"
+			:definitions="{
+				sort: 'name',
 
-			:entity="people"
-			:descriptor="{
-				name: {
-					type: String,
-					display: 'nome :'
+				descriptor: {
+					name: String,
+					country: String,
+					phones: { type: String, array: true }
 				},
-				phones: {
-					type: Array,
-					sep: '\n',
-					display: 'telefones :'
-				}
+
+				descriptorModal: {
+					name: String,
+					country: String,
+					phones: Array
+				},
+
+				mapPropModalEntity: {
+					name: 'fullname'
+				},
+
+				optionsSearch: [
+					{ display: 'name', value: 'name' },
+					{ display: 'country', value: 'country' },
+					{ display: 'phone', value: 'phones' }
+				],
+
+				displayAttrs: [
+					{ display: 'name', value: 'name' },
+					{ display: 'phones', value: 'phones' }
+				],
+
+				defaultLastAttr: { display: 'country', value: 'country' }
 			}"
 		/>
   </div>
 </template>
 
 <script>
-import ModalEntity from './components/modal-entity/modal-entity.vue'
+import ListEntities from 'src/components/list-entities/list-entities.vue'
 
 export default {
 	name: 'app',
 
-	components: { ModalEntity },
+	components: { ListEntities },
 
 	data () {
 		return {
-			people: {
+			peoples: [{
 				name: 'José Martins',
+				country: 'Brazil',
 				phones: ['(99) 99999-9999', '(88) 88888-8888']
-			}
+			}]
 		}
 	},
 

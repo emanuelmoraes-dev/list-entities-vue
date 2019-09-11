@@ -1,0 +1,37 @@
+.wrapper-list-entities .color-icon-label-table td:first-child {
+  width: 1rem;
+}
+.wrapper-list-entities button.option {
+  padding: 0.3rem 0.2rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  margin-left: 0.5rem;
+}
+.wrapper-list-entities button.option-icon {
+  padding: 0.2rem 0.3rem 0.2rem 0.45rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+}
+.wrapper-list-entities button.excluir {
+  box-shadow: 0 4px 9.6px 0.4px rgba(247, 53, 19, 0.35) !important;
+}
+.wrapper-list-entities button.aceitar button.search {
+  box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5) !important;
+}
+.wrapper-list-entities button.search {
+  padding: 0.5rem 0.4rem;
+  margin: 6px 0 0 20px;
+}
+.wrapper-list-entities .vuestic-widget-header {
+  justify-content: center;
+}
+
+.wrapper-list-entities .custom-select {
+  border: 1px solid #0047 !important;
+  cursor: pointer;
+}
+
+.wrapper-list-entities .before-select {
+  /* margin-top: 0.3rem; */
+  margin-right: 0.5rem;
+}

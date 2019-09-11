@@ -15,17 +15,31 @@
             <div class="row">
               <div class="col-md-3"> <!-- select de atributos a serem buscados -->
 								<div class="form-group">
-									<label>Pesquisar: </label>
-									<v-select
+									<label class="before-select">Pesquisar: </label>
+									<b-form-select
 										v-model="attrSearch"
-										label="display"
-										:options="definitions.optionsSearch"
-										:searchable="false"
-										:clearable="false"
+										:options="optionsSearch"
 									/> <!-- select dos tributos a serem filtrados -->
 								</div> <!-- end class form-group -->
               </div> <!-- end col -->
-              <div class="col-md-9">
+
+							<div v-if="searchOperatorsShow && operators && operators.length" class="col-md-3">
+
+								<!-- select com as operações a serem usadas para filtrar a busca -->
+
+								<div class="form-group">
+									<label class="before-select">Operador: </label>
+									<b-form-select
+										v-model="searchOperator"
+										:options="operators"
+									/> <!-- select de operações -->
+								</div> <!-- end class form-group -->
+							</div> <!-- end col -->
+
+              <div :class="{
+								'col-md-9': !(searchOperatorsShow && operators && operators.length),
+								'col-md-6': searchOperatorsShow && operators && operators.length
+							}"> <!-- campo de pesquisa -->
                 <div class="form-group">
                   <div class="input-group d-flex">
 										<div class="flex-1">
@@ -65,27 +79,27 @@
 													<tr>
 														<td v-if="$scopedSlots.check">{{tdCheckName}}</td>
 														<td
-															:class="{'pointer': !definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort}"
-															v-show="!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].hidden"
-															@click="(!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort) && onClickHeader(attr.value)"
+															:class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
+															v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
+															@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
 															v-for="attr of definitions.displayAttrs" :key="attr.value"
-														> <!--- td atributos -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
+														> <!-- td atributos -->
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
 															{{attr.display}}:
 														</td> <!-- end v-for td atributos -->
 
 														<td
 															v-if="!hideLastAttr && lastAttr"
-															:class="{'pointer': !definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort}"
-															@click="(!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
+															:class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
+															@click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
 														> <!-- td lastAttr -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!definitions.descriptor[lastAttr.value] || !definitions.descriptor[lastAttr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="ion ion-ios-arrow-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="ion ion-ios-arrow-up"></span>
 															{{lastAttr.display}}:
 														</td> <!-- end td lastAttr -->
 
-														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt].header || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
+														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
 														<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView">{{ tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
 													</tr> <!-- end tr -->
 												</thead> <!-- end thead -->
@@ -94,7 +108,7 @@
 													<slot name="tblpre"></slot> <!-- slot a ser chamado antes da exibição do conteúdo da tabela e depois do header -->
 
 													<tr v-for="(entity, index) of value" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
-														@click="on_click(entity, index)"
+														@click="$emit('on_click', entity, index)"
 													> <!-- percorre cada entidade transmitida pelo v-model -->
 														<td v-if="$scopedSlots.check"> <!-- se o usuário passou o slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
 															<slot name="check" :entity="entity" :index="index"></slot> <!-- slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
@@ -103,12 +117,12 @@
 														<slot :name="`entity_line_${entity[idAttrName]}`" :entity="entity" :index="index"> <!-- slot do conteúdo da linha da tabela referente a entidade de id 'idAttrName' -->
 															<td
 																v-for="attr of definitions.displayAttrs" :key="attr.value"
-																v-show="!definitions.descriptor[attr.value] || !definitions.descriptor[attr.value].hidden"
+																v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
 															> <!-- percorre os atributos que sempre serão exibidos -->
-																{{ entity | getValue(attr) | parseAttr(attr, definitions.descriptor, joinSep) }}
+																{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep) }}
 															</td> <!-- end v-for displayAttrs -->
 
-															<td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, definitions.descriptor, joinSep) }}</td>
+															<td v-if="!hideLastAttr">{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}</td>
 														</slot> <!-- end slot `entity_line_${entity[idAttrName]}` -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
@@ -124,15 +138,15 @@
 																</slot> <!-- end slot optionView -->
 
 																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
-																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="excluir(entity, index)">Excluir</button>
+																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="remove(entity, index)">Excluir</button>
 																</slot> <!-- end slo optionRemove -->
 
 																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
-																	<button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="editar(entity, index)">Editar</button>
+																	<button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="edit(entity, index)">Editar</button>
 																</slot> <!-- end slot optionEdit -->
 
 																<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
-																	<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="reportGenerate(entity, index)">
+																	<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="$emit('on_report', entity, index)">
 																		<span class="icon ion-md-document"></span>
 																	</button>
 																</slot> <!-- end slot optionReport -->
@@ -156,20 +170,20 @@
         </div> <!-- end col -->
       </div> <!-- end row -->
 
-			<div class="modals-page">
+			<div class="modals">
         <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
             :okText="okText">
           <div slot="title">{{title_success}}</div>
           <div>
-            {{msg_modal}}
+            {{ removeSuccessMessage }}
           </div>
         </vuestic-modal>
 
         <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
-            :okText="confirmText" :cancelText="cancelText" @ok="on_ok">
+            :okText="confirmText" :cancelText="cancelText" @ok="onRemove">
           <div slot="title">{{title_confirm}}</div>
           <div>
-            {{msg_modal}}
+            {{ removeConfirmMessage }}
           </div>
         </vuestic-modal>
 
@@ -180,11 +194,11 @@
 					:confirmText="confirmTextModalEntity"
 					v-model="enityShow"
 					:small="smallModalEntity"
-					:descriptor="definitions.descriptorModalEntity || definitions.descriptorEntity"
+					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:mapProp="definitions.mapPropModalEntity"
 					:force="forceModalEntity"
 				/>
-      </div>
+      </div> <!-- end class modal -->
     </div> <!-- end class wrapper-list-entities -->
   </div> <!-- end class wrapper-list-entities-vue -->
 </template>

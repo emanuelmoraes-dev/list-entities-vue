@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import '../../../assets/css/ionicons/css/ionicons.min.css'
-import '../../../assets/css/app.css'
 
 export default {
   name: 'vuestic-widget',

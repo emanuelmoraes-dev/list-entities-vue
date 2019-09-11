@@ -53,7 +53,7 @@ export default {
 		 * @param {Object=} descriptor - 'descriptor' passado pelo usuário. Parâmetro opcional
 		 */
 		adapterDescriptor (descriptor) {
-			this.descriptorEntity = descriptor || this.descriptor
+			this.descriptorEntity = { ...(descriptor || this.descriptor) }
 
 			for (let key of Object.keys(this.descriptorEntity)) {
 				let descriptorValue = this.descriptorEntity[key]
@@ -61,31 +61,31 @@ export default {
 				if (!descriptorValue)
 					continue
 
+				if (descriptorValue === String)
+					descriptorValue = { type: String }
+				else if (descriptorValue === Number)
+					descriptorValue = { type: Number }
+				else if (descriptorValue === Boolean)
+					descriptorValue = { type: Boolean }
+				else if (descriptorValue === Date)
+					descriptorValue = { type: Date, pattern: 'dd/MM/yyyy' }
+				else if (descriptorValue === Array)
+					descriptorValue = { type: Array }
+				else
+					descriptorValue = { ...descriptorValue }
+
 				if (descriptorValue.display === undefined)
 					descriptorValue.display = `${key} :`
-
-				if (descriptorValue === String)
-					this.descriptorEntity[key] = { type: String }
-				else if (descriptorValue === Number)
-					this.descriptorEntity[key] = { type: Number }
-				else if (descriptorValue === Boolean)
-					this.descriptorEntity[key] = { type: Boolean }
-				else if (descriptorValue === Date)
-					this.descriptorEntity[key] = { type: Date, pattern: 'dd/MM/yyyy' }
-				else if (descriptorValue === Array)
-					this.descriptorEntity[key] = { type: Array }
-
-				descriptorValue = this.descriptorEntity[key]
 
 				if (
 					descriptorValue &&
           descriptorValue.type === Date &&
           descriptorValue.pattern === undefined
 				) {
-					this.descriptorEntity[key].pattern = 'dd/MM/yyyy'
+					descriptorValue.pattern = 'dd/MM/yyyy'
 				}
 
-				this.$set(this.descriptorEntity, key, this.descriptorEntity[key])
+				this.$set(this.descriptorEntity, key, descriptorValue)
 			}
 		},
 
@@ -99,6 +99,10 @@ export default {
 	watch: {
 		descriptor (descriptor) {
 			this.adapterDescriptor(descriptor)
+		},
+
+		entity (entity) {
+			this.optimizer.getPropertyValue.dymanicProgramming.memo = new Map()
 		}
 	},
 
