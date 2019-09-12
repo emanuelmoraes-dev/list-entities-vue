@@ -169,7 +169,7 @@ export default {
 				else if (descriptorValue === Boolean)
 					descriptorValue = { type: Boolean }
 				else if (descriptorValue === Date)
-					descriptorValue = { type: Date, pattern: 'dd/MM/yyyy' }
+					descriptorValue = { type: Date, pattern: this.defaultPattern }
 				else
 					descriptorValue = { ...descriptorValue }
 
@@ -181,7 +181,7 @@ export default {
           descriptorValue.type === Date &&
           descriptorValue.pattern === undefined
 				) {
-					descriptorValue.pattern = 'dd/MM/yyyy'
+					descriptorValue.pattern = this.defaultPattern
 				}
 
 				this.$set(this.descriptorEntity, key, descriptorValue)
@@ -279,7 +279,7 @@ export default {
 				operator = this.dateOperators[operatorName]
 
 			let descriptorValue = this.descriptorEntity[attr]
-			let date = dateUtility.toDate(inputSearch, this.fullPatternDateTime)
+			let date = dateUtility.toDate(inputSearch, descriptorValue.pattern)
 			let pattern = dateUtility.getMinPattern(inputSearch, descriptorValue.pattern)
 
 			let cmpDate1 = new Date(2019, 7, 7, 7, 7, 7, 7)
@@ -593,8 +593,8 @@ export default {
 			if (!attr) return value
 			if (value instanceof Array) return value.join(descrptor && descrptor[attr.value].joinSep || joinSep)
 			else if (typeof value === 'boolean') return (value && 'SIM') || 'NÃO'
-			else if (value instanceof Date) return dateUtility.dateToStr(value, descrptor && descrptor[attr.value].pattern || 'dd/MM/yyyy')
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descrptor && descrptor[attr.value].pattern || 'dd/MM/yyyy')
+			else if (value instanceof Date) return dateUtility.dateToStr(value, descrptor && descrptor[attr.value].pattern || this.defaultPattern)
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descrptor && descrptor[attr.value].pattern || this.defaultPattern)
 			return value
 		}
 	},
@@ -973,13 +973,13 @@ export default {
 		/** string que representa o valor 'true' para ser usado nas buscas */
 		trueStr: {
 			type: String,
-			default: 'yes'
+			default: 'YES'
 		},
 
 		/** string que representa o valor 'false' para ser usado nas buscas */
 		falseStr: {
 			type: String,
-			default: 'no'
+			default: 'NO'
 		},
 
 		/** parâmetros padrão a serem inserodos na busca */
@@ -1019,6 +1019,12 @@ export default {
 		options: {
 			type: Object,
 			default: () => ({})
+		},
+
+		/** string que representa o padrão de exibição de datas */
+		defaultPattern: {
+			type: String,
+			default: 'yyyy/MM/dd'
 		},
 
 		// Atributos sincronos

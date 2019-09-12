@@ -203,6 +203,9 @@
 					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:mapProp="definitions.mapPropModalEntity"
 					:force="forceModalEntity"
+					:trueStr="trueStr"
+					:falseStr="falseStr"
+					:defaultPattern="defaultPattern"
 				>
 					<template v-for="slotName of definitions.modalSlots">
 						<div :key="slotName" :slot="slotName" slot-scope="{ property }">

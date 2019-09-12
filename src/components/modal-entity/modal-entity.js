@@ -68,7 +68,7 @@ export default {
 				else if (descriptorValue === Boolean)
 					descriptorValue = { type: Boolean }
 				else if (descriptorValue === Date)
-					descriptorValue = { type: Date, pattern: 'dd/MM/yyyy' }
+					descriptorValue = { type: Date, pattern: this.defaultPattern }
 				else if (descriptorValue === Array)
 					descriptorValue = { type: Array }
 				else
@@ -82,7 +82,7 @@ export default {
           descriptorValue.type === Date &&
           descriptorValue.pattern === undefined
 				) {
-					descriptorValue.pattern = 'dd/MM/yyyy'
+					descriptorValue.pattern = this.defaultPattern
 				}
 
 				this.$set(this.descriptorEntity, key, descriptorValue)
@@ -134,11 +134,11 @@ export default {
 				return ''
 			}
 			if (descriptorValue.type === Boolean) {
-				return value ? 'SIM' : 'NÃO'
+				return value ? this.trueStr : this.falseStr
 			} else if (descriptorValue.type === Date) {
 				return dateUtility.dateToStr(
 					value,
-					descriptorValue.pattern ? descriptorValue.pattern : 'dd/MM/yyyy'
+					descriptorValue.pattern ? descriptorValue.pattern : this.defaultPattern
 				)
 			} else if (descriptorValue.type === Array) {
 				if (descriptorValue.adapter) {
@@ -146,8 +146,18 @@ export default {
 						.map(descriptorValue.adapter)
 						.join(descriptorValue.sep ? descriptorValue.sep : ' ')
 				} else {
-					return value.join(descriptorValue.sep ? descriptorValue.sep : ' ')
+					return value.map(v => {
+						if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
+							return parseFloat(v).toFixed(descriptorValue.fixed)
+						else if (descriptorValue.numberAdapter)
+							return (parseFloat(v) && parseFloat(v).toString()) || v
+						return v
+					}).join(descriptorValue.sep ? descriptorValue.sep : ' ')
 				}
+			} else if (descriptorValue.type === Number) {
+				if (typeof descriptorValue.fixed === 'number')
+					return parseFloat(value).toFixed(descriptorValue.fixed)
+				return (parseFloat(value) && parseFloat(value).toString()) || value
 			} else {
 				return value
 			}
@@ -167,6 +177,10 @@ export default {
 			if (typeof descriptorValue.adapter === 'function') {
 				return descriptorValue.adapter(value)
 			} else {
+				if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
+					return parseFloat(value).toFixed(descriptorValue.fixed)
+				else if (descriptorValue.numberAdapter)
+					return (parseFloat(value) && parseFloat(value).toString()) || value
 				return value
 			}
 		}
@@ -208,6 +222,24 @@ export default {
 		okText: {
 			type: String,
 			default: 'OK'
+		},
+
+		/** string que representa o valor 'true' para ser exibido */
+		trueStr: {
+			type: String,
+			default: 'YES'
+		},
+
+		/** string que representa o valor 'false' para ser exibido */
+		falseStr: {
+			type: String,
+			default: 'NO'
+		},
+
+		/** string que representa o padrão de exibição de datas */
+		defaultPattern: {
+			type: String,
+			default: 'yyyy/MM/dd'
 		},
 
 		/** classe a ser atribuído no bitão de fechar o modal */
