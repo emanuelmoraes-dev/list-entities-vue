@@ -28,10 +28,18 @@
 
 .wrapper-list-entities .custom-select {
   border: 1px solid #0047 !important;
+  border-bottom-width: 1px !important;
+  border-top-width: 0 !important;
+  border-right-width: 0 !important;
+  border-left-width: 0 !important;
   cursor: pointer;
 }
 
 .wrapper-list-entities .before-select {
   /* margin-top: 0.3rem; */
   margin-right: 0.5rem;
+}
+
+.wrapper-list-entities .form-group-select {
+  margin-top: 0.6rem;
 }

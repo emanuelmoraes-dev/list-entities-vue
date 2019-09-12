@@ -13,9 +13,9 @@
             </div> <!-- end v-if -->
 
             <div class="row">
-              <div class="col-md-3"> <!-- select de atributos a serem buscados -->
-								<div class="form-group">
-									<label class="before-select">Pesquisar: </label>
+              <div class="col-md-2"> <!-- select de atributos a serem buscados -->
+								<div class="form-group form-group-select">
+									<!-- <label class="before-select">Pesquisar: </label> -->
 									<b-form-select
 										v-model="attrSearch"
 										:options="optionsSearch"
@@ -23,12 +23,12 @@
 								</div> <!-- end class form-group -->
               </div> <!-- end col -->
 
-							<div v-if="searchOperatorsShow && operators && operators.length" class="col-md-3">
+							<div v-if="searchOperatorsShow && operators && operators.length" class="col-md-2">
 
 								<!-- select com as operações a serem usadas para filtrar a busca -->
 
-								<div class="form-group">
-									<label class="before-select">Operador: </label>
+								<div class="form-group form-group-select">
+									<!-- <label class="before-select">Operador: </label> -->
 									<b-form-select
 										v-model="searchOperator"
 										:options="operators"
@@ -37,8 +37,8 @@
 							</div> <!-- end col -->
 
               <div :class="{
-								'col-md-9': !(searchOperatorsShow && operators && operators.length),
-								'col-md-6': searchOperatorsShow && operators && operators.length
+								'col-md-10': !(searchOperatorsShow && operators && operators.length),
+								'col-md-8': searchOperatorsShow && operators && operators.length
 							}"> <!-- campo de pesquisa -->
                 <div class="form-group">
                   <div class="input-group d-flex">
