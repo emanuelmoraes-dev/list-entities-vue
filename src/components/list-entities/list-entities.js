@@ -249,8 +249,7 @@ export default {
 		},
 
 		async searchDefault (params, attr, inputSearch) {
-			let count = await this.request.searchDefaultCount(params, attr, inputSearch)
-			let entities = await this.request.searchDefault(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchDefault(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
 			this.entities = entities
@@ -260,8 +259,7 @@ export default {
 		},
 
 		async searchAll (params, attr, inputSearch, type) {
-			let count = await this.request.searchAll(params, attr, inputSearch, type)
-			let entities = await this.request.searchAll(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchAll(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
 			this.entities = entities
@@ -271,8 +269,7 @@ export default {
 		},
 
 		async searchAttr (params, attr, inputSearch, type) {
-			let count = await this.request.searchAttrCount(params, attr, inputSearch, type)
-			let entities = await this.request.searchAttr(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchAttr(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
 			this.entities = entities
@@ -828,29 +825,11 @@ export default {
 					return false
 				}
 
-				if (typeof value.searchDefaultCount !== 'function') {
-					console.error('request.searchDefaultCount not is a function')
-					return false
-				}
-
-				if (typeof value.searchAllCount !== 'function') {
-					console.error('request.searchAllCount not is a function')
-					return false
-				}
-
-				if (typeof value.searchAttrCount !== 'function') {
-					console.error('request.searchAttrCount not is a function')
-					return false
-				}
-
 				let cvalue = { ...value }
 
 				delete cvalue.searchDefault
 				delete cvalue.searchAll
 				delete cvalue.searchAttr
-				delete cvalue.searchDefaultCount
-				delete cvalue.searchAllCount
-				delete cvalue.searchAttrCount
 
 				if (Object.keys(cvalue).length) {
 					console.error(Object.keys(cvalue).join(',') + ' invalid in request')
