@@ -659,16 +659,27 @@ export default {
 		 * prepara valor para ser exibido em uma célula da tabela
 		 * @param {any} value - valor para ser exibido em uma célula da tabela
 		 * @param {string} attr - atributo usado para acessar essa propriedade na entidade
-		 * @param {Object} descrptor - objeto contendo a descrição dos atributos da entidade
+		 * @param {Object} descriptor - objeto contendo a descrição dos atributos da entidade
 		 * @param {string} joinSep - string usada para unir os  valores de um array (se for o caso)
 		 * @returns {any}
 		 */
-		parseAttr (value, attr, descrptor, joinSep) {
+		parseAttr (value, attr, descriptor, joinSep) {
 			if (!attr) return value
-			if (value instanceof Array) return value.join(descrptor && descrptor[attr.value].joinSep || joinSep)
+
+			if (value instanceof Array) {
+				if (descriptor[attr.value].adapter)
+					value = value.map(descriptor[attr.value].adapter)
+				else if (descriptor[attr.value].numberAdapter && typeof descriptor[attr.value].fixed === 'number')
+					value = value.map(v => parseFloat(v).toFixed(descriptor[attr.value].fixed))
+				else if (descriptor[attr.value].numberAdapter)
+					value = value.map(v => (parseFloat(v) && parseFloat(v).toString()) || v)
+				return value.join(descriptor && descriptor[attr.value].joinSep || joinSep)
+				// eslint-disable-next-line brace-style
+			}
+
 			else if (typeof value === 'boolean') return (value && 'SIM') || 'NÃO'
-			else if (value instanceof Date) return dateUtility.dateToStr(value, descrptor && descrptor[attr.value].pattern || this.defaultPattern)
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descrptor && descrptor[attr.value].pattern || this.defaultPattern)
+			else if (value instanceof Date) return dateUtility.dateToStr(value, descriptor && descriptor[attr.value].pattern || this.defaultPattern)
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descriptor && descriptor[attr.value].pattern || this.defaultPattern)
 			return value
 		}
 	},
@@ -866,6 +877,59 @@ export default {
 			default: ''
 		},
 
+		/** true para mostrar operadores de comparação a serem usados na pesquisa */
+		searchOperatorsShow: {
+			type: Boolean,
+			default: false
+		},
+
+		/**
+		 * mapeia as operações disponíveis para busca de atributos textuais.
+		 * A chave é o valor do texto a aparecer nas opções de operações e o
+		 * valor é o tipo de operação
+		 */
+		stringOperators: {
+			type: Object,
+			default: () => ({
+				contains: 'contains',
+				equals: 'equals',
+				startsWith: 'startsWith',
+				endsWith: 'endsWith'
+			})
+		},
+
+		/**
+		 * mapeia as operações disponíveis para busca de atributos numéricos.
+		 * A chave é o valor do texto a aparecer nas opções de operações e o
+		 * valor é o tipo de operação
+		 */
+		numberOperators: {
+			type: Object,
+			default: () => ({
+				equals: 'equals',
+				greaterThan: 'greaterThan',
+				lessThan: 'lessThan',
+				greaterOrEqualThan: 'greaterOrEqualThan',
+				lessOrEqualThan: 'lessOrEqualThan'
+			})
+		},
+
+		/**
+		 * mapeia as operações disponpiveis para busca de atributos temporais.
+		 * A chave é o valor do texto a aparecer nas opções de operações e o
+		 * valor é o tipo de operação
+		 */
+		dateOperators: {
+			type: Object,
+			default: () => ({
+				equals: 'equals',
+				greaterThan: 'greaterThan',
+				lessThan: 'lessThan',
+				greaterOrEqualThan: 'greaterOrEqualThan',
+				lessOrEqualThan: 'lessOrEqualThan'
+			})
+		},
+
 		/** título para exibir no widget de busca */
 		titleSearch: {
 			type: String,
@@ -936,53 +1000,6 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: 'Are you sure you want to delete this entity?'
-		},
-
-		/**
-		 * mapeia as operações disponíveis para busca de atributos textuais.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
-		 */
-		stringOperators: {
-			type: Object,
-			default: () => ({
-				contains: 'contains',
-				equals: 'equals',
-				startsWith: 'startsWith',
-				endsWith: 'endsWith'
-			})
-		},
-
-		/**
-		 * mapeia as operações disponíveis para busca de atributos numéricos.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
-		 */
-		numberOperators: {
-			type: Object,
-			default: () => ({
-				equals: 'equals',
-				greaterThan: 'greaterThan',
-				lessThan: 'lessThan',
-				greaterOrEqualThan: 'greaterOrEqualThan',
-				lessOrEqualThan: 'lessOrEqualThan'
-			})
-		},
-
-		/**
-		 * mapeia as operações disponpiveis para busca de atributos temporais.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
-		 */
-		dateOperators: {
-			type: Object,
-			default: () => ({
-				equals: 'equals',
-				greaterThan: 'greaterThan',
-				lessThan: 'lessThan',
-				greaterOrEqualThan: 'greaterOrEqualThan',
-				lessOrEqualThan: 'lessOrEqualThan'
-			})
 		},
 
 		/** string que representa o valor 'true' para ser usado nas buscas */
@@ -1121,12 +1138,6 @@ export default {
 		parseEditParams: {
 			type: Function,
 			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
-		},
-
-		/** true para mostrar operadores de comparação a serem usados na pesquisa */
-		searchOperatorsShow: {
-			type: Boolean,
-			default: false
 		},
 
 		/** parâmetros padrão a serem inserodos na busca */

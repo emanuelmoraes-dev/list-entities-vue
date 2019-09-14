@@ -47,13 +47,16 @@
 </template>
 
 <script>
-import ListEntities from 'src/components/list-entities/list-entities.vue'
+// import ListEntities from 'src/components/list-entities/list-entities.vue'
 import ListPeoples from 'src/examples/list-peoples/list-peoples.vue'
 
 export default {
 	name: 'app',
 
-	components: { ListEntities, ListPeoples },
+	components: {
+		// ListEntities,
+		ListPeoples
+	},
 
 	data () {
 		return {

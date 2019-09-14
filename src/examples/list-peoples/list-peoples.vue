@@ -8,6 +8,7 @@
 			:titleTable="titleTable"
 			:attrAll="attrAll"
 			:tdCheckName="tdCheckName"
+			:searchOperatorsShow="searchOperatorsShow"
 			:stringOperators="stringOperators"
 			:numberOperators="numberOperators"
 			:dateOperators="dateOperators"
@@ -45,7 +46,6 @@
 			:forceModalEntity="forceModalEntity"
 			:routeNameEdit="routeNameEdit"
 			:parseEditParams="parseEditParams"
-			:searchOperatorsShow="searchOperatorsShow"
 			:paramsRequest="paramsRequest"
 			:joinSep="joinSep"
 

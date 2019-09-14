@@ -144,7 +144,7 @@ export default {
 				if (descriptorValue.adapter) {
 					return value
 						.map(descriptorValue.adapter)
-						.join(descriptorValue.sep ? descriptorValue.sep : ' ')
+						.join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
 				} else {
 					return value.map(v => {
 						if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
@@ -152,7 +152,7 @@ export default {
 						else if (descriptorValue.numberAdapter)
 							return (parseFloat(v) && parseFloat(v).toString()) || v
 						return v
-					}).join(descriptorValue.sep ? descriptorValue.sep : ' ')
+					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
 				}
 			} else if (descriptorValue.type === Number) {
 				if (typeof descriptorValue.fixed === 'number')

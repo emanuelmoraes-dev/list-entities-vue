@@ -1,4 +1,5 @@
 import ListEntities from 'src/components/list-entities/list-entities.vue'
+import definitionAdapter from 'src/adapters/definition-adapter'
 
 export default {
 	name: 'list-peoples',
@@ -95,40 +96,29 @@ export default {
 		 */
 		definitions: {
 			type: Object,
-			default: () => ({
-				sort: 'name',
-
-				descriptor: {
-					name: String,
-					country: String,
-					gender: String,
-					phones: { type: String, array: true }
+			default: () => definitionAdapter({
+				name: {
+					type: String,
+					sort: 1,
+					modelHeaderText: 'fullname',
+					optionSearch: true,
+					displayAttr: true
 				},
-
-				descriptorModal: {
-					name: String,
-					country: String,
-					gender: String,
-					phones: Array
+				country: {
+					type: String,
+					optionSearch: true,
+					defaultLastAttr: true
 				},
-
-				mapPropModalEntity: {
-					name: 'fullname'
+				gender: {
+					type: String,
+					optionSearch: true
 				},
-
-				optionsSearch: [
-					{ display: 'name', value: 'name' },
-					{ display: 'country', value: 'country' },
-					{ display: 'gender', value: 'gender' },
-					{ display: 'phone', value: 'phones' }
-				],
-
-				displayAttrs: [
-					{ display: 'name', value: 'name' },
-					{ display: 'phones', value: 'phones' }
-				],
-
-				defaultLastAttr: { display: 'country', value: 'country' }
+				phones: {
+					type: String,
+					array: true,
+					optionSearch: true,
+					displayAttr: true
+				}
 			})
 		},
 
@@ -163,6 +153,12 @@ export default {
 		tdCheckName: {
 			type: String,
 			default: ''
+		},
+
+		/** true para mostrar operadores de comparação a serem usados na pesquisa */
+		searchOperatorsShow: {
+			type: Boolean,
+			default: false
 		},
 
 		/**
@@ -420,12 +416,6 @@ export default {
 		parseEditParams: {
 			type: Function,
 			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
-		},
-
-		/** true para mostrar operadores de comparação a serem usados na pesquisa */
-		searchOperatorsShow: {
-			type: Boolean,
-			default: false
 		},
 
 		/** parâmetros padrão a serem inserodos na busca */
