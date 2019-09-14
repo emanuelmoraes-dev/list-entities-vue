@@ -18,6 +18,8 @@ export default {
 
 	data () {
 		return {
+			entities: [], // entidades a serem listadas
+			totalElements: 0,
 			attrSearch: null,
 			inputSearch: '',
 			page: 1,
@@ -34,6 +36,7 @@ export default {
 	},
 
 	created () {
+		this.entities = this.value
 		this.prepareDescriptor()
 		this.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
 		if (this.autoSearch) this.search() // se autoSearch for true busca-se ao inciar o componente
@@ -72,9 +75,9 @@ export default {
 			}
 
 			if (atribute === attrSort) // Se o atributo a ser ordenado for o mesmo que o anterior
-				this.$emit('update:sort$', `${order === '-' ? '+' : '-'}${atribute}`) // ordena-se pelo mesmo atributo invertendo a ordem
+				this.definitions.sort = `${order === '-' ? '+' : '-'}${atribute}` // ordena-se pelo mesmo atributo invertendo a ordem
 			else
-				this.$emit('update:sort$', `+${atribute}`) // ordena-se o atributo informado em ordem crescente
+				this.definitions.sort = `+${atribute}` // ordena-se o atributo informado em ordem crescente
 		},
 
 		/**
@@ -110,9 +113,9 @@ export default {
 		 * @param {number} index - posição da entidade a ser editada
 		 */
 		edit (entity, index) {
-			this.$emit('on_editar', entity, index)
+			this.$emit('on_edit', entity, index)
 			if (!this.customEdit)
-				this.$router.push({ name: this.routeEditName, params: this.parseEditParams(entity, index) })
+				this.$router.push({ name: this.routeEditName, params: this.parseEditParams(entity, index, this.idAttrName) })
 		},
 
 		/** evento executado ao se confirmar a remoção de uma entidade */
@@ -141,7 +144,7 @@ export default {
 		 */
 		updateLastAttr (entities) {
 			this.isUpdateLastAttr = false // flag para evitar recursão infinita ativada
-			if (!entities) entities = this.value.slice()
+			if (!entities) entities = this.entities.slice()
 
 			for (let entity of entities) {
 				entity.__lastAttrValue = util.getAttr(this.lastAttr.value, entity, true)
@@ -225,24 +228,57 @@ export default {
 
 			this.$emit('on_search', params, type, attr, inputSearch)
 
-			if (this.customSearch || !this.request)
+			if (!this.request)
 				return
 
-			if (this.attrSearch.value === this.attrAll)
-				this.request.searchDefault(params, attr, inputSearch).catch(err => {
+			if (!type || this.attrSearch.value === this.attrAll)
+				this.searchDefault(params, attr, inputSearch).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
 				})
-			else if (type === null || params instanceof Array && params.length === 0)
-				this.request.searchAll(params, attr, inputSearch, type).catch(err => {
+			else if (params instanceof Array && params.length === 0)
+				this.searchAll(params, attr, inputSearch, type).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_all', err)
 				})
 			else
-				this.request.searchAttr(params, attr, inputSearch, type).catch(err => {
+				this.searchAttr(params, attr, inputSearch, type).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_attr', err)
 				})
+		},
+
+		async searchDefault (params, attr, inputSearch) {
+			let count = await this.request.searchDefaultCount(params, attr, inputSearch)
+			let entities = await this.request.searchDefault(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort)
+
+			this.totalElements = count
+			this.entities = entities
+			this.updateLastAttr(entities)
+			this.$emit('on_search_success', params, attr, inputSearch)
+			this.$emit('on_search_default_success', params, attr, inputSearch)
+		},
+
+		async searchAll (params, attr, inputSearch, type) {
+			let count = await this.request.searchAll(params, attr, inputSearch, type)
+			let entities = await this.request.searchAll(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+
+			this.totalElements = count
+			this.entities = entities
+			this.updateLastAttr(entities)
+			this.$emit('on_search_success', params, attr, inputSearch)
+			this.$emit('on_search_all_success', params, attr, inputSearch)
+		},
+
+		async searchAttr (params, attr, inputSearch, type) {
+			let count = await this.request.searchAttrCount(params, attr, inputSearch, type)
+			let entities = await this.request.searchAttr(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+
+			this.totalElements = count
+			this.entities = entities
+			this.updateLastAttr(entities)
+			this.$emit('on_search_success', params, attr, inputSearch)
+			this.$emit('on_search_attr_success', params, attr, inputSearch)
 		},
 
 		getParamsByBoolean (attr, inputSearch) {
@@ -438,9 +474,44 @@ export default {
 	},
 
 	watch: {
+		/**
+		 * ao atualizar a lista de entidades atualiza-se o atributo '__lastAttrValue' de todas as entidades
+		 * @param {Object[]} value - entidades sendo exibidas na tabela
+		 */
+		entities (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.$emit('input', newValue)
+
+			if (this.isUpdateLastAttr) this.updateLastAttr()
+			else this.isUpdateLastAttr = true // flag para evitar recursão infinita desativada
+		},
+
+		value (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.entities = newValue
+		},
+
+		/** ao mudar a quantidade total de elementos da pesquisa */
+		totalElements (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.$emit('update:totalElements$', newValue)
+		},
+
+		totalElements$ (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.totalElements = newValue
+		},
+
 		/** ao mudar o atributo de ordenação, realiza-se a pesquisa novamente na mésma página */
-		'definitions.sort' () {
+		'definitions.sort' (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.$emit('update:sort$', newValue)
 			this.search(false)
+		},
+
+		sort$ (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.definitions.sort = newValue
 		},
 
 		/**
@@ -483,13 +554,9 @@ export default {
 			}
 		},
 
-		/**
-		 * ao atualizar a lista de entidades atualiza-se o atributo '__lastAttrValue' de todas as entidades
-		 * @param {Object[]} value - entidades sendo exibidas na tabela
-		 */
-		value (value) {
-			if (this.isUpdateLastAttr) this.updateLastAttr()
-			else this.isUpdateLastAttr = true // flag para evitar recursão infinita desativada
+		attrSearch$ (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.attrSearch = newValue
 		},
 
 		/** ao mudar a página da tabela busca-se novamente as entidades da tabela */
@@ -500,6 +567,11 @@ export default {
 			this.search(false) // busca-se na página atual
 		},
 
+		page$ (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.page = newValue
+		},
+
 		// quando o usuário mudar o 'descriptor', recria-se no 'descriptorEntity'
 		'definitions.descriptor' (descriptor) {
 			this.prepareDescriptor(descriptor)
@@ -508,6 +580,11 @@ export default {
 		inputSearch (newValue, oldValue) {
 			if (newValue !== oldValue)
 				this.$emit('update:inputSearch$', newValue)
+		},
+
+		inputSearch$ (newValue, oldValue) {
+			if (newValue !== oldValue)
+				this.inputSearch = newValue
 		}
 	},
 
@@ -600,33 +677,10 @@ export default {
 	},
 
 	props: {
-		value: {
-			type: Array,
-			required: true
-		},
-
-		/** true para ocultar o widget de busca */
-		hideSearch: {
+		/** se true, chama-se automaticamente o método search */
+		autoSearch: {
 			type: Boolean,
 			default: false
-		},
-
-		/** true para unir o widget de busca com o widget com a tabela de resultados */
-		isCompact: {
-			type: Boolean,
-			default: false
-		},
-
-		/** título para exibir no widget da tabela de resultados */
-		titleTable: {
-			type: String,
-			required: true
-		},
-
-		/** título para exibir no widget de busca */
-		titleSearch: {
-			type: String,
-			default: 'Search'
 		},
 
 		/**
@@ -636,27 +690,58 @@ export default {
 		 */
 		definitions: {
 			validator (value) {
-				if (typeof value !== 'object' || !value) return false
-				if (typeof value.sort !== 'string') return false
-				if (typeof value.descriptor !== 'object' || !value.descriptor) return false
-				if (value.descriptorModal && typeof value.descriptorModal !== 'object') return false
-				if (value.mapPropModalEntity && typeof value.mapPropModalEntity !== 'object') return false
+				if (typeof value !== 'object' || !value) {
+					console.error('definitions not is object')
+					return false
+				}
+
+				if (typeof value.sort !== 'string') {
+					console.error('definitions.sort not is string')
+					return false
+				}
+
+				if (typeof value.descriptor !== 'object' || !value.descriptor) {
+					console.error('definitions.descroptor not is object')
+					return false
+				}
+
+				if (value.descriptorModal && typeof value.descriptorModal !== 'object') {
+					console.error('definitions.descriptorModal not is object')
+					return false
+				}
+
+				if (value.mapPropModalEntity && typeof value.mapPropModalEntity !== 'object') {
+					console.error('definitions.mapPropModalEntity not is object')
+					return false
+				}
+
 				if (typeof value.defaultLastAttr !== 'object' ||
 						!value.defaultLastAttr ||
 						typeof value.defaultLastAttr.display !== 'string' ||
-						typeof value.defaultLastAttr.value !== 'string') return false
+						typeof value.defaultLastAttr.value !== 'string'
+				) {
+					console.error('definitions.defaultLastAttr not is object with string props display and value')
+					return false
+				}
+
 				if (
 					value.modalSlots &&
 					(
 						!(value.modalSlots instanceof Array) ||
-						value.modalSlots.length === 0 ||
+						value.modalSlots.length !== 0 &&
 						value.modalSlots.find(s => typeof s !== 'string')
 					)
-				) return false
+				) {
+					console.error('definitions.modalSlots not is string[]')
+					return false
+				}
 
 				value.modalSlots = value.modalSlots || []
 
-				if (!(value.optionsSearch instanceof Array)) return false
+				if (!(value.optionsSearch instanceof Array)) {
+					console.error('definitions.optionsSearch not is array<{ display: string, value: string }>')
+					return false
+				}
 
 				let optionsSearchValid = true
 
@@ -668,9 +753,15 @@ export default {
 					}
 				}
 
-				if (!optionsSearchValid) return false
+				if (!optionsSearchValid) {
+					console.error('definitions.optionsSearchValid not is array<{ display: string, value: string }>')
+					return false
+				}
 
-				if (!(value.displayAttrs instanceof Array)) return false
+				if (!(value.displayAttrs instanceof Array)) {
+					console.error('definitions.displayAttrs not is array<{ display: string, value: string }>')
+					return false
+				}
 
 				let optionsDisplayAttrs = true
 
@@ -682,7 +773,10 @@ export default {
 					}
 				}
 
-				if (!optionsDisplayAttrs) return false
+				if (!optionsDisplayAttrs) {
+					console.error('definitions.displayAttrs not is array<{ display: string, value: string }>')
+					return false
+				}
 
 				let cvalue = { ...value }
 
@@ -695,7 +789,10 @@ export default {
 				delete cvalue.defaultLastAttr
 				delete cvalue.modalSlots
 
-				if (Object.keys(cvalue).length) return false
+				if (Object.keys(cvalue).length) {
+					console.error(Object.keys(cvalue).join(',') + ' invalid in definitions')
+					return false
+				}
 
 				return true
 			},
@@ -709,23 +806,76 @@ export default {
 		 */
 		request: {
 			validator (value) {
-				if (typeof value !== 'object' || !value) return false
-				if (typeof value.searchDefault !== 'function') return false
-				if (typeof value.searchAll !== 'function') return false
-				if (typeof value.searchAttr !== 'function') return false
+				if (value === null) return true
+
+				if (typeof value !== 'object' || !value) {
+					console.error('request not is null or object')
+					return false
+				}
+
+				if (typeof value.searchDefault !== 'function') {
+					console.error('request.searchDefault not is a function')
+					return false
+				}
+
+				if (typeof value.searchAll !== 'function') {
+					console.error('request.searchAll not is a function')
+					return false
+				}
+
+				if (typeof value.searchAttr !== 'function') {
+					console.error('request.searchAttr not is a function')
+					return false
+				}
+
+				if (typeof value.searchDefaultCount !== 'function') {
+					console.error('request.searchDefaultCount not is a function')
+					return false
+				}
+
+				if (typeof value.searchAllCount !== 'function') {
+					console.error('request.searchAllCount not is a function')
+					return false
+				}
+
+				if (typeof value.searchAttrCount !== 'function') {
+					console.error('request.searchAttrCount not is a function')
+					return false
+				}
 
 				let cvalue = { ...value }
 
 				delete cvalue.searchDefault
 				delete cvalue.searchAll
 				delete cvalue.searchAttr
+				delete cvalue.searchDefaultCount
+				delete cvalue.searchAllCount
+				delete cvalue.searchAttrCount
 
-				if (Object.keys(cvalue).length) return false
+				if (Object.keys(cvalue).length) {
+					console.error(Object.keys(cvalue).join(',') + ' invalid in request')
+					return false
+				}
 
 				return true
 			},
 
 			default: () => null
+		},
+
+		/** título para exibir no widget da tabela de resultados */
+		titleTable: {
+			type: String,
+			required: true
+		},
+
+		/**
+		 * opção de busca (objeto com 'display' e 'value') representando
+		 * a opção de pesquisa por todos os atributos
+		 */
+		attrAll: {
+			type: String,
+			required: true
 		},
 
 		/**
@@ -737,10 +887,10 @@ export default {
 			default: ''
 		},
 
-		/** se true, o último atributo da tabel será escondido */
-		hideLastAttr: {
-			type: Boolean,
-			default: false
+		/** título para exibir no widget de busca */
+		titleSearch: {
+			type: String,
+			default: 'Search'
 		},
 
 		/** nome a aparecer acima das opções na tabela */
@@ -753,72 +903,6 @@ export default {
 		idAttrName: {
 			type: String,
 			default: 'id'
-		},
-
-		/** lista de classes css a serem usadas em cada linha da tabela */
-		classLine: {
-			type: Array,
-			default: () => []
-		},
-
-		/** true para exibir a opção de visualizar os dados da entidade em um modal */
-		optionView: {
-			type: Boolean,
-			default: true
-		},
-
-		/** true para exibir a opção de remover uma entidade */
-		optionRemove: {
-			type: Boolean,
-			default: true
-		},
-
-		/** true para exibir a opção de editar uma entidade */
-		optionEdit: {
-			type: Boolean,
-			default: false
-		},
-
-		/** true para exibir a opção de gerar e baixar um relatório das informações da entidade */
-		optionReport: {
-			type: Boolean,
-			default: false
-		},
-
-		/** quantidade máxima de numeros (botões) de páginas a serem na paginação */
-		limitPagination: {
-			type: Number | String,
-			default: 5
-		},
-
-		/** alinhamento da paginação */
-		alignPagination: {
-			type: String,
-			default: 'left'
-		},
-
-		/** tamanho dos botões das páginas */
-		sizePagination: {
-			type: String,
-			default: ''
-		},
-
-		/** quantidade total de entidades (quantidade total de resultados) */
-		totalElements: {
-			type: Number,
-			default: 0
-		},
-
-		/** quantidade de linhas máximas a serem exibidas por págna */
-		pageSize: {
-			type: Number,
-			default: 10
-		},
-
-		/** true para que um modal de sucesso seja exibdo ao remover uma entidade */
-		isShowModal: {
-			type: Boolean,
-			default: false
 		},
 
 		/** texto a ser exibido no botão de "OK" do modal de sucesso */
@@ -840,13 +924,13 @@ export default {
 		},
 
 		/** títuto do modal de sucesso */
-		title_success: {
+		titleSuccess: {
 			type: String,
 			default: 'Success!'
 		},
 
 		/** título do modal de confirmação */
-		title_confirm: {
+		titleConfirm: {
 			type: String,
 			default: 'Attention!'
 		},
@@ -857,28 +941,10 @@ export default {
 			default: 'Entity Data'
 		},
 
-		/** classe css do botão "OK" do modal de exibição da entidade */
-		okClassModalEntity: {
-			type: String,
-			default: 'btn btn-primary btn-modal btn-ok-modal'
-		},
-
 		/** texto do botão "OK" do modal de exibição da entidade */
 		confirmTextModalEntity: {
 			Type: String,
 			default: 'OK'
-		},
-
-		/** true para que o modal de exibição da entidade seja pequeno */
-		smallModalEntity: {
-			Type: Boolean,
-			default: false
-		},
-
-		/** true para que o modal de exibição da entidade NÃO seja fechado ao clicar no fundo */
-		forceModalEntity: {
-			Type: Boolean,
-			default: false
 		},
 
 		/** mensagem a ser exibida no modal de sucesso exibido ao remover uma entidade com sucesso */
@@ -891,36 +957,6 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: 'Are you sure you want to delete this entity?'
-		},
-
-		/** nome da rota contendo a página de edição da entidade */
-		routeNameEdit: {
-			type: String,
-			default: () => null
-		},
-
-		/**
-		 * função que recebe uma entidade e sua posição na tabela e
-		 * retorna os parâmetros a passar para a rota de edição
-		 */
-		parseEditParams: {
-			type: Function,
-			default: (entity, index) => ({ id: entity.id })
-		},
-
-		/**
-		 * opção de busca (objeto com 'display' e 'value') representando
-		 * a opção de pesquisa por todos os atributos
-		 */
-		attrAll: {
-			type: String,
-			required: true
-		},
-
-		/** true para mostrar operadores de comparação a serem usados na pesquisa */
-		searchOperatorsShow: {
-			type: Boolean,
-			default: false
 		},
 
 		/**
@@ -982,34 +1018,16 @@ export default {
 			default: 'NO'
 		},
 
-		/** parâmetros padrão a serem inserodos na busca */
-		paramsRequest: {
-			type: Array,
-			default: () => []
-		},
-
-		/** true para que a pesquisa não seja realizada internamente */
-		customSearch: {
-			type: Boolean,
-			default: false
-		},
-
-		/** usado para unir valores de um array a ser exibido na tabela */
-		joinSep: {
+		/** string que representa o padrão de exibição de datas */
+		defaultPattern: {
 			type: String,
-			default: '/'
+			default: 'yyyy/MM/dd'
 		},
 
-		/** true para habilitar o uso da propriedade 'sep' */
-		usingSepInArraySearch: {
-			type: Boolean,
-			default: false
-		},
-
-		/** true para que a busca ocorra case sensitive */
-		searchCaseSensitive: {
-			type: Boolean,
-			default: false
+		/** classe css do botão "OK" do modal de exibição da entidade */
+		okClassModalEntity: {
+			type: String,
+			default: 'btn btn-primary btn-modal btn-ok-modal'
 		},
 
 		/**
@@ -1021,13 +1039,141 @@ export default {
 			default: () => ({})
 		},
 
-		/** string que representa o padrão de exibição de datas */
-		defaultPattern: {
-			type: String,
-			default: 'yyyy/MM/dd'
+		/** true para ocultar o widget de busca */
+		hideSearch: {
+			type: Boolean,
+			default: false
 		},
 
-		// Atributos sincronos
+		/** true para unir o widget de busca com o widget com a tabela de resultados */
+		isCompact: {
+			type: Boolean,
+			default: false
+		},
+
+		/** se true, o último atributo da tabel será escondido */
+		hideLastAttr: {
+			type: Boolean,
+			default: false
+		},
+
+		/** lista de classes css a serem usadas em cada linha da tabela */
+		classLine: {
+			type: Array,
+			default: () => []
+		},
+
+		/** true para exibir a opção de visualizar os dados da entidade em um modal */
+		optionView: {
+			type: Boolean,
+			default: true
+		},
+
+		/** true para exibir a opção de remover uma entidade */
+		optionRemove: {
+			type: Boolean,
+			default: true
+		},
+
+		/** true para exibir a opção de editar uma entidade */
+		optionEdit: {
+			type: Boolean,
+			default: false
+		},
+
+		/** true para exibir a opção de gerar e baixar um relatório das informações da entidade */
+		optionReport: {
+			type: Boolean,
+			default: false
+		},
+
+		/** quantidade máxima de numeros (botões) de páginas a serem na paginação */
+		limitPagination: {
+			type: Number | String,
+			default: 5
+		},
+
+		/** alinhamento da paginação */
+		alignPagination: {
+			type: String,
+			default: 'left'
+		},
+
+		/** tamanho dos botões das páginas */
+		sizePagination: {
+			type: String,
+			default: ''
+		},
+
+		/** quantidade de linhas máximas a serem exibidas por págna */
+		pageSize: {
+			type: Number,
+			default: 10
+		},
+
+		/** true para que um modal de sucesso seja exibdo ao remover uma entidade */
+		isShowModal: {
+			type: Boolean,
+			default: false
+		},
+
+		/** true para que o modal de exibição da entidade seja pequeno */
+		smallModalEntity: {
+			Type: Boolean,
+			default: false
+		},
+
+		/** true para que o modal de exibição da entidade NÃO seja fechado ao clicar no fundo */
+		forceModalEntity: {
+			Type: Boolean,
+			default: false
+		},
+
+		/** nome da rota contendo a página de edição da entidade */
+		routeNameEdit: {
+			type: String,
+			default: () => null
+		},
+
+		/**
+		 * função que recebe uma entidade e sua posição na tabela e
+		 * retorna os parâmetros a passar para a rota de edição
+		 */
+		parseEditParams: {
+			type: Function,
+			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
+		},
+
+		/** true para mostrar operadores de comparação a serem usados na pesquisa */
+		searchOperatorsShow: {
+			type: Boolean,
+			default: false
+		},
+
+		/** parâmetros padrão a serem inserodos na busca */
+		paramsRequest: {
+			type: Array,
+			default: () => []
+		},
+
+		/** usado para unir valores de um array a ser exibido na tabela */
+		joinSep: {
+			type: String,
+			default: '/'
+		},
+
+		// propriedades sincronas
+
+		value: {
+			type: Array,
+			required: true
+		},
+
+		/** quantidade total de entidades (quantidade total de resultados) */
+		totalElements$: {
+			type: Number,
+			default: 0
+		},
 
 		/** página atual sendo exibida */
 		page$: {

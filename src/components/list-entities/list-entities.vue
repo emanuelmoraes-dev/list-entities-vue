@@ -107,14 +107,14 @@
 												<tbody>
 													<slot name="tblpre"></slot> <!-- slot a ser chamado antes da exibição do conteúdo da tabela e depois do header -->
 
-													<tr v-for="(entity, index) of value" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
+													<tr v-for="(entity, index) of entities" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
 														@click="$emit('on_click', entity, index)"
 													> <!-- percorre cada entidade transmitida pelo v-model -->
 														<td v-if="$scopedSlots.check"> <!-- se o usuário passou o slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
 															<slot name="check" :entity="entity" :index="index"></slot> <!-- slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
 														</td> <!-- end td slot check -->
 
-														<slot :name="`entity_line_${entity[idAttrName]}`" :entity="entity" :index="index"> <!-- slot do conteúdo da linha da tabela referente a entidade de id 'idAttrName' -->
+														<slot name="entity_line" :entity="entity" :index="index"> <!-- slot slot do conteúdo da linha da tabela -->
 															<td
 																v-for="attr of definitions.displayAttrs" :key="attr.value"
 																v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
@@ -129,7 +129,7 @@
 																	{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep) }}
 																</slot>
 															</td>
-														</slot> <!-- end slot `entity_line_${entity[idAttrName]}` -->
+														</slot> <!-- end slot 'entity_line' -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
 															<slot :name="opt" :entity="entity" :index="index"></slot>
@@ -179,7 +179,7 @@
 			<div class="modals">
         <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
             :okText="okText">
-          <div slot="title">{{title_success}}</div>
+          <div slot="title">{{titleSuccess}}</div>
           <div>
             {{ removeSuccessMessage }}
           </div>
@@ -187,7 +187,7 @@
 
         <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
             :okText="confirmText" :cancelText="cancelText" @ok="onRemove">
-          <div slot="title">{{title_confirm}}</div>
+          <div slot="title">{{titleConfirm}}</div>
           <div>
             {{ removeConfirmMessage }}
           </div>
