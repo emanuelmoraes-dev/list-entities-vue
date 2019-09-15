@@ -34,7 +34,9 @@ if (!folderName)
 	folderName = name
 
 if (!src)
-	src = path.resolve('.')
+	src = '.'
+
+src = path.resolve(src)
 
 if (!configFile)
 	configFile = '.list-entities.config.js'

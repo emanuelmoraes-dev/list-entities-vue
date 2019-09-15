@@ -21,7 +21,9 @@ for (let i = 0; i < args.length; i += 2) {
 }
 
 if (!src)
-	src = path.resolve('.')
+	src = '.'
+
+src = path.resolve(src)
 
 if (!configFile)
 	configFile = '.list-entities.config.js'
