@@ -33,7 +33,7 @@ if (fs.existsSync(file)) {
 	process.exit(2)
 }
 
-let srcFolder = `'${file}'`.replace(/\\/g, '\\\\')
+let srcFolder = `'${src}'`.replace(/\\/g, '\\\\')
 let separateFiles = 'true'
 let createFolder = 'true'
 
