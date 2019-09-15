@@ -1,4 +1,9 @@
 export default function definitionAdapter (def) {
+	if (typeof def !== 'object' || !def) {
+		console.error('"def" not is object')
+		return null
+	}
+
 	let descriptor = {}
 	let descriptorModal = {}
 	let mapPropModalEntity = {}

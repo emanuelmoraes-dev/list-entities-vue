@@ -38,7 +38,11 @@ export default {
 	created () {
 		this.entities = this.value
 		this.prepareDescriptor()
-		this.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+		this.attrSearch = this.attrSearch$
+
+		if (this.attrSearch === null)
+			this.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+
 		if (this.autoSearch) this.search() // se autoSearch for true busca-se ao inciar o componente
 	},
 

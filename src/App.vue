@@ -1,65 +1,51 @@
 <template>
   <div id="app">
-		<!-- <list-entities
+		<list-entities
 			v-model="peoples"
 			titleTable="Peoples"
 			attrAll="All"
 			:searchOperatorsShow="true"
-			:definitions="{
-				sort: 'name',
-
-				descriptor: {
-					name: String,
-					country: String,
-					gender: String,
-					phones: { type: String, array: true }
-				},
-
-				descriptorModal: {
-					name: String,
-					country: String,
-					gender: String,
-					phones: Array
-				},
-
-				mapPropModalEntity: {
-					name: 'fullname'
-				},
-
-				optionsSearch: [
-					{ display: 'name', value: 'name' },
-					{ display: 'country', value: 'country' },
-					{ display: 'gender', value: 'gender' },
-					{ display: 'phone', value: 'phones' }
-				],
-
-				displayAttrs: [
-					{ display: 'name', value: 'name' },
-					{ display: 'phones', value: 'phones' }
-				],
-
-				defaultLastAttr: { display: 'country', value: 'country' }
-			}"
-		/> -->
-
-		<list-peoples v-model="peoples"></list-peoples>
+			:definitions="definitions"
+		/>
   </div>
 </template>
 
 <script>
-// import ListEntities from 'src/components/list-entities/list-entities.vue'
-import ListPeoples from 'src/examples/list-peoples/list-peoples.vue'
+import ListEntities from 'src/components/list-entities/list-entities.vue'
+import definitionAdapter from 'src/adapters/definition-adapter'
 
 export default {
 	name: 'app',
 
-	components: {
-		// ListEntities,
-		ListPeoples
-	},
+	components: { ListEntities },
 
 	data () {
 		return {
+			definitions: definitionAdapter({
+				name: {
+					type: String,
+					sort: 1,
+					modelHeaderText: 'fullname',
+					optionSearch: true,
+					displayAttr: true
+				},
+				country: {
+					type: String,
+					optionSearch: true,
+					defaultLastAttr: true
+				},
+				gender: {
+					type: String,
+					optionSearch: true
+				},
+				phones: {
+					type: String,
+					array: true,
+					optionSearch: true,
+					displayAttr: true
+				}
+			}),
+
 			peoples: [
 				{
 					name: 'José Martins',
