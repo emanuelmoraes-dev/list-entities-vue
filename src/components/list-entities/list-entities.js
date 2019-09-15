@@ -840,11 +840,17 @@ export default {
 					return false
 				}
 
+				if (value.delete && typeof value.delete !== 'function') {
+					console.error('request.delete not is a function')
+					return false
+				}
+
 				let cvalue = { ...value }
 
 				delete cvalue.searchDefault
 				delete cvalue.searchAll
 				delete cvalue.searchAttr
+				delete cvalue.delete
 
 				if (Object.keys(cvalue).length) {
 					console.error(Object.keys(cvalue).join(',') + ' invalid in request')
@@ -855,6 +861,12 @@ export default {
 			},
 
 			default: () => null
+		},
+
+		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
+		customRemove: {
+			type: Boolean,
+			default: false
 		},
 
 		/** título para exibir no widget da tabela de resultados */

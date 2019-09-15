@@ -65,6 +65,7 @@ if (!config.props)
 let autoSearch = config.props.autoSearch || 'false'
 let definitions = config.props.definitions || null
 let request = config.props.request || null
+let customRemove = config.props.customRemove || 'false'
 let titleTable = config.props.titleTable || 'Entities'
 let attrAll = config.props.attrAll || 'All'
 let tdCheckName = config.props.tdCheckName || ''
@@ -147,6 +148,7 @@ let template = config.template || `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
+		:customRemove="customRemove"
 		:titleTable="titleTable"
 		:attrAll="attrAll"
 		:tdCheckName="tdCheckName"
@@ -388,6 +390,11 @@ export default {
 		request: {
 			type: Object,
 			default: () => ${request === null ? 'null' : request}
+		},
+
+		customRemove: {
+			type: Boolean,
+			default: () => ${customRemove}
 		},
 
 		titleTable: {

@@ -42,6 +42,7 @@ let createFolder = 'true'
 let autoSearch = "'false'"
 let definitions = 'null'
 let request = 'null'
+let customRemove = 'false'
 let titleTable = "'Entities'"
 let attrAll = "'All'"
 let tdCheckName = "''"
@@ -120,6 +121,7 @@ let template = `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
+		:customRemove="customRemove"
 		:titleTable="titleTable"
 		:attrAll="attrAll"
 		:tdCheckName="tdCheckName"
@@ -275,6 +277,7 @@ module.exports = {
 		autoSearch: ${autoSearch},
 		definitions: ${definitions},
 		request: ${request},
+		customRemove: ${customRemove},
 		titleTable: ${titleTable},
 		attrAll: ${attrAll},
 		tdCheckName: ${tdCheckName},
