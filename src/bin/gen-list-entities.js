@@ -41,14 +41,21 @@ src = path.resolve(src)
 if (!configFile)
 	configFile = '.list-entities.config.js'
 
-let config = require(path.join(src, configFile))
+let file = path.join(src, configFile)
+
+let config
+
+if (fs.existsSync(file))
+	config = require(file)
+else
+	config = {}
 
 if (typeof config !== 'object' || !config) {
 	console.error('config file not is object')
 	process.exit(1)
 }
 
-let srcFolder = config.srcFolder ? path.normalize(config.srcFolder) : __dirname
+let srcFolder = config.srcFolder || src
 let separateFiles = config.separateFiles || true
 let createFolder = config.createFolder || true
 
