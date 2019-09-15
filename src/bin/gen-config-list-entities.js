@@ -5,23 +5,35 @@
 const path = require('path')
 const fs = require('fs')
 
-console.log(process.argv, __dirname)
+let src
+let configFile
 
-let output = process.argv[2]
+const args = process.argv.slice(2)
 
-if (!output) {
-	console.error('unspecified folder path')
-	process.exit(1)
+for (let i = 0; i < args.length; i += 2) {
+	let prop = args[i]
+	let value = args[i + 1] || ''
+
+	if (prop === '--src')
+		src = value
+	else if (prop === '--config-file')
+		configFile = value
 }
 
-let configFile = path.join(output, '.list-entities.config.js')
+if (!src)
+	src = path.resolve('.')
 
-if (fs.existsSync(configFile)) {
-	console.error(`file "${configFile}" already exists`)
+if (!configFile)
+	configFile = '.list-entities.config.js'
+
+let file = path.join(src, configFile)
+
+if (fs.existsSync(file)) {
+	console.error(`file "${file}" already exists`)
 	process.exit(2)
 }
 
-let srcFolder = `'${output}'`.replace(/\\/g, '\\\\')
+let srcFolder = `'${file}'`.replace(/\\/g, '\\\\')
 let separateFiles = 'true'
 let createFolder = 'true'
 
@@ -323,4 +335,4 @@ function getTemplate () {
 }
 `
 
-fs.writeFileSync(configFile, config)
+fs.writeFileSync(file, config)

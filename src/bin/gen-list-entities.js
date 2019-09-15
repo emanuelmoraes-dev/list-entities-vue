@@ -6,7 +6,8 @@ const path = require('path')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 
-let input
+let src
+let configFile
 let name
 let folderName
 
@@ -16,8 +17,10 @@ for (let i = 0; i < args.length; i += 2) {
 	let prop = args[i]
 	let value = args[i + 1] || ''
 
-	if (prop === '--config')
-		input = value
+	if (prop === '--src')
+		src = value
+	else if (prop === '--config-file')
+		configFile = value
 	else if (prop === '--name')
 		name = value
 	else if (prop === '--foldername')
@@ -30,14 +33,13 @@ if (!name)
 if (!folderName)
 	folderName = name
 
-let config
+if (!src)
+	src = path.resolve('.')
 
-if (!input) {
-	console.error('configuration file has not been set')
-	process.exit(1)
-}
+if (!configFile)
+	configFile = '.list-entities.config.js'
 
-config = require(path.normalize(input))
+let config = require(path.join(src, configFile))
 
 if (typeof config !== 'object' || !config) {
 	console.error('config file not is object')
