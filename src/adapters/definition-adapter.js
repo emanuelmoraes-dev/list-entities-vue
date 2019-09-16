@@ -26,19 +26,19 @@ export default function definitionAdapter (def) {
 
 		if (defValue.array) {
 			descriptor[attr].array = defValue.array
-			descriptorModal[attr].type = { type: Array }
+			descriptorModal[attr].type = Array
 		} else {
-			descriptorModal[attr].type = { type: defValue.type }
+			descriptorModal[attr].type = defValue.type
 		}
 
 		if ('adapter' in defValue)
-			descriptor[attr].numberAdapter = descriptorModal[attr].numberAdapter = defValue.adapter
+			descriptor[attr].adapter = descriptorModal[attr].adapter = defValue.adapter
 
 		if ('numberAdapter' in defValue)
 			descriptor[attr].numberAdapter = descriptorModal[attr].numberAdapter = true
 
 		if (typeof defValue.fixed === 'number')
-			descriptor[attr].numberAdapter = descriptorModal[attr].numberAdapter = defValue.fixed
+			descriptor[attr].fixed = descriptorModal[attr].fixed = defValue.fixed
 
 		if ('pattern' in defValue)
 			descriptor[attr].pattern = descriptorModal[attr].pattern = defValue.pattern
@@ -54,6 +54,30 @@ export default function definitionAdapter (def) {
 
 		if ('joinSep' in defValue)
 			descriptor[attr].joinSep = defValue.joinSep
+
+		if ('contains' in defValue)
+			descriptor[attr].contains = defValue.contains
+
+		if ('startsWith' in defValue)
+			descriptor[attr].startsWith = defValue.startsWith
+
+		if ('endsWith' in defValue)
+			descriptor[attr].endsWith = defValue.endsWith
+
+		if ('equals' in defValue)
+			descriptor[attr].equals = defValue.equals
+
+		if ('greaterThan' in defValue)
+			descriptor[attr].greaterThan = defValue.greaterThan
+
+		if ('lessThan' in defValue)
+			descriptor[attr].lessThan = defValue.lessThan
+
+		if ('greaterOrEqualThan' in defValue)
+			descriptor[attr].greaterOrEqualThan = defValue.greaterOrEqualThan
+
+		if ('lessOrEqualThan' in defValue)
+			descriptor[attr].lessOrEqualThan = defValue.lessOrEqualThan
 
 		if (!('modalJoinSep' in defValue) && 'joinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.joinSep
