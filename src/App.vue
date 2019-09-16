@@ -6,18 +6,24 @@
 			attrAll="All"
 			:searchOperatorsShow="true"
 			:definitions="definitions"
+			@on_error="onError"
 		/>
+		<!-- <list-peoples v-model="peoples" @on_error="onError"></list-peoples> -->
   </div>
 </template>
 
 <script>
-import ListEntities from 'src/components/list-entities/list-entities.vue'
-import definitionAdapter from 'src/adapters/definition-adapter'
+import listEntities from './components/list-entities/list-entities.vue'
+// import listPeoples from './examples/list-peoples/list-peoples.vue'
+import definitionAdapter from './adapters/definition-adapter'
 
 export default {
 	name: 'app',
 
-	components: { ListEntities },
+	components: {
+		listEntities
+		// listPeoples
+	},
 
 	data () {
 		return {
@@ -66,6 +72,10 @@ export default {
 	methods: {
 		showModal () {
 			this.$refs.modal.open()
+		},
+
+		onError (err) {
+			console.error(err)
 		}
 	}
 }
