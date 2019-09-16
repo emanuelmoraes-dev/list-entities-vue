@@ -289,7 +289,7 @@ export default {
 			if (inputSearch.toLowerCase() === this.trueStr.toLowerCase()) {
 				let params = {}
 				params[attr] = {
-					value: 1,
+					value: true,
 					operator: 'default'
 				}
 				return [params]
@@ -297,7 +297,7 @@ export default {
 
 			let params = {}
 			params[attr] = {
-				value: 0,
+				value: false,
 				operator: 'default',
 				descriptor: this.descriptorEntity[attr]
 			}
@@ -340,6 +340,7 @@ export default {
 					operator: 'equals',
 					descriptor: this.descriptorEntity[attr]
 				}
+				return [params]
 			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 6)) {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.SECOND, 1)
 
@@ -610,18 +611,23 @@ export default {
 		/** lista de operadores a serem usados na pesquisa */
 		operators () {
 			const descriptorValue = this.descriptorEntity[this.attrSearch.value]
+			if (!descriptorValue) return []
 
-			if (!descriptorValue)
-				return []
+			let objOperators = {}
 
 			if (descriptorValue.type === String)
-				return Object.keys(this.stringOperators)
+				objOperators = this.stringOperators
 			else if (descriptorValue.type === Number)
-				return Object.keys(this.numberOperators)
+				objOperators = this.numberOperators
 			else if (descriptorValue.type === Date)
-				return Object.keys(this.dateOperators)
+				objOperators = this.dateOperators
 			else
 				return []
+
+			return Object.keys(objOperators).filter(opDisplay => {
+				let opValue = objOperators[opDisplay]
+				return descriptorValue[opValue] !== false
+			})
 		},
 
 		optionsSearch () {
