@@ -270,7 +270,7 @@ export default {
 		},
 
 		async searchAll (params, attr, inputSearch, type) {
-			let { count, entities } = await this.request.searchAll(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchAll(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
 			this.entities = entities
@@ -280,7 +280,7 @@ export default {
 		},
 
 		async searchAttr (params, attr, inputSearch, type) {
-			let { count, entities } = await this.request.searchAttr(params, attr, inputSearch, type, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchAttr(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
 			this.entities = entities
