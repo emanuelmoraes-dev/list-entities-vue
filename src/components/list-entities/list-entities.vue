@@ -13,17 +13,18 @@
             </div> <!-- end v-if -->
 
             <div class="row">
-              <div class="col-md-2"> <!-- select de atributos a serem buscados -->
+              <div :class="{ 'col-md-2': optionsSearch && optionsSearch.length }"> <!-- select de atributos a serem buscados -->
 								<div class="form-group form-group-select">
 									<!-- <label class="before-select">Pesquisar: </label> -->
 									<b-form-select
+										v-if="optionsSearch && optionsSearch.length"
 										v-model="attrSearch"
 										:options="optionsSearch"
 									/> <!-- select dos tributos a serem filtrados -->
 								</div> <!-- end class form-group -->
               </div> <!-- end col -->
 
-							<div v-if="searchOperatorsShow && operators && operators.length" class="col-md-2">
+							<div v-if="optionsSearch && optionsSearch.length && searchOperatorsShow && operators && operators.length" class="col-md-2">
 
 								<!-- select com as operações a serem usadas para filtrar a busca -->
 
@@ -37,6 +38,7 @@
 							</div> <!-- end col -->
 
               <div :class="{
+								'col-md-12': !(optionsSearch && optionsSearch.length),
 								'col-md-10': !(searchOperatorsShow && operators && operators.length),
 								'col-md-8': searchOperatorsShow && operators && operators.length
 							}"> <!-- campo de pesquisa -->

@@ -40,8 +40,10 @@ export default {
 		this.prepareDescriptor()
 		this.attrSearch = this.attrSearch$
 
-		if (this.attrSearch === null)
+		if (this.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
 			this.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+		else if (this.attrSearch === null)
+			this.attrSearch = { display: '', value: '' }
 
 		if (this.autoSearch) this.search() // se autoSearch for true busca-se ao inciar o componente
 	},
@@ -196,6 +198,11 @@ export default {
 		},
 
 		search (startList) {
+			if (!this.options || !this.options.length) {
+				this.$emit('on_search', this.inputSearch, null, null, null)
+				return
+			}
+
 			let attr = this.attrSearch.value
 			let type
 
@@ -230,7 +237,7 @@ export default {
 				...this.paramsRequest
 			]
 
-			this.$emit('on_search', params, type, attr, inputSearch)
+			this.$emit('on_search', inputSearch, params, attr, type)
 
 			if (!this.request)
 				return
@@ -258,8 +265,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', params, attr, inputSearch)
-			this.$emit('on_search_default_success', params, attr, inputSearch)
+			this.$emit('on_search_success', inputSearch, params, attr)
+			this.$emit('on_search_default_success', inputSearch, params, attr)
 		},
 
 		async searchAll (params, attr, inputSearch, type) {
@@ -268,8 +275,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', params, attr, inputSearch)
-			this.$emit('on_search_all_success', params, attr, inputSearch)
+			this.$emit('on_search_success', inputSearch, params, attr, type)
+			this.$emit('on_search_all_success', inputSearch, params, attr, type)
 		},
 
 		async searchAttr (params, attr, inputSearch, type) {
@@ -278,8 +285,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', params, attr, inputSearch)
-			this.$emit('on_search_attr_success', params, attr, inputSearch)
+			this.$emit('on_search_success', inputSearch, params, attr, type)
+			this.$emit('on_search_attr_success', inputSearch, params, attr, type)
 		},
 
 		getParamsByBoolean (attr, inputSearch) {
@@ -631,21 +638,24 @@ export default {
 		},
 
 		optionsSearch () {
+			if (!this.definitions.optionsSearch)
+				return []
+
 			let options = this.definitions.optionsSearch.map(opt => ({
 				text: opt.display,
 				value: opt
 			}))
 
-			return [
-				{
+			if (this.request && this.request.searchDefault && options.length)
+				options.splice(0, 0, {
 					value: {
 						display: this.attrAll,
 						value: this.attrAll
 					},
 					text: this.attrAll
-				},
-				...options
-			]
+				})
+
+			return options
 		}
 	},
 
@@ -831,7 +841,7 @@ export default {
 					return false
 				}
 
-				if (typeof value.searchDefault !== 'function') {
+				if (value.searchDefault && typeof value.searchDefault !== 'function') {
 					console.error('request.searchDefault not is a function')
 					return false
 				}
