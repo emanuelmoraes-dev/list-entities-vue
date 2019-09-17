@@ -3,7 +3,6 @@
 		<list-entities
 			v-model="peoples"
 			titleTable="Peoples"
-			attrAll="All"
 			:searchOperatorsShow="true"
 			:definitions="definitions"
 			@on_error="onError"

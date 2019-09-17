@@ -663,7 +663,7 @@ export default {
 				value: opt
 			}))
 
-			if (this.request && this.request.searchDefault && options.length)
+			if (this.attrAll && this.request && this.request.searchDefault && options.length)
 				options.splice(0, 0, {
 					value: {
 						display: this.attrAll,
@@ -914,7 +914,7 @@ export default {
 		 */
 		attrAll: {
 			type: String,
-			required: true
+			default: 'All'
 		},
 
 		/**
