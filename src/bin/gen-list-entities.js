@@ -67,7 +67,7 @@ let definitions = config.props.definitions || null
 let request = config.props.request || null
 let customRemove = config.props.customRemove || 'false'
 let titleTable = config.props.titleTable || 'Entities'
-let attrAll = config.props.attrAll || 'All'
+let attrAll = config.props.attrAll === null ? null : (config.props.attrAll || 'All')
 let tdCheckName = config.props.tdCheckName || ''
 let searchOperatorsShow = config.props.searchOperatorsShow || 'false'
 let stringOperators = config.props.stringOperators || `{
@@ -404,7 +404,7 @@ export default {
 
 		attrAll: {
 			type: String,
-			default: ${q}${attrAll}${q}
+			default: ${attrAll === null ? 'null' : `${q}${attrAll}${q}`}
 		},
 
 		tdCheckName: {
