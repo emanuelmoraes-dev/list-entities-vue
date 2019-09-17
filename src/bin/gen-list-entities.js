@@ -207,10 +207,10 @@ let template = config.template || `
 
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"
-		@on_search="(params, type, attr, inputSearch) => $emit('on_search', params, type, attr, inputSearch)"
-		@on_search_default_success="(params, attr, inputSearch) => $emit('on_search_default_success', params, attr, inputSearch)"
-		@on_search_all_success="(params, attr, inputSearch) => $emit('on_search_all_success', params, attr, inputSearch)"
-		@on_search_attr_success="(params, attr, inputSearch) => $emit('on_search_attr_success', params, attr, inputSearch)"
+		@on_search="(inputSearch, params, attr, type) => $emit('on_search', inputSearch, params, attr, type)"
+		@on_search_default_success="(inputSearch, params, attr) => $emit('on_search_default_success', inputSearch, params, attr)"
+		@on_search_all_success="(inputSearch, params, attr, type) => $emit('on_search_all_success', inputSearch, params, attr, type)"
+		@on_search_attr_success="(inputSearch, params, attr, type) => $emit('on_search_attr_success', inputSearch, params, attr, type)"
 	>
 		<template v-if="$slots.headerText" slot="headerText">
 			<slot name="headerText"></slot>

@@ -198,7 +198,7 @@ export default {
 		},
 
 		search (startList) {
-			if (!this.options || !this.options.length) {
+			if (!this.optionsSearch || !this.optionsSearch.length) {
 				this.$emit('on_search', this.inputSearch, null, null, null)
 				return
 			}
@@ -216,7 +216,7 @@ export default {
 
 			let operatorName = this.searchOperator
 
-			let params = {}
+			let params = []
 
 			if (attr && type) {
 				if (type === Boolean)
@@ -242,7 +242,7 @@ export default {
 			if (!this.request)
 				return
 
-			if (!type || this.attrSearch.value === this.attrAll)
+			if (!type)
 				this.searchDefault(params, attr, inputSearch).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
