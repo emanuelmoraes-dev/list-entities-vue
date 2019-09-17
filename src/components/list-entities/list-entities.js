@@ -1,5 +1,5 @@
 import isISODate from 'is-iso-date'
-import dateUtility from 'datetime-utility'
+import * as dateUtility from 'datetime-utility'
 import VuesticWidget from 'vuestic-components/vuestic-widget/VuesticWidget'
 import VuesticModal from 'vuestic-components/vuestic-modal/VuesticModal'
 import ModalEntity from 'src/components/modal-entity/modal-entity.vue'
@@ -242,7 +242,7 @@ export default {
 			if (!this.request)
 				return
 
-			if (!type)
+			if (!type && inputSearch)
 				this.searchDefault(params, attr, inputSearch).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
@@ -295,16 +295,19 @@ export default {
 
 			if (inputSearch.toLowerCase() === this.trueStr.toLowerCase()) {
 				let params = {}
-				params[attr] = {
+				params = {
 					value: true,
-					operator: 'default'
+					attr,
+					operator: 'default',
+					descriptor: this.descriptorEntity[attr]
 				}
 				return [params]
 			}
 
 			let params = {}
-			params[attr] = {
+			params = {
 				value: false,
+				attr,
 				operator: 'default',
 				descriptor: this.descriptorEntity[attr]
 			}
@@ -334,16 +337,18 @@ export default {
 
 			if (operator.toLowerCase() !== 'equals') {
 				let params = {}
-				params[attr] = {
+				params = {
 					value: date,
+					attr,
 					operator,
 					descriptor: this.descriptorEntity[attr]
 				}
 				return [params]
 			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2)) {
 				let params = {}
-				params[attr] = {
+				params = {
 					value: date,
+					attr,
 					operator: 'equals',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -352,15 +357,17 @@ export default {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.SECOND, 1)
 
 				let param1 = {}
-				param1[attr] = {
+				param1 = {
 					value: date,
+					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {}
-				param2[attr] = {
+				param2 = {
 					value: date2,
+					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -370,15 +377,17 @@ export default {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.MINUTE, 1)
 
 				let param1 = {}
-				param1[attr] = {
+				param1 = {
 					value: date,
+					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {}
-				param2[attr] = {
+				param2 = {
 					value: date2,
+					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -388,15 +397,17 @@ export default {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.HOUR, 1)
 
 				let param1 = {}
-				param1[attr] = {
+				param1 = {
 					value: date,
+					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {}
-				param2[attr] = {
+				param2 = {
 					value: date2,
+					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -406,15 +417,17 @@ export default {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.DAY, 1)
 
 				let param1 = {}
-				param1[attr] = {
+				param1 = {
 					value: date,
+					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {}
-				param2[attr] = {
+				param2 = {
 					value: date2,
+					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -424,15 +437,17 @@ export default {
 				let date2 = dateUtility.plus(date, dateUtility.PERIODS.MONTH, 1)
 
 				let param1 = {}
-				param1[attr] = {
+				param1 = {
 					value: date,
+					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {}
-				param2[attr] = {
+				param2 = {
 					value: date2,
+					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
@@ -453,8 +468,9 @@ export default {
 				operator = this.numberOperators[operatorName]
 
 			let param = {}
-			param[attr] = {
+			param = {
 				value: parseFloat(inputSearch),
+				attr,
 				operator,
 				descriptor: this.descriptorEntity[attr]
 			}
@@ -473,8 +489,9 @@ export default {
 				operator = this.stringOperators[operatorName]
 
 			let param = {}
-			param[attr] = {
+			param = {
 				value: inputSearch,
+				attr,
 				operator,
 				descriptor: this.descriptorEntity[attr]
 			}
