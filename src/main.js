@@ -5,7 +5,7 @@ import '../assets/css/vuestic.css' // css do template vuestic encapsulada pela c
 import '../assets/css/style.css' // definições globais de css com  o wrapper 'wrapper-list-entities-vue'
 
 import Vue from 'vue'
-import app from './app.vue'
+import app from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue)
