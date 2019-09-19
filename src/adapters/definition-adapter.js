@@ -7,6 +7,7 @@ export default function definitionAdapter (def) {
 	let descriptor = {}
 	let descriptorModal = {}
 	let mapPropModalEntity = {}
+	let modalSlots = []
 	let optionsSearch = []
 	let displayAttrs = []
 	let defaultLastAttr = {}
@@ -108,6 +109,9 @@ export default function definitionAdapter (def) {
 			optionsSearch.push(optS)
 		}
 
+		if (defValue.modalSlot)
+			modalSlots.push(`${attr}_slot`)
+
 		if ('displayAttr' in defValue && defValue.displayAttr !== false) {
 			let disA = { display: attr, value: attr }
 
@@ -140,6 +144,7 @@ export default function definitionAdapter (def) {
 		descriptor,
 		descriptorModal,
 		mapPropModalEntity,
+		modalSlots,
 		optionsSearch,
 		displayAttrs,
 		defaultLastAttr
