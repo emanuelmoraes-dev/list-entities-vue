@@ -41,7 +41,8 @@
     "font-awesome": "^4.7.0",
     "ionicons": "^4.6.3",
     "is-iso-date": "0.0.1",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "slash": "^3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

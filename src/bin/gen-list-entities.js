@@ -18,7 +18,7 @@ for (let i = 0; i < args.length; i += 2) {
 	let value = args[i + 1] || ''
 
 	if (prop === '--src')
-		src = value
+		src = path.resolve(value)
 	else if (prop === '--config-file')
 		configFile = value
 	else if (prop === '--name')
@@ -34,9 +34,7 @@ if (!folderName)
 	folderName = name
 
 if (!src)
-	src = '.'
-
-src = path.resolve(src)
+	src = path.resolve('.')
 
 if (!configFile)
 	configFile = '.list-entities.config.js'
@@ -55,7 +53,7 @@ if (typeof config !== 'object' || !config) {
 	process.exit(1)
 }
 
-let srcFolder = config.srcFolder || src
+let srcFolder = path.resolve(config.srcFolder) || src
 let separateFiles = config.separateFiles || true
 let createFolder = config.createFolder || true
 

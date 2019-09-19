@@ -4,9 +4,11 @@
 
 const path = require('path')
 const fs = require('fs')
+const slash = require('slash')
 
 let src
 let configFile
+let srcFolder
 
 const args = process.argv.slice(2)
 
@@ -15,15 +17,20 @@ for (let i = 0; i < args.length; i += 2) {
 	let value = args[i + 1] || ''
 
 	if (prop === '--src')
-		src = value
+		src = path.resolve(value)
 	else if (prop === '--config-file')
 		configFile = value
+	else if (prop === '--src-folder')
+		srcFolder = path.resolve(value)
 }
 
 if (!src)
-	src = '.'
+	src = path.resolve('.')
 
-src = path.resolve(src)
+if (!srcFolder)
+	srcFolder = src
+
+srcFolder = `'${slash(srcFolder).replace(/[cC]:/, '')}'`
 
 if (!configFile)
 	configFile = '.list-entities.config.js'
@@ -35,7 +42,6 @@ if (fs.existsSync(file)) {
 	process.exit(2)
 }
 
-let srcFolder = `'${src}'`.replace(/\\/g, '\\\\')
 let separateFiles = 'true'
 let createFolder = 'true'
 
