@@ -45,6 +45,7 @@ if (fs.existsSync(file)) {
 
 let separateFiles = 'true'
 let createFolder = 'true'
+let quotesSingle = 'true'
 
 let autoSearch = "'false'"
 let definitions = 'null'
@@ -274,6 +275,7 @@ module.exports = {
 	srcFolder: ${srcFolder},
 	separateFiles: ${separateFiles},
 	createFolder: ${createFolder},
+	quotesSingle: ${quotesSingle},
 
 	styleConfig: {
 		lang: ${lang},
