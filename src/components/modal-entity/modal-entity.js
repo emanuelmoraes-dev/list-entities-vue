@@ -1,6 +1,6 @@
-import VuesticModal from 'vuestic-components/vuestic-modal/VuesticModal' // modal do template vuestic
-import * as util from 'src/services/util' // utilitários
-import dateUtility from 'datetime-utility' // lib para manipulação de datas
+import VuesticModal from '../../../lib/vuestic/components/vuestic-modal/VuesticModal' // modal do template vuestic
+import * as util from '../../services/util' // utilitários
+import * as dateUtility from 'datetime-utility' // lib para manipulação de datas
 
 export default {
 	name: 'modal-entity',

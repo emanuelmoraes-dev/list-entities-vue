@@ -1,10 +1,10 @@
 import isISODate from 'is-iso-date'
 import * as dateUtility from 'datetime-utility'
-import VuesticWidget from 'vuestic-components/vuestic-widget/VuesticWidget'
-import VuesticModal from 'vuestic-components/vuestic-modal/VuesticModal'
-import ModalEntity from 'src/components/modal-entity/modal-entity.vue'
+import VuesticWidget from '../../../lib/vuestic/components/vuestic-widget/VuesticWidget'
+import VuesticModal from '../../../lib/vuestic/components/vuestic-modal/VuesticModal'
+import ModalEntity from '../modal-entity/modal-entity.vue'
 import Show from './show/show.vue'
-import * as util from 'src/services/util'
+import * as util from '../../services/util'
 
 export default {
 	name: 'list-entities',
