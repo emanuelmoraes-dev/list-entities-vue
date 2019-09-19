@@ -17,20 +17,21 @@ for (let i = 0; i < args.length; i += 2) {
 	let value = args[i + 1] || ''
 
 	if (prop === '--src')
-		src = path.resolve(value)
+		src = value
 	else if (prop === '--config-file')
 		configFile = value
 	else if (prop === '--src-folder')
-		srcFolder = path.resolve(value)
+		srcFolder = value
 }
 
 if (!src)
-	src = path.resolve('.')
+	src = '.'
 
 if (!srcFolder)
 	srcFolder = src
 
 srcFolder = `'${slash(srcFolder).replace(/[cC]:/, '')}'`
+src = path.resolve(src)
 
 if (!configFile)
 	configFile = '.list-entities.config.js'
