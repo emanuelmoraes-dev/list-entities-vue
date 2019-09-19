@@ -53,7 +53,8 @@ if (typeof config !== 'object' || !config) {
 	process.exit(1)
 }
 
-let srcFolder = path.resolve(config.srcFolder) || src
+let srcFolder = config.srcFolder || src
+srcFolder = path.resolve(srcFolder)
 let separateFiles = config.separateFiles || true
 let createFolder = config.createFolder || true
 
