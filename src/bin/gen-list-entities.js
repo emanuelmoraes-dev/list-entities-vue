@@ -140,6 +140,10 @@ let scoped = config.styleConfig.scoped || false
 let quotesSingle = typeof config.quotesSingle === 'boolean' ? config.quotesSingle : true
 let q = quotesSingle ? "'" : '"'
 let style = config.style || ''
+
+if (style)
+	style = style.replace(/\$\s*\{\s*name\s*\}/g, name)
+
 let template = config.template || `
 <div class="wrapper-\${name}">
 	<list-entities
