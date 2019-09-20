@@ -118,6 +118,7 @@ let attrSearch$ = 'null'
 let inputSearch$ = "''"
 
 let lang = "'css'"
+let ext = "'css'"
 let scoped = 'false'
 
 let style = "''"
@@ -279,6 +280,7 @@ module.exports = {
 
 	styleConfig: {
 		lang: ${lang},
+		ext: ${ext},
 		scoped: ${scoped}
 	},
 	

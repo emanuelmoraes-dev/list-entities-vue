@@ -135,6 +135,7 @@ if (!config.styleConfig)
 	config.styleConfig = {}
 
 let lang = config.styleConfig.lang || 'css'
+let ext = config.styleConfig.ext || lang
 let scoped = config.styleConfig.scoped || false
 
 let quotesSingle = typeof config.quotesSingle === 'boolean' ? config.quotesSingle : true
@@ -675,7 +676,7 @@ mkdirp.sync(folder)
 if (separateFiles) {
 	let vue = path.join(folder, `${name}.vue`)
 	let js = path.join(folder, `${name}.js`)
-	let css = path.join(folder, `${name}.${lang}`)
+	let css = path.join(folder, `${name}.${ext}`)
 
 	if (fs.existsSync(vue)) {
 		console.error(`file "${vue}" already exists`)
