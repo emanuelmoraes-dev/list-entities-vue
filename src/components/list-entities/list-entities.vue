@@ -146,11 +146,15 @@
 																</slot> <!-- end slot optionView -->
 
 																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
-																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-excluir" @click.prevent.stop="remove(entity, index)">Excluir</button>
+																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
+																		<span class="fa fa-trash"></span>
+																	</button>
 																</slot> <!-- end slo optionRemove -->
 
 																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
-																	<button v-if="optionEdit" type="button" class="btn btn-success option option-editar" @click.prevent.stop="edit(entity, index)">Editar</button>
+																	<button v-if="optionEdit" type="button" class="btn btn-success option option-icon" @click.prevent.stop="edit(entity, index)">
+																		<span class="fa fa-pencil"></span>
+																	</button>
 																</slot> <!-- end slot optionEdit -->
 
 																<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
