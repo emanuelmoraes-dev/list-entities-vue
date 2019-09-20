@@ -5,6 +5,8 @@
 			titleTable="Peoples"
 			:searchOperatorsShow="true"
 			:definitions="definitions"
+			:optionEdit="true"
+			:optionReport="true"
 			@on_error="onError"
 		/>
 		<!-- <list-peoples v-model="peoples" @on_error="onError"></list-peoples> -->
