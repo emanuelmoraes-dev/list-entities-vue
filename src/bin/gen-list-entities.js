@@ -64,7 +64,10 @@ if (!config.props)
 let autoSearch = config.props.autoSearch || 'false'
 let definitions = config.props.definitions || null
 let request = config.props.request || null
-let tdCheckName = config.props.tdCheckName || ''
+let routeNameEdit = config.props.routeNameEdit || null
+let parseEditParams = config.props.parseEditParams || '{ [idAttrName]: entity[idAttrName] }'
+let paramsRequest = config.props.paramsRequest || '[]'
+let joinSep = config.props.joinSep || ' / '
 let defaultPattern = config.props.defaultPattern || 'yyyy/MM/dd'
 let searchOperatorsShow = config.props.searchOperatorsShow || 'false'
 let stringOperators = config.props.stringOperators || `{
@@ -97,6 +100,7 @@ let titleModalEntity = config.props.titleModalEntity || 'Entity Data'
 let confirmTextModalEntity = config.props.confirmTextModalEntity || 'OK'
 let removeSuccessMessage = config.props.removeSuccessMessage || 'Successfully deleted entity!'
 let removeConfirmMessage = config.props.removeConfirmMessage || 'Are you sure you want to delete this entity?'
+let tdCheckName = config.props.tdCheckName || ''
 let idAttrName = config.props.idAttrName || 'id'
 let okText = config.props.okText || 'OK'
 let confirmText = config.props.confirmText || 'YES'
@@ -121,10 +125,6 @@ let pageSize = config.props.pageSize || '10'
 let isShowModal = config.props.isShowModal || 'false'
 let smallModalEntity = config.props.smallModalEntity || 'false'
 let forceModalEntity = config.props.forceModalEntity || 'false'
-let routeNameEdit = config.props.routeNameEdit || null
-let parseEditParams = config.props.parseEditParams || '{ [idAttrName]: entity[idAttrName] }'
-let paramsRequest = config.props.paramsRequest || '[]'
-let joinSep = config.props.joinSep || ' / '
 
 let totalElements$ = config.props.totalElements$ || '0'
 let page$ = config.props.page$ || '1'
@@ -152,7 +152,10 @@ let template = config.template || `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
-		:tdCheckName="tdCheckName"
+		:routeNameEdit="routeNameEdit"
+		:parseEditParams="parseEditParams"
+		:paramsRequest="paramsRequest"
+		:joinSep="joinSep"
 		:defaultPattern="defaultPattern"
 		:searchOperatorsShow="searchOperatorsShow"
 		:stringOperators="stringOperators"
@@ -168,6 +171,7 @@ let template = config.template || `
 		:confirmTextModalEntity="confirmTextModalEntity"
 		:removeSuccessMessage="removeSuccessMessage"
 		:removeConfirmMessage="removeConfirmMessage"
+		:tdCheckName="tdCheckName"
 		:idAttrName="idAttrName"
 		:okText="okText"
 		:confirmText="confirmText"
@@ -192,10 +196,6 @@ let template = config.template || `
 		:isShowModal="isShowModal"
 		:smallModalEntity="smallModalEntity"
 		:forceModalEntity="forceModalEntity"
-		:routeNameEdit="routeNameEdit"
-		:parseEditParams="parseEditParams"
-		:paramsRequest="paramsRequest"
-		:joinSep="joinSep"
 
 		v-model="entities"
 		:totalElements$.sync="totalElements"
@@ -396,9 +396,24 @@ export default {
 			default: () => ${request === null ? 'null' : request}
 		},
 
-		tdCheckName: {
+		routeNameEdit: {
 			type: String,
-			default: ${q}${tdCheckName}${q}
+			default: ${routeNameEdit === null ? 'null' : `${q}${routeNameEdit}${q}`}
+		},
+
+		parseEditParams: {
+			type: Function,
+			default: (entity, index, idAttrName) => (${parseEditParams})
+		},
+
+		paramsRequest: {
+			type: Array,
+			default: () => ${paramsRequest}
+		},
+
+		joinSep: {
+			type: String,
+			default: ${q}${joinSep}${q}
 		},
 
 		defaultPattern: {
@@ -474,6 +489,11 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: ${q}${removeConfirmMessage}${q}
+		},
+
+		tdCheckName: {
+			type: String,
+			default: ${q}${tdCheckName}${q}
 		},
 
 		idAttrName: {
@@ -594,26 +614,6 @@ export default {
 		forceModalEntity: {
 			Type: Boolean,
 			default: ${forceModalEntity}
-		},
-
-		routeNameEdit: {
-			type: String,
-			default: ${routeNameEdit === null ? 'null' : `${q}${routeNameEdit}${q}`}
-		},
-
-		parseEditParams: {
-			type: Function,
-			default: (entity, index, idAttrName) => (${parseEditParams})
-		},
-
-		paramsRequest: {
-			type: Array,
-			default: () => ${paramsRequest}
-		},
-
-		joinSep: {
-			type: String,
-			default: ${q}${joinSep}${q}
 		},
 
 		// synchronous properties

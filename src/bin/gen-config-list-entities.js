@@ -50,7 +50,10 @@ let quotesSingle = 'true'
 let autoSearch = "'false'"
 let definitions = 'null'
 let request = 'null'
-let tdCheckName = "''"
+let routeNameEdit = 'null'
+let parseEditParams = "'{ [idAttrName]: entity[idAttrName] }'"
+let paramsRequest = "'[]'"
+let joinSep = "' / '"
 let defaultPattern = "'yyyy/MM/dd'"
 let searchOperatorsShow = "'false'"
 let stringOperators = `\`{
@@ -83,6 +86,7 @@ let titleModalEntity = "'Entity Data'"
 let confirmTextModalEntity = "'OK'"
 let removeSuccessMessage = "'Successfully deleted entity!'"
 let removeConfirmMessage = "'Are you sure you want to delete this entity?'"
+let tdCheckName = "''"
 let idAttrName = "'id'"
 let okText = "'OK'"
 let confirmText = "'YES'"
@@ -107,10 +111,6 @@ let pageSize = "'10'"
 let isShowModal = "'false'"
 let smallModalEntity = "'false'"
 let forceModalEntity = "'false'"
-let routeNameEdit = 'null'
-let parseEditParams = "'{ [idAttrName]: entity[idAttrName] }'"
-let paramsRequest = "'[]'"
-let joinSep = "' / '"
 
 let totalElements$ = "'0'"
 let page$ = "'1'"
@@ -130,7 +130,10 @@ let template = `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
-		:tdCheckName="tdCheckName"
+		:routeNameEdit="routeNameEdit"
+		:parseEditParams="parseEditParams"
+		:paramsRequest="paramsRequest"
+		:joinSep="joinSep"
 		:defaultPattern="defaultPattern"
 		:searchOperatorsShow="searchOperatorsShow"
 		:stringOperators="stringOperators"
@@ -146,6 +149,7 @@ let template = `
 		:confirmTextModalEntity="confirmTextModalEntity"
 		:removeSuccessMessage="removeSuccessMessage"
 		:removeConfirmMessage="removeConfirmMessage"
+		:tdCheckName="tdCheckName"
 		:idAttrName="idAttrName"
 		:okText="okText"
 		:confirmText="confirmText"
@@ -170,10 +174,6 @@ let template = `
 		:isShowModal="isShowModal"
 		:smallModalEntity="smallModalEntity"
 		:forceModalEntity="forceModalEntity"
-		:routeNameEdit="routeNameEdit"
-		:parseEditParams="parseEditParams"
-		:paramsRequest="paramsRequest"
-		:joinSep="joinSep"
 
 		v-model="entities"
 		:totalElements$.sync="totalElements"
@@ -288,7 +288,10 @@ module.exports = {
 		autoSearch: ${autoSearch},
 		definitions: ${definitions},
 		request: ${request},
-		tdCheckName: ${tdCheckName},
+		routeNameEdit: ${routeNameEdit},
+		parseEditParams: ${parseEditParams},
+		paramsRequest: ${paramsRequest},
+		joinSep: ${joinSep},
 		defaultPattern: ${defaultPattern},
 		searchOperatorsShow: ${searchOperatorsShow},
 
@@ -308,6 +311,7 @@ module.exports = {
 		confirmTextModalEntity: ${confirmTextModalEntity},
 		removeSuccessMessage: ${removeSuccessMessage},
 		removeConfirmMessage: ${removeConfirmMessage},
+		tdCheckName: ${tdCheckName},
 		idAttrName: ${idAttrName},
 		okText: ${okText},
 		confirmText: ${confirmText},
@@ -332,10 +336,6 @@ module.exports = {
 		isShowModal: ${isShowModal},
 		smallModalEntity: ${smallModalEntity},
 		forceModalEntity: ${forceModalEntity},
-		routeNameEdit: ${routeNameEdit},
-		parseEditParams: ${parseEditParams},
-		paramsRequest: ${paramsRequest},
-		joinSep: ${joinSep},
 
 		// synchronous properties
 

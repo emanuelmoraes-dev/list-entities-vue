@@ -896,34 +896,37 @@ export default {
 			default: () => null
 		},
 
-		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
-		customRemove: {
-			type: Boolean,
-			default: false
-		},
-
-		/** título para exibir no widget da tabela de resultados */
-		titleTable: {
+		/** nome da rota contendo a página de edição da entidade */
+		routeNameEdit: {
 			type: String,
-			required: true
+			default: () => null
 		},
 
 		/**
-		 * opção de busca (objeto com 'display' e 'value') representando
-		 * a opção de pesquisa por todos os atributos
+		 * função que recebe uma entidade e sua posição na tabela e
+		 * retorna os parâmetros a passar para a rota de edição
 		 */
-		attrAll: {
-			type: String,
-			default: 'All'
+		parseEditParams: {
+			type: Function,
+			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
 		},
 
-		/**
-		 * contém o texto a ser exibido no header da tabela
-		 * acima do conteúdo presentte no slot 'check'
-		 */
-		tdCheckName: {
+		/** parâmetros padrão a serem inserodos na busca */
+		paramsRequest: {
+			type: Array,
+			default: () => []
+		},
+
+		/** usado para unir valores de um array a ser exibido na tabela */
+		joinSep: {
 			type: String,
-			default: ''
+			default: '/'
+		},
+
+		/** string que representa o padrão de exibição de datas */
+		defaultPattern: {
+			type: String,
+			default: 'yyyy/MM/dd'
 		},
 
 		/** true para mostrar operadores de comparação a serem usados na pesquisa */
@@ -979,6 +982,21 @@ export default {
 			})
 		},
 
+		/** título para exibir no widget da tabela de resultados */
+		titleTable: {
+			type: String,
+			required: true
+		},
+
+		/**
+		 * opção de busca (objeto com 'display' e 'value') representando
+		 * a opção de pesquisa por todos os atributos
+		 */
+		attrAll: {
+			type: String,
+			default: 'All'
+		},
+
 		/** título para exibir no widget de busca */
 		titleSearch: {
 			type: String,
@@ -989,30 +1007,6 @@ export default {
 		tdOptionName: {
 			type: String,
 			default: 'OPTIONS:'
-		},
-
-		/** nome do atribuo que identifica a entidade (pode ser quaquer atribuo único) */
-		idAttrName: {
-			type: String,
-			default: 'id'
-		},
-
-		/** texto a ser exibido no botão de "OK" do modal de sucesso */
-		okText: {
-			type: String,
-			default: 'OK'
-		},
-
-		/** texto a ser exibido no botão de "confirmação" do modal de confirmação */
-		confirmText: {
-			type: String,
-			default: 'YES'
-		},
-
-		/** texto a ser exibido no botão de "cancelamento" do modal de confirmação */
-		cancelText: {
-			type: String,
-			default: 'NO'
 		},
 
 		/** títuto do modal de sucesso */
@@ -1051,6 +1045,39 @@ export default {
 			default: 'Are you sure you want to delete this entity?'
 		},
 
+		/**
+		 * contém o texto a ser exibido no header da tabela
+		 * acima do conteúdo presentte no slot 'check'
+		 */
+		tdCheckName: {
+			type: String,
+			default: ''
+		},
+
+		/** nome do atribuo que identifica a entidade (pode ser quaquer atribuo único) */
+		idAttrName: {
+			type: String,
+			default: 'id'
+		},
+
+		/** texto a ser exibido no botão de "OK" do modal de sucesso */
+		okText: {
+			type: String,
+			default: 'OK'
+		},
+
+		/** texto a ser exibido no botão de "confirmação" do modal de confirmação */
+		confirmText: {
+			type: String,
+			default: 'YES'
+		},
+
+		/** texto a ser exibido no botão de "cancelamento" do modal de confirmação */
+		cancelText: {
+			type: String,
+			default: 'NO'
+		},
+
 		/** string que representa o valor 'true' para ser usado nas buscas */
 		trueStr: {
 			type: String,
@@ -1061,12 +1088,6 @@ export default {
 		falseStr: {
 			type: String,
 			default: 'NO'
-		},
-
-		/** string que representa o padrão de exibição de datas */
-		defaultPattern: {
-			type: String,
-			default: 'yyyy/MM/dd'
 		},
 
 		/** classe css do botão "OK" do modal de exibição da entidade */
@@ -1108,14 +1129,20 @@ export default {
 			default: () => []
 		},
 
-		/** true para exibir a opção de visualizar os dados da entidade em um modal */
-		optionView: {
+		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
+		customRemove: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 
 		/** true para exibir a opção de remover uma entidade */
 		optionRemove: {
+			type: Boolean,
+			default: true
+		},
+
+		/** true para exibir a opção de visualizar os dados da entidade em um modal */
+		optionView: {
 			type: Boolean,
 			default: true
 		},
@@ -1172,33 +1199,6 @@ export default {
 		forceModalEntity: {
 			Type: Boolean,
 			default: false
-		},
-
-		/** nome da rota contendo a página de edição da entidade */
-		routeNameEdit: {
-			type: String,
-			default: () => null
-		},
-
-		/**
-		 * função que recebe uma entidade e sua posição na tabela e
-		 * retorna os parâmetros a passar para a rota de edição
-		 */
-		parseEditParams: {
-			type: Function,
-			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
-		},
-
-		/** parâmetros padrão a serem inserodos na busca */
-		paramsRequest: {
-			type: Array,
-			default: () => []
-		},
-
-		/** usado para unir valores de um array a ser exibido na tabela */
-		joinSep: {
-			type: String,
-			default: '/'
 		},
 
 		// propriedades sincronas
