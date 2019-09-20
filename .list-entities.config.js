@@ -1,5 +1,102 @@
-<template>
-<div class="wrapper-list-peoples">
+/* eslint-disable */
+
+module.exports = {
+	template: getTemplate(),
+	style: '',
+	imports: '',
+	srcFolder: './src/examples',
+	separateFiles: true,
+	createFolder: true,
+	quotesSingle: true,
+
+	styleConfig: {
+		lang: 'css',
+		ext: 'css',
+		scoped: false
+	},
+	
+	props: {
+		autoSearch: 'false',
+		definitions: null,
+		request: null,
+		routeNameEdit: null,
+		parseEditParams: '{ [idAttrName]: entity[idAttrName] }',
+		paramsRequest: '[]',
+		joinSep: ' / ',
+		defaultPattern: 'yyyy/MM/dd',
+		searchOperatorsShow: 'false',
+
+		stringOperators: `{
+				contains: 'contains',
+				equals: 'equals',
+				startsWith: 'startsWith',
+				endsWith: 'endsWith'
+			}`,
+
+		numberOperators: `{
+				equals: 'equals',
+				greaterThan: 'greaterThan',
+				lessThan: 'lessThan',
+				greaterOrEqualThan: 'greaterOrEqualThan',
+				lessOrEqualThan: 'lessOrEqualThan'
+			}`,
+
+		dateOperators: `{
+				equals: 'equals',
+				greaterThan: 'greaterThan',
+				lessThan: 'lessThan',
+				greaterOrEqualThan: 'greaterOrEqualThan',
+				lessOrEqualThan: 'lessOrEqualThan'
+			}`,
+
+		titleTable: 'Entities',
+		attrAll: 'All',
+		titleSearch: 'Search',
+		tdOptionName: 'OPTIONS:',
+		titleSuccess: 'Success!',
+		titleConfirm: 'Attention!',
+		titleModalEntity: 'Entity Data',
+		confirmTextModalEntity: 'OK',
+		removeSuccessMessage: 'Successfully deleted entity!',
+		removeConfirmMessage: 'Are you sure you want to delete this entity?',
+		tdCheckName: '',
+		idAttrName: 'id',
+		okText: 'OK',
+		confirmText: 'YES',
+		cancelText: 'NO',
+		trueStr: 'YES',
+		falseStr: 'NO',
+		okClassModalEntity: 'btn btn-primary btn-modal btn-ok-modal',
+		options: '{}',
+		hideSearch: 'false',
+		isCompact: 'false',
+		hideLastAttr: 'false',
+		classLine: '[]',
+		customRemove: 'false',
+		optionRemove: 'true',
+		optionView: 'true',
+		optionEdit: 'false',
+		optionReport: 'false',
+		limitPagination: '5',
+		alignPagination: 'left',
+		sizePagination: '',
+		pageSize: '10',
+		isShowModal: 'false',
+		smallModalEntity: 'false',
+		forceModalEntity: 'false',
+
+		// synchronous properties
+
+		totalElements$: '0',
+		page$: '1',
+		attrSearch$: null,
+		inputSearch$: ''
+	}
+}
+
+function getTemplate () {
+	return `
+<div class="wrapper-\${name}">
 	<list-entities
 		ref="listEntities"
 		:autoSearch="autoSearch"
@@ -90,8 +187,8 @@
 		</template>
 
 		<template v-for="attr of Object.keys(definitions.descriptor)">
-			<span :key="attr" v-if="$scopedSlots[`${attr}_slot`]" :slot="`${attr}_slot`" slot-scope="{ entity, index }">
-				<slot :name="`${attr}_slot`" :entity="entity" :index="index"></slot>
+			<span :key="attr" v-if="$scopedSlots[\`\${attr}_slot\`]" :slot="\`\${attr}_slot\`" slot-scope="{ entity, index }">
+				<slot :name="\`\${attr}_slot\`" :entity="entity" :index="index"></slot>
 			</span>
 		</template>
 
@@ -130,12 +227,11 @@
 		</template>
 
 		<template v-for="slotName of definitions.modalSlots">
-			<div :key="slotName" v-if="$scopedSlots[`modal_${slotName}`]" :slot="`modal_${slotName}`" slot-scope="{ property }">
-				<slot :name="`modal_${slotName}`" :property="property"></slot>
+			<div :key="slotName" v-if="$scopedSlots[\`modal_\${slotName}\`]" :slot="\`modal_\${slotName}\`" slot-scope="{ property }">
+				<slot :name="\`modal_\${slotName}\`" :property="property"></slot>
 			</div>
 		</template>
 	</list-entities>
 </div>
-</template>
-
-<script src="./list-peoples.js"></script>
+`
+}

@@ -122,9 +122,24 @@ export default {
 			default: () => null
 		},
 
-		tdCheckName: {
+		routeNameEdit: {
 			type: String,
-			default: ''
+			default: null
+		},
+
+		parseEditParams: {
+			type: Function,
+			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
+		},
+
+		paramsRequest: {
+			type: Array,
+			default: () => []
+		},
+
+		joinSep: {
+			type: String,
+			default: ' / '
 		},
 
 		defaultPattern: {
@@ -217,6 +232,11 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: 'Are you sure you want to delete this entity?'
+		},
+
+		tdCheckName: {
+			type: String,
+			default: ''
 		},
 
 		idAttrName: {
@@ -337,26 +357,6 @@ export default {
 		forceModalEntity: {
 			Type: Boolean,
 			default: false
-		},
-
-		routeNameEdit: {
-			type: String,
-			default: null
-		},
-
-		parseEditParams: {
-			type: Function,
-			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
-		},
-
-		paramsRequest: {
-			type: Array,
-			default: () => []
-		},
-
-		joinSep: {
-			type: String,
-			default: ' / '
 		},
 
 		// synchronous properties
