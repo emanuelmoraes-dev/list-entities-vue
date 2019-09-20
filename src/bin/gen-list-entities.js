@@ -55,8 +55,8 @@ if (typeof config !== 'object' || !config) {
 
 let srcFolder = config.srcFolder || src
 srcFolder = path.resolve(srcFolder)
-let separateFiles = config.separateFiles || true
-let createFolder = config.createFolder || true
+let separateFiles = config.separateFiles !== undefined ? config.separateFiles : true
+let createFolder = config.createFolder !== undefined ? config.createFolder : true
 
 if (!config.props)
 	config.props = {}
