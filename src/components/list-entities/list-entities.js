@@ -120,8 +120,10 @@ export default {
 		 */
 		edit (entity, index) {
 			this.$emit('on_edit', entity, index)
-			if (!this.customEdit)
+			if (this.routeEditName && this.parseEditParams && this.parseEditParams(entity, index, this.idAttrName))
 				this.$router.push({ name: this.routeEditName, params: this.parseEditParams(entity, index, this.idAttrName) })
+			else if (this.routeEditName)
+				this.$router.push({ name: this.routeEditName })
 		},
 
 		/** evento executado ao se confirmar a remoção de uma entidade */
