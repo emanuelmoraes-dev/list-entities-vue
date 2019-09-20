@@ -64,10 +64,8 @@ if (!config.props)
 let autoSearch = config.props.autoSearch || 'false'
 let definitions = config.props.definitions || null
 let request = config.props.request || null
-let customRemove = config.props.customRemove || 'false'
-let titleTable = config.props.titleTable || 'Entities'
-let attrAll = config.props.attrAll === null ? null : (config.props.attrAll || 'All')
 let tdCheckName = config.props.tdCheckName || ''
+let defaultPattern = config.props.defaultPattern || 'yyyy/MM/dd'
 let searchOperatorsShow = config.props.searchOperatorsShow || 'false'
 let stringOperators = config.props.stringOperators || `{
 				contains: 'contains',
@@ -89,19 +87,20 @@ let dateOperators = config.props.dateOperators || `{
 				greaterOrEqualThan: 'greaterOrEqualThan',
 				lessOrEqualThan: 'lessOrEqualThan'
 			}`
-let defaultPattern = config.props.defaultPattern || 'yyyy/MM/dd'
+let titleTable = config.props.titleTable || 'Entities'
+let attrAll = config.props.attrAll === null ? null : (config.props.attrAll || 'All')
 let titleSearch = config.props.titleSearch || 'Search'
 let tdOptionName = config.props.tdOptionName || 'OPTIONS:'
-let idAttrName = config.props.idAttrName || 'id'
-let okText = config.props.okText || 'OK'
-let confirmText = config.props.confirmText || 'YES'
-let cancelText = config.props.cancelText || 'NO'
 let titleSuccess = config.props.titleSuccess || 'Success!'
 let titleConfirm = config.props.titleConfirm || 'Attention!'
 let titleModalEntity = config.props.titleModalEntity || 'Entity Data'
 let confirmTextModalEntity = config.props.confirmTextModalEntity || 'OK'
 let removeSuccessMessage = config.props.removeSuccessMessage || 'Successfully deleted entity!'
 let removeConfirmMessage = config.props.removeConfirmMessage || 'Are you sure you want to delete this entity?'
+let idAttrName = config.props.idAttrName || 'id'
+let okText = config.props.okText || 'OK'
+let confirmText = config.props.confirmText || 'YES'
+let cancelText = config.props.cancelText || 'NO'
 let trueStr = config.props.trueStr || 'YES'
 let falseStr = config.props.falseStr || 'NO'
 let okClassModalEntity = config.props.okClassModalEntity || 'btn btn-primary btn-modal btn-ok-modal'
@@ -110,8 +109,9 @@ let hideSearch = config.props.hideSearch || 'false'
 let isCompact = config.props.isCompact || 'false'
 let hideLastAttr = config.props.hideLastAttr || 'false'
 let classLine = config.props.classLine || '[]'
-let optionView = config.props.optionView || 'true'
+let customRemove = config.props.customRemove || 'false'
 let optionRemove = config.props.optionRemove || 'true'
+let optionView = config.props.optionView || 'true'
 let optionEdit = config.props.optionEdit || 'false'
 let optionReport = config.props.optionReport || 'false'
 let limitPagination = config.props.limitPagination || '5'
@@ -147,27 +147,26 @@ let template = config.template || `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
-		:customRemove="customRemove"
-		:titleTable="titleTable"
-		:attrAll="attrAll"
 		:tdCheckName="tdCheckName"
+		:defaultPattern="defaultPattern"
 		:searchOperatorsShow="searchOperatorsShow"
 		:stringOperators="stringOperators"
 		:numberOperators="numberOperators"
 		:dateOperators="dateOperators"
-		:defaultPattern="defaultPattern"
+		:titleTable="titleTable"
+		:attrAll="attrAll"
 		:titleSearch="titleSearch"
 		:tdOptionName="tdOptionName"
-		:idAttrName="idAttrName"
-		:okText="okText"
-		:confirmText="confirmText"
-		:cancelText="cancelText"
 		:titleSuccess="titleSuccess"
 		:titleConfirm="titleConfirm"
 		:titleModalEntity="titleModalEntity"
 		:confirmTextModalEntity="confirmTextModalEntity"
 		:removeSuccessMessage="removeSuccessMessage"
 		:removeConfirmMessage="removeConfirmMessage"
+		:idAttrName="idAttrName"
+		:okText="okText"
+		:confirmText="confirmText"
+		:cancelText="cancelText"
 		:trueStr="trueStr"
 		:falseStr="falseStr"
 		:okClassModalEntity="okClassModalEntity"
@@ -176,8 +175,9 @@ let template = config.template || `
 		:isCompact="isCompact"
 		:hideLastAttr="hideLastAttr"
 		:classLine="classLine"
-		:optionView="optionView"
+		:customRemove="customRemove"
 		:optionRemove="optionRemove"
+		:optionView="optionView"
 		:optionEdit="optionEdit"
 		:optionReport="optionReport"
 		:limitPagination="limitPagination"
@@ -391,24 +391,14 @@ export default {
 			default: () => ${request === null ? 'null' : request}
 		},
 
-		customRemove: {
-			type: Boolean,
-			default: () => ${customRemove}
-		},
-
-		titleTable: {
-			type: String,
-			default: ${q}${titleTable}${q}
-		},
-
-		attrAll: {
-			type: String,
-			default: ${attrAll === null ? 'null' : `${q}${attrAll}${q}`}
-		},
-
 		tdCheckName: {
 			type: String,
 			default: ${q}${tdCheckName}${q}
+		},
+
+		defaultPattern: {
+			type: String,
+			default: ${q}${defaultPattern}${q}
 		},
 
 		searchOperatorsShow: {
@@ -431,9 +421,14 @@ export default {
 			default: () => (${dateOperators})
 		},
 
-		defaultPattern: {
+		titleTable: {
 			type: String,
-			default: ${q}${defaultPattern}${q}
+			default: ${q}${titleTable}${q}
+		},
+
+		attrAll: {
+			type: String,
+			default: ${attrAll === null ? 'null' : `${q}${attrAll}${q}`}
 		},
 
 		titleSearch: {
@@ -444,26 +439,6 @@ export default {
 		tdOptionName: {
 			type: String,
 			default: ${q}${tdOptionName}${q}
-		},
-
-		idAttrName: {
-			type: String,
-			default: ${q}${idAttrName}${q}
-		},
-
-		okText: {
-			type: String,
-			default: ${q}${okText}${q}
-		},
-
-		confirmText: {
-			type: String,
-			default: ${q}${confirmText}${q}
-		},
-
-		cancelText: {
-			type: String,
-			default: ${q}${cancelText}${q}
 		},
 
 		titleSuccess: {
@@ -494,6 +469,26 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: ${q}${removeConfirmMessage}${q}
+		},
+
+		idAttrName: {
+			type: String,
+			default: ${q}${idAttrName}${q}
+		},
+
+		okText: {
+			type: String,
+			default: ${q}${okText}${q}
+		},
+
+		confirmText: {
+			type: String,
+			default: ${q}${confirmText}${q}
+		},
+
+		cancelText: {
+			type: String,
+			default: ${q}${cancelText}${q}
 		},
 
 		trueStr: {
@@ -536,14 +531,19 @@ export default {
 			default: () => ${classLine}
 		},
 
-		optionView: {
+		customRemove: {
 			type: Boolean,
-			default: ${optionView}
+			default: () => ${customRemove}
 		},
 
 		optionRemove: {
 			type: Boolean,
 			default: ${optionRemove}
+		},
+
+		optionView: {
+			type: Boolean,
+			default: ${optionView}
 		},
 
 		optionEdit: {

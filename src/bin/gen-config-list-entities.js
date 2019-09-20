@@ -50,10 +50,8 @@ let quotesSingle = 'true'
 let autoSearch = "'false'"
 let definitions = 'null'
 let request = 'null'
-let customRemove = 'false'
-let titleTable = "'Entities'"
-let attrAll = "'All'"
 let tdCheckName = "''"
+let defaultPattern = "'yyyy/MM/dd'"
 let searchOperatorsShow = "'false'"
 let stringOperators = `\`{
 				contains: 'contains',
@@ -75,19 +73,20 @@ let dateOperators = `\`{
 				greaterOrEqualThan: 'greaterOrEqualThan',
 				lessOrEqualThan: 'lessOrEqualThan'
 			}\``
-let defaultPattern = "'yyyy/MM/dd'"
+let titleTable = "'Entities'"
+let attrAll = "'All'"
 let titleSearch = "'Search'"
 let tdOptionName = "'OPTIONS:'"
-let idAttrName = "'id'"
-let okText = "'OK'"
-let confirmText = "'YES'"
-let cancelText = "'NO'"
 let titleSuccess = "'Success!'"
 let titleConfirm = "'Attention!'"
 let titleModalEntity = "'Entity Data'"
 let confirmTextModalEntity = "'OK'"
 let removeSuccessMessage = "'Successfully deleted entity!'"
 let removeConfirmMessage = "'Are you sure you want to delete this entity?'"
+let idAttrName = "'id'"
+let okText = "'OK'"
+let confirmText = "'YES'"
+let cancelText = "'NO'"
 let trueStr = "'YES'"
 let falseStr = "'NO'"
 let okClassModalEntity = "'btn btn-primary btn-modal btn-ok-modal'"
@@ -96,8 +95,9 @@ let hideSearch = "'false'"
 let isCompact = "'false'"
 let hideLastAttr = "'false'"
 let classLine = "'[]'"
-let optionView = "'true'"
+let customRemove = 'false'
 let optionRemove = "'true'"
+let optionView = "'true'"
 let optionEdit = "'false'"
 let optionReport = "'false'"
 let limitPagination = "'5'"
@@ -129,27 +129,26 @@ let template = `
 		:autoSearch="autoSearch"
 		:definitions="definitions"
 		:request="request"
-		:customRemove="customRemove"
-		:titleTable="titleTable"
-		:attrAll="attrAll"
 		:tdCheckName="tdCheckName"
+		:defaultPattern="defaultPattern"
 		:searchOperatorsShow="searchOperatorsShow"
 		:stringOperators="stringOperators"
 		:numberOperators="numberOperators"
 		:dateOperators="dateOperators"
-		:defaultPattern="defaultPattern"
+		:titleTable="titleTable"
+		:attrAll="attrAll"
 		:titleSearch="titleSearch"
 		:tdOptionName="tdOptionName"
-		:idAttrName="idAttrName"
-		:okText="okText"
-		:confirmText="confirmText"
-		:cancelText="cancelText"
 		:titleSuccess="titleSuccess"
 		:titleConfirm="titleConfirm"
 		:titleModalEntity="titleModalEntity"
 		:confirmTextModalEntity="confirmTextModalEntity"
 		:removeSuccessMessage="removeSuccessMessage"
 		:removeConfirmMessage="removeConfirmMessage"
+		:idAttrName="idAttrName"
+		:okText="okText"
+		:confirmText="confirmText"
+		:cancelText="cancelText"
 		:trueStr="trueStr"
 		:falseStr="falseStr"
 		:okClassModalEntity="okClassModalEntity"
@@ -158,8 +157,9 @@ let template = `
 		:isCompact="isCompact"
 		:hideLastAttr="hideLastAttr"
 		:classLine="classLine"
-		:optionView="optionView"
+		:customRemove="customRemove"
 		:optionRemove="optionRemove"
+		:optionView="optionView"
 		:optionEdit="optionEdit"
 		:optionReport="optionReport"
 		:limitPagination="limitPagination"
@@ -286,10 +286,8 @@ module.exports = {
 		autoSearch: ${autoSearch},
 		definitions: ${definitions},
 		request: ${request},
-		customRemove: ${customRemove},
-		titleTable: ${titleTable},
-		attrAll: ${attrAll},
 		tdCheckName: ${tdCheckName},
+		defaultPattern: ${defaultPattern},
 		searchOperatorsShow: ${searchOperatorsShow},
 
 		stringOperators: ${stringOperators},
@@ -298,19 +296,20 @@ module.exports = {
 
 		dateOperators: ${dateOperators},
 
-		defaultPattern: ${defaultPattern},
+		titleTable: ${titleTable},
+		attrAll: ${attrAll},
 		titleSearch: ${titleSearch},
 		tdOptionName: ${tdOptionName},
-		idAttrName: ${idAttrName},
-		okText: ${okText},
-		confirmText: ${confirmText},
-		cancelText: ${cancelText},
 		titleSuccess: ${titleSuccess},
 		titleConfirm: ${titleConfirm},
 		titleModalEntity: ${titleModalEntity},
 		confirmTextModalEntity: ${confirmTextModalEntity},
 		removeSuccessMessage: ${removeSuccessMessage},
 		removeConfirmMessage: ${removeConfirmMessage},
+		idAttrName: ${idAttrName},
+		okText: ${okText},
+		confirmText: ${confirmText},
+		cancelText: ${cancelText},
 		trueStr: ${trueStr},
 		falseStr: ${falseStr},
 		okClassModalEntity: ${okClassModalEntity},
@@ -319,8 +318,9 @@ module.exports = {
 		isCompact: ${isCompact},
 		hideLastAttr: ${hideLastAttr},
 		classLine: ${classLine},
-		optionView: ${optionView},
+		customRemove: ${customRemove},
 		optionRemove: ${optionRemove},
+		optionView: ${optionView},
 		optionEdit: ${optionEdit},
 		optionReport: ${optionReport},
 		limitPagination: ${limitPagination},

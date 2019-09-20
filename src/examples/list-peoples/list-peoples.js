@@ -1,3 +1,4 @@
+
 import listEntities from '../../components/list-entities/list-entities.vue'
 import definitionAdapter from '../../adapters/definition-adapter'
 
@@ -121,24 +122,14 @@ export default {
 			default: () => null
 		},
 
-		customRemove: {
-			type: Boolean,
-			default: () => false
-		},
-
-		titleTable: {
-			type: String,
-			default: 'Entities'
-		},
-
-		attrAll: {
-			type: String,
-			default: 'All'
-		},
-
 		tdCheckName: {
 			type: String,
 			default: ''
+		},
+
+		defaultPattern: {
+			type: String,
+			default: 'yyyy/MM/dd'
 		},
 
 		searchOperatorsShow: {
@@ -178,9 +169,14 @@ export default {
 			})
 		},
 
-		defaultPattern: {
+		titleTable: {
 			type: String,
-			default: 'yyyy/MM/dd'
+			default: 'Entities'
+		},
+
+		attrAll: {
+			type: String,
+			default: 'All'
 		},
 
 		titleSearch: {
@@ -191,26 +187,6 @@ export default {
 		tdOptionName: {
 			type: String,
 			default: 'OPTIONS:'
-		},
-
-		idAttrName: {
-			type: String,
-			default: 'id'
-		},
-
-		okText: {
-			type: String,
-			default: 'OK'
-		},
-
-		confirmText: {
-			type: String,
-			default: 'YES'
-		},
-
-		cancelText: {
-			type: String,
-			default: 'NO'
 		},
 
 		titleSuccess: {
@@ -241,6 +217,26 @@ export default {
 		removeConfirmMessage: {
 			type: String,
 			default: 'Are you sure you want to delete this entity?'
+		},
+
+		idAttrName: {
+			type: String,
+			default: 'id'
+		},
+
+		okText: {
+			type: String,
+			default: 'OK'
+		},
+
+		confirmText: {
+			type: String,
+			default: 'YES'
+		},
+
+		cancelText: {
+			type: String,
+			default: 'NO'
 		},
 
 		trueStr: {
@@ -283,12 +279,17 @@ export default {
 			default: () => []
 		},
 
-		optionView: {
+		customRemove: {
+			type: Boolean,
+			default: () => false
+		},
+
+		optionRemove: {
 			type: Boolean,
 			default: true
 		},
 
-		optionRemove: {
+		optionView: {
 			type: Boolean,
 			default: true
 		},
