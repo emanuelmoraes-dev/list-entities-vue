@@ -209,6 +209,7 @@ let template = config.template || `
 		@on_error_search_all="err => $emit('on_error_search_all', err)"
 		@on_error_search_attr="err => $emit('on_error_search_attr', err)"
 
+		@on_change_sort="sort => $emit('on_change_sort', sort)"
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"
 		@on_search="(inputSearch, params, attr, type) => $emit('on_search', inputSearch, params, attr, type)"

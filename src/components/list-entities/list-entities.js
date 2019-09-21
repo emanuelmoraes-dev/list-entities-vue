@@ -530,16 +530,11 @@ export default {
 				this.totalElements = newValue
 		},
 
-		/** ao mudar o atributo de ordenação, realiza-se a pesquisa novamente na mésma página */
+		/** ao mudar o atributo de ordenação, realiza-se a pesquisa novamente na mesma página */
 		'definitions.sort' (newValue, oldValue) {
 			if (newValue !== oldValue)
-				this.$emit('update:sort$', newValue)
+				this.$emit('on_change_sort', newValue)
 			this.search(false)
-		},
-
-		sort$ (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.definitions.sort = newValue
 		},
 
 		/**
