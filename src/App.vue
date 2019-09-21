@@ -32,7 +32,7 @@ export default {
 				name: {
 					type: String,
 					sort: 1,
-					modelHeaderText: 'fullname',
+					modalHeaderText: 'fullname',
 					optionSearch: true,
 					displayAttr: true
 				},

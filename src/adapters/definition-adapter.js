@@ -95,8 +95,8 @@ export default function definitionAdapter (def) {
 		else if ('modalJoinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.modalJoinSep
 
-		if ('modelHeaderText' in defValue)
-			mapPropModalEntity[attr] = defValue.modelHeaderText
+		if ('modalHeaderText' in defValue)
+			mapPropModalEntity[attr] = defValue.modalHeaderText
 
 		if (defValue.optionSearch) {
 			let optS = { display: attr, value: attr }
