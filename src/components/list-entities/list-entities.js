@@ -595,7 +595,12 @@ export default {
 				this.page = newValue
 		},
 
-		// quando o usuário mudar o 'descriptor', recria-se no 'descriptorEntity'
+		/** Ao mudar paramsRequest busca-se novamente */
+		paramsRequest () {
+			this.search(false) // busca-se na página atual
+		},
+
+		/** quando o usuário mudar o 'descriptor', recria-se no 'descriptorEntity' */
 		'definitions.descriptor' (descriptor) {
 			this.prepareDescriptor(descriptor)
 		},
