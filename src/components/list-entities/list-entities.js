@@ -262,7 +262,7 @@ export default {
 		},
 
 		async searchDefault (params, attr, inputSearch) {
-			let { count, entities } = await this.request.searchDefault(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchDefault(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
 			this.entities = entities
@@ -272,7 +272,7 @@ export default {
 		},
 
 		async searchAll (params, attr, inputSearch, type) {
-			let { count, entities } = await this.request.searchAll(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort, type)
+			let { count, entities } = await this.request.searchAll(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
 			this.entities = entities
@@ -282,7 +282,7 @@ export default {
 		},
 
 		async searchAttr (params, attr, inputSearch, type) {
-			let { count, entities } = await this.request.searchAttr(params, attr, inputSearch, this.page, this.pageSize, this.definitions.sort, type)
+			let { count, entities } = await this.request.searchAttr(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
 			this.entities = entities
@@ -337,37 +337,48 @@ export default {
 				pattern
 			)
 
-			if (operator.toLowerCase() !== 'equals') {
-				let params = {}
-				params = {
-					value: date,
-					attr,
-					operator,
-					descriptor: this.descriptorEntity[attr]
-				}
-				return [params]
-			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2)) {
-				let params = {}
-				params = {
+			let utilPeriod
+			let utilPlus
+
+			if (dateUtility.dateEquals(cmpDate1, cmpDate2)) {
+				utilPeriod = dateUtility.PERIODS.MILLISECOND
+				utilPlus = 0
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 6)) {
+				utilPeriod = dateUtility.PERIODS.SECOND
+				utilPlus = 1
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 5)) {
+				utilPeriod = dateUtility.PERIODS.MINUTE
+				utilPlus = 1
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 4)) {
+				utilPeriod = dateUtility.PERIODS.HOUR
+				utilPlus = 1
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 3)) {
+				utilPeriod = dateUtility.PERIODS.DAY
+				utilPlus = 1
+			} else {
+				utilPeriod = dateUtility.PERIODS.MONTH
+				utilPlus = 1
+			}
+
+			if (operator.toLowerCase() === 'equals' && utilPlus === 0) {
+				let params = {
 					value: date,
 					attr,
 					operator: 'equals',
 					descriptor: this.descriptorEntity[attr]
 				}
 				return [params]
-			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 6)) {
-				let date2 = dateUtility.plus(date, dateUtility.PERIODS.SECOND, 1)
+			} else if (operator.toLowerCase() === 'equals') {
+				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
-				let param1 = {}
-				param1 = {
+				let param1 = {
 					value: date,
 					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
-				let param2 = {}
-				param2 = {
+				let param2 = {
 					value: date2,
 					attr,
 					operator: 'lessThan',
@@ -375,86 +386,48 @@ export default {
 				}
 
 				return [param1, param2]
-			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 5)) {
-				let date2 = dateUtility.plus(date, dateUtility.PERIODS.MINUTE, 1)
+			} else if (operator.toLowerCase() === 'greaterThan') {
+				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
-				let param1 = {}
-				param1 = {
+				let param = {
+					value: date2,
+					attr,
+					operator: 'greaterOrEqualThan',
+					descriptor: this.descriptorEntity[attr]
+				}
+
+				return [param]
+			} else if (operator.toLowerCase() === 'lessThan') {
+				let param = {
+					value: date,
+					attr,
+					operator: 'lessThan',
+					descriptor: this.descriptorEntity[attr]
+				}
+
+				return [param]
+			} else if (operator.toLowerCase() === 'greaterOrEqualThan') {
+				let param = {
 					value: date,
 					attr,
 					operator: 'greaterOrEqualThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
-				let param2 = {}
-				param2 = {
+				return [param]
+			} else if (operator.toLowerCase() === 'lessOrEqualThan') {
+				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
+
+				let param = {
 					value: date2,
 					attr,
 					operator: 'lessThan',
 					descriptor: this.descriptorEntity[attr]
 				}
 
-				return [param1, param2]
-			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 4)) {
-				let date2 = dateUtility.plus(date, dateUtility.PERIODS.HOUR, 1)
-
-				let param1 = {}
-				param1 = {
-					value: date,
-					attr,
-					operator: 'greaterOrEqualThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				let param2 = {}
-				param2 = {
-					value: date2,
-					attr,
-					operator: 'lessThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param1, param2]
-			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 3)) {
-				let date2 = dateUtility.plus(date, dateUtility.PERIODS.DAY, 1)
-
-				let param1 = {}
-				param1 = {
-					value: date,
-					attr,
-					operator: 'greaterOrEqualThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				let param2 = {}
-				param2 = {
-					value: date2,
-					attr,
-					operator: 'lessThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param1, param2]
+				return [param]
 			} else {
-				let date2 = dateUtility.plus(date, dateUtility.PERIODS.MONTH, 1)
-
-				let param1 = {}
-				param1 = {
-					value: date,
-					attr,
-					operator: 'greaterOrEqualThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				let param2 = {}
-				param2 = {
-					value: date2,
-					attr,
-					operator: 'lessThan',
-					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param1, param2]
+				return []
 			}
 		},
 
