@@ -245,23 +245,23 @@ export default {
 				return
 
 			if (!type && inputSearch)
-				this.searchDefault(params, attr, inputSearch).catch(err => {
+				this.searchDefault(inputSearch, params, attr).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
 				})
 			else if (params instanceof Array && params.length === 0)
-				this.searchAll(params, attr, inputSearch, type).catch(err => {
+				this.searchAll(inputSearch, params, attr, type).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_all', err)
 				})
 			else
-				this.searchAttr(params, attr, inputSearch, type).catch(err => {
+				this.searchAttr(inputSearch, params, attr, type).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_attr', err)
 				})
 		},
 
-		async searchDefault (params, attr, inputSearch) {
+		async searchDefault (inputSearch, params, attr) {
 			let { count, entities } = await this.request.searchDefault(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
@@ -271,7 +271,7 @@ export default {
 			this.$emit('on_search_default_success', inputSearch, params, attr)
 		},
 
-		async searchAll (params, attr, inputSearch, type) {
+		async searchAll (inputSearch, params, attr, type) {
 			let { count, entities } = await this.request.searchAll(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
@@ -281,7 +281,7 @@ export default {
 			this.$emit('on_search_all_success', inputSearch, params, attr, type)
 		},
 
-		async searchAttr (params, attr, inputSearch, type) {
+		async searchAttr (inputSearch, params, attr, type) {
 			let { count, entities } = await this.request.searchAttr(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
 
 			this.totalElements = count
