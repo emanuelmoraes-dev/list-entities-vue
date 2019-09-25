@@ -360,7 +360,7 @@ export default {
 				utilPlus = 1
 			}
 
-			if (operator.toLowerCase() === 'equals' && utilPlus === 0) {
+			if (operator === 'equals' && utilPlus === 0) {
 				let params = {
 					value: date,
 					attr,
@@ -368,7 +368,7 @@ export default {
 					descriptor: this.descriptorEntity[attr]
 				}
 				return [params]
-			} else if (operator.toLowerCase() === 'equals') {
+			} else if (operator === 'equals') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
 				let param1 = {
@@ -386,7 +386,7 @@ export default {
 				}
 
 				return [param1, param2]
-			} else if (operator.toLowerCase() === 'greaterThan') {
+			} else if (operator === 'greaterThan') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
 				let param = {
@@ -397,7 +397,7 @@ export default {
 				}
 
 				return [param]
-			} else if (operator.toLowerCase() === 'lessThan') {
+			} else if (operator === 'lessThan') {
 				let param = {
 					value: date,
 					attr,
@@ -406,7 +406,7 @@ export default {
 				}
 
 				return [param]
-			} else if (operator.toLowerCase() === 'greaterOrEqualThan') {
+			} else if (operator === 'greaterOrEqualThan') {
 				let param = {
 					value: date,
 					attr,
@@ -415,7 +415,7 @@ export default {
 				}
 
 				return [param]
-			} else if (operator.toLowerCase() === 'lessOrEqualThan') {
+			} else if (operator === 'lessOrEqualThan') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
 				let param = {
