@@ -244,8 +244,8 @@ export default {
 			if (!this.request)
 				return
 
-			if (!type && inputSearch && !params.length)
-				this.searchDefault(inputSearch).catch(err => {
+			if (!type && inputSearch)
+				this.searchDefault(inputSearch, params).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
 				})
@@ -261,8 +261,8 @@ export default {
 				})
 		},
 
-		async searchDefault (inputSearch) {
-			let { count, entities } = await this.request.searchDefault(this.page, this.pageSize, this.definitions.sort, inputSearch)
+		async searchDefault (inputSearch, params) {
+			let { count, entities } = await this.request.searchDefault(this.page, this.pageSize, this.definitions.sort, inputSearch, params)
 
 			this.totalElements = count
 			this.entities = entities
