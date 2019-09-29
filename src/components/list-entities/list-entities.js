@@ -690,8 +690,8 @@ export default {
 			}
 
 			else if (typeof value === 'boolean') return (value && 'SIM') || 'NÃO'
-			else if (value instanceof Date) return dateUtility.dateToStr(value, descriptor && descriptor[attr.value].pattern || this.defaultPattern)
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descriptor && descriptor[attr.value].pattern || this.defaultPattern)
+			else if (value instanceof Date) return dateUtility.dateToStr(value, descriptor[attr.value].pattern)
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descriptor[attr.value].pattern)
 			return value
 		}
 	},

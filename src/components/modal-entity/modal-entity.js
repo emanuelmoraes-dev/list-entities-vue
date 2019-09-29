@@ -127,18 +127,20 @@ export default {
 		 * retorna o valor seguindo o tipo e as especificações presentes no 'descriptor' para esta entidade
 		 * @param {any} value - valor presente dentro de uma propriedade de 'entity'
 		 * @param {Object} descriptorValue - valor do 'descriptor' para esta entidade
+		 * @param {string} trueStr - valor textual que representa o valor booleano true
+		 * @param {string} falseStr - valor textual que representa o valor booleano false
 		 * @returns {any}
 		 */
-		parseValue (value, descriptorValue) {
+		parseValue (value, descriptorValue, trueStr, falseStr) {
 			if (value === undefined || value === null) {
 				return ''
 			}
 			if (descriptorValue.type === Boolean) {
-				return value ? this.trueStr : this.falseStr
+				return value ? trueStr : falseStr
 			} else if (descriptorValue.type === Date) {
 				return dateUtility.dateToStr(
 					value,
-					descriptorValue.pattern ? descriptorValue.pattern : this.defaultPattern
+					descriptorValue.pattern
 				)
 			} else if (descriptorValue.type === Array) {
 				if (descriptorValue.adapter) {

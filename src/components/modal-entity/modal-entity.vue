@@ -41,7 +41,7 @@
                   </span> <!-- end v-for -->
                 </span> <!-- end v-if -->
                 <span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
-                  {{ entity | getAttr(property) | parseValue(descriptorEntity[property]) }}
+                  {{ entity | getAttr(property) | parseValue(descriptorEntity[property], trueStr, falseStr) }}
                 </span> <!-- end v-else -->
               </div> <!-- end class property-value -->
             </div> <!-- end class line-modal-property && end v-else -->
