@@ -244,51 +244,51 @@ export default {
 			if (!this.request)
 				return
 
-			if (!type && inputSearch)
-				this.searchDefault(inputSearch, params, attr).catch(err => {
+			if (!type && inputSearch && !params.length)
+				this.searchDefault(inputSearch).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_default', err)
 				})
-			else if (params instanceof Array && params.length === 0)
-				this.searchAll(inputSearch, params, attr, type).catch(err => {
+			else if (!params || !params.length)
+				this.searchAll().catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_all', err)
 				})
 			else
-				this.searchAttr(inputSearch, params, attr, type).catch(err => {
+				this.searchAttr(inputSearch, params).catch(err => {
 					this.$emit('on_error', err)
 					this.$emit('on_error_search_attr', err)
 				})
 		},
 
-		async searchDefault (inputSearch, params, attr) {
-			let { count, entities } = await this.request.searchDefault(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort)
+		async searchDefault (inputSearch) {
+			let { count, entities } = await this.request.searchDefault(this.page, this.pageSize, this.definitions.sort, inputSearch)
 
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', inputSearch, params, attr)
-			this.$emit('on_search_default_success', inputSearch, params, attr)
+			this.$emit('on_search_success', inputSearch)
+			this.$emit('on_search_default_success', inputSearch)
 		},
 
-		async searchAll (inputSearch, params, attr, type) {
-			let { count, entities } = await this.request.searchAll(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
+		async searchAll () {
+			let { count, entities } = await this.request.searchAll(this.page, this.pageSize, this.definitions.sort)
 
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', inputSearch, params, attr, type)
-			this.$emit('on_search_all_success', inputSearch, params, attr, type)
+			this.$emit('on_search_success')
+			this.$emit('on_search_all_success')
 		},
 
-		async searchAttr (inputSearch, params, attr, type) {
-			let { count, entities } = await this.request.searchAttr(inputSearch, params, attr, this.page, this.pageSize, this.definitions.sort, type)
+		async searchAttr (inputSearch, params) {
+			let { count, entities } = await this.request.searchAttr(this.page, this.pageSize, this.definitions.sort, inputSearch, params)
 
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', inputSearch, params, attr, type)
-			this.$emit('on_search_attr_success', inputSearch, params, attr, type)
+			this.$emit('on_search_success', inputSearch, params)
+			this.$emit('on_search_attr_success', inputSearch, params)
 		},
 
 		getParamsByBoolean (attr, inputSearch) {
