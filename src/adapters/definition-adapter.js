@@ -6,7 +6,6 @@ export default function definitionAdapter (def) {
 
 	let descriptor = {}
 	let descriptorModal = {}
-	let mapPropModalEntity = {}
 	let modalSlots = []
 	let optionsSearch = []
 	let displayAttrs = []
@@ -96,7 +95,7 @@ export default function definitionAdapter (def) {
 			descriptorModal[attr].joinSep = defValue.modalJoinSep
 
 		if ('modalHeaderText' in defValue)
-			mapPropModalEntity[attr] = defValue.modalHeaderText
+			descriptorModal[attr].display = defValue.modalHeaderText
 
 		if (defValue.optionSearch) {
 			let optS = { display: attr, value: attr }
@@ -143,7 +142,6 @@ export default function definitionAdapter (def) {
 	let rt = {
 		descriptor,
 		descriptorModal,
-		mapPropModalEntity,
 		modalSlots,
 		optionsSearch,
 		displayAttrs,

@@ -207,7 +207,6 @@
 					:entity="enityShow"
 					:small="smallModalEntity"
 					:descriptor="definitions.descriptorModal || descriptorEntity"
-					:mapProp="definitions.mapPropModalEntity"
 					:force="forceModalEntity"
 					:trueStr="trueStr"
 					:falseStr="falseStr"
