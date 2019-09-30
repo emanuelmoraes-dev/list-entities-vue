@@ -147,7 +147,7 @@
 
 																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
 																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
-																		<span class="fa fa-trash"></span>
+																		<span class="glyphicon glyphicon-trash"></span>
 																	</button>
 																</slot> <!-- end slo optionRemove -->
 
