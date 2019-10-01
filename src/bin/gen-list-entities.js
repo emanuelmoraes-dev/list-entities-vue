@@ -114,6 +114,7 @@ let isCompact = config.props.isCompact || 'false'
 let hideLastAttr = config.props.hideLastAttr || 'false'
 let classLine = config.props.classLine || '[]'
 let customRemove = config.props.customRemove || 'false'
+let optionShow = config.props.optionShow || 'true'
 let optionRemove = config.props.optionRemove || 'true'
 let optionView = config.props.optionView || 'true'
 let optionEdit = config.props.optionEdit || 'false'
@@ -185,6 +186,7 @@ let template = config.template || `
 		:hideLastAttr="hideLastAttr"
 		:classLine="classLine"
 		:customRemove="customRemove"
+		:optionShow="optionShow"
 		:optionRemove="optionRemove"
 		:optionView="optionView"
 		:optionEdit="optionEdit"
@@ -560,6 +562,11 @@ export default {
 		customRemove: {
 			type: Boolean,
 			default: () => ${customRemove}
+		},
+
+		optionShow: {
+			type: Boolean,
+			default: () => ${optionShow}
 		},
 
 		optionRemove: {

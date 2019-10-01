@@ -1110,6 +1110,12 @@ export default {
 			default: false
 		},
 
+		/** se false, o componente não irá exibir as opções padrão na listagem */
+		optionShow: {
+			type: Boolean,
+			default: true
+		},
+
 		/** true para exibir a opção de remover uma entidade */
 		optionRemove: {
 			type: Boolean,

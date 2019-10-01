@@ -100,6 +100,7 @@ let isCompact = "'false'"
 let hideLastAttr = "'false'"
 let classLine = "'[]'"
 let customRemove = "'false'"
+let optionShow = "'true'"
 let optionRemove = "'true'"
 let optionView = "'true'"
 let optionEdit = "'false'"
@@ -163,6 +164,7 @@ let template = `
 		:hideLastAttr="hideLastAttr"
 		:classLine="classLine"
 		:customRemove="customRemove"
+		:optionShow="optionShow"
 		:optionRemove="optionRemove"
 		:optionView="optionView"
 		:optionEdit="optionEdit"
@@ -284,7 +286,7 @@ module.exports = {
 		ext: ${ext},
 		scoped: ${scoped}
 	},
-	
+
 	props: {
 		autoSearch: ${autoSearch},
 		definitions: ${definitions},
@@ -326,6 +328,7 @@ module.exports = {
 		hideLastAttr: ${hideLastAttr},
 		classLine: ${classLine},
 		customRemove: ${customRemove},
+		optionShow: ${optionShow},
 		optionRemove: ${optionRemove},
 		optionView: ${optionView},
 		optionEdit: ${optionEdit},
