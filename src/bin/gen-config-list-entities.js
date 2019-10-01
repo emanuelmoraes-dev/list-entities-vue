@@ -189,6 +189,8 @@ let template = `
 		@on_error_search_all="err => $emit('on_error_search_all', err)"
 		@on_error_search_attr="err => $emit('on_error_search_attr', err)"
 
+		@on_click="(entity, index) => $emit('on_click', entity, index)"
+		@on_report="(entity, index) => $emit('on_report', entity, index)"
 		@on_change_sort="sort => $emit('on_change_sort', sort)"
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"

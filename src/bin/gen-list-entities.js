@@ -143,8 +143,10 @@ let quotesSingle = typeof config.quotesSingle === 'boolean' ? config.quotesSingl
 let q = quotesSingle ? "'" : '"'
 let style = config.style || ''
 
-if (style)
+if (style) {
 	style = style.replace(/\$\s*\{\s*name\s*\}/g, name)
+	style = style.replace(/\$\s*\{\s*foldername\s*\}/g, folderName)
+}
 
 let template = config.template || `
 <div class="wrapper-\${name}">
@@ -211,6 +213,8 @@ let template = config.template || `
 		@on_error_search_all="err => $emit('on_error_search_all', err)"
 		@on_error_search_attr="err => $emit('on_error_search_attr', err)"
 
+		@on_click="(entity, index) => $emit('on_click', entity, index)"
+		@on_report="(entity, index) => $emit('on_report', entity, index)"
 		@on_change_sort="sort => $emit('on_change_sort', sort)"
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"
@@ -289,6 +293,7 @@ let template = config.template || `
 `
 
 template = template.replace(/wrapper-\${name}/, `wrapper-${name}`)
+template = template.replace(/wrapper-\${foldername}/, `wrapper-${folderName}`)
 
 let imports = config.imports || ''
 if (imports) imports = imports + '\n'
@@ -661,7 +666,7 @@ let struct = `<template>${template}</template>
 
 if (style) struct = struct + `
 <style lang="${lang}"${scoped ? ' scoped' : ''}>
-	@import url("./${name}.${lang}");
+	@import url("./${name}.${ext}");
 </style>
 `
 

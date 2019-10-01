@@ -1,4 +1,3 @@
-
 import listEntities from '../../components/list-entities/list-entities.vue'
 import definitionAdapter from '../../adapters/definition-adapter'
 
@@ -302,6 +301,11 @@ export default {
 		customRemove: {
 			type: Boolean,
 			default: () => false
+		},
+
+		optionShow: {
+			type: Boolean,
+			default: () => true
 		},
 
 		optionRemove: {

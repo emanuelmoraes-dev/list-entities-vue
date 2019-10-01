@@ -14,7 +14,7 @@ module.exports = {
 		ext: 'css',
 		scoped: false
 	},
-	
+
 	props: {
 		autoSearch: 'false',
 		definitions: null,
@@ -73,6 +73,7 @@ module.exports = {
 		hideLastAttr: 'false',
 		classLine: '[]',
 		customRemove: 'false',
+		optionShow: 'true',
 		optionRemove: 'true',
 		optionView: 'true',
 		optionEdit: 'false',
@@ -135,6 +136,7 @@ function getTemplate () {
 		:hideLastAttr="hideLastAttr"
 		:classLine="classLine"
 		:customRemove="customRemove"
+		:optionShow="optionShow"
 		:optionRemove="optionRemove"
 		:optionView="optionView"
 		:optionEdit="optionEdit"
@@ -159,6 +161,9 @@ function getTemplate () {
 		@on_error_search_all="err => $emit('on_error_search_all', err)"
 		@on_error_search_attr="err => $emit('on_error_search_attr', err)"
 
+		@on_click="(entity, index) => $emit('on_click', entity, index)"
+		@on_report="(entity, index) => $emit('on_report', entity, index)"
+		@on_change_sort="sort => $emit('on_change_sort', sort)"
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"
 		@on_search="(inputSearch, params, attr, type) => $emit('on_search', inputSearch, params, attr, type)"
