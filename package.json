@@ -12,7 +12,7 @@
     "component",
     "API"
   ],
-  "version": "1.4.3",
+  "version": "1.4.4",
   "main": "index.js",
   "bin": {
     "gen-config-list-entities": "./src/bin/gen-config-list-entities.js",
