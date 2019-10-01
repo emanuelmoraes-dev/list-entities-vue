@@ -86,8 +86,8 @@
 															@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
 															v-for="attr of definitions.displayAttrs" :key="attr.value"
 														> <!-- td atributos -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fa fa-angle-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fa fa-angle-up"></span>
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-up"></span>
 															{{attr.display}}:
 														</td> <!-- end v-for td atributos -->
 
@@ -96,8 +96,8 @@
 															:class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
 															@click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
 														> <!-- td lastAttr -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fa fa-angle-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fa fa-angle-up"></span>
+															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-down"></span>
+															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-up"></span>
 															{{lastAttr.display}}:
 														</td> <!-- end td lastAttr -->
 
@@ -141,25 +141,25 @@
 															<td class="text-center" v-if="optionView || optionRemove || optionEdit || optionReport"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
 																<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
 																	<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
-																		<span class="fa fa-eye"></span>
+																		<span class="far fa-eye"></span>
 																	</button>
 																</slot> <!-- end slot optionView -->
 
 																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
 																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
-																		<span class="glyphicon glyphicon-trash"></span>
+																		<span class="fas fa-trash-alt"></span>
 																	</button>
 																</slot> <!-- end slo optionRemove -->
 
 																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
 																	<button v-if="optionEdit" type="button" class="btn btn-success option option-icon" @click.prevent.stop="edit(entity, index)">
-																		<span class="fa fa-pencil"></span>
+																		<span class="fas fa-pencil-alt"></span>
 																	</button>
 																</slot> <!-- end slot optionEdit -->
 
 																<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
 																	<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="$emit('on_report', entity, index)">
-																		<span class="icon fa fa-file"></span>
+																		<span class="icon fas fa-file-alt"></span>
 																	</button>
 																</slot> <!-- end slot optionReport -->
 															</td> <!-- end td opções padrão -->
