@@ -641,7 +641,7 @@ export default {
 				value: opt
 			}))
 
-			if (this.attrAll && this.request && this.request.searchDefault && options.length)
+			if (this.attrAll && options.length)
 				options.splice(0, 0, {
 					value: {
 						display: this.attrAll,
