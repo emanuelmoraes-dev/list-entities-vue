@@ -201,7 +201,7 @@ export default {
 
 		search (startList) {
 			if (!this.optionsSearch || !this.optionsSearch.length) {
-				this.$emit('on_search', this.inputSearch, null, null, null)
+				this.$emit('on_search', this.inputSearch, this.paramsRequest, null, null)
 				return
 			}
 
@@ -247,16 +247,19 @@ export default {
 			if (!type && inputSearch)
 				this.searchDefault(inputSearch, params).catch(err => {
 					this.$emit('on_error', err)
+					this.$emit('on_error_search', err)
 					this.$emit('on_error_search_default', err)
 				})
 			else if (!params || !params.length)
 				this.searchAll().catch(err => {
 					this.$emit('on_error', err)
+					this.$emit('on_error_search', err)
 					this.$emit('on_error_search_all', err)
 				})
 			else
 				this.searchAttr(inputSearch, params).catch(err => {
 					this.$emit('on_error', err)
+					this.$emit('on_error_search', err)
 					this.$emit('on_error_search_attr', err)
 				})
 		},
@@ -267,8 +270,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', inputSearch)
-			this.$emit('on_search_default_success', inputSearch)
+			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_default_success', entities, count, inputSearch, params)
 		},
 
 		async searchAll () {
@@ -277,8 +280,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success')
-			this.$emit('on_search_all_success')
+			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_all_success', entities, count)
 		},
 
 		async searchAttr (inputSearch, params) {
@@ -287,8 +290,8 @@ export default {
 			this.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', inputSearch, params)
-			this.$emit('on_search_attr_success', inputSearch, params)
+			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_attr_success', entities, count, inputSearch, params)
 		},
 
 		getParamsByBoolean (attr, inputSearch) {

@@ -157,6 +157,7 @@ function getTemplate () {
 
 		@on_error="err => $emit('on_error', err)"
 		@on_error_remove="err => $emit('on_error_remove', err)"
+		@on_error_search="err => $emit('on_error_search', err)"
 		@on_error_search_default="err => $emit('on_error_search_default', err)"
 		@on_error_search_all="err => $emit('on_error_search_all', err)"
 		@on_error_search_attr="err => $emit('on_error_search_attr', err)"
@@ -167,9 +168,10 @@ function getTemplate () {
 		@on_remove="(entity, index) => $emit('on_remove', entity, index)"
 		@on_edit="(entity, index) => $emit('on_edit', entity, index)"
 		@on_search="(inputSearch, params, attr, type) => $emit('on_search', inputSearch, params, attr, type)"
-		@on_search_default_success="(inputSearch, params, attr) => $emit('on_search_default_success', inputSearch, params, attr)"
-		@on_search_all_success="(inputSearch, params, attr, type) => $emit('on_search_all_success', inputSearch, params, attr, type)"
-		@on_search_attr_success="(inputSearch, params, attr, type) => $emit('on_search_attr_success', inputSearch, params, attr, type)"
+		@on_search_success="(entities, count) => $emit('on_search_success', entities, count)"
+		@on_search_default_success="(entities, count, inputSearch, params) => $emit('on_search_default_success', entities, count, inputSearch, params)"
+		@on_search_all_success="(entities, count) => $emit('on_search_all_success', entities, count)"
+		@on_search_attr_success="(entities, count, inputSearch, params) => $emit('on_search_attr_success', entities, count, inputSearch, params)"
 	>
 		<template v-if="$slots.headerText" slot="headerText">
 			<slot name="headerText"></slot>
