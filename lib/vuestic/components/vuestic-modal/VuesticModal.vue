@@ -14,7 +14,7 @@
                     </div>
 
                     <i
-                      class="ion ion-md-close close-modal"
+                      class="fas fa-times close-modal"
                       v-if="closeIconShown"
                       @click.prevent="cancel"
                     />
@@ -197,6 +197,7 @@ export default {
 	 align-items: center;
 }
  .vuestic-modal .close-modal {
+	 color: #34495ecc !important;
 	 margin-left: 1rem;
 	 font-size: 1.5rem;
 	 line-height: 1.5rem;
