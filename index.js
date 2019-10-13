@@ -3,9 +3,11 @@ import _modalEntity from './src/components/modal-entity/modal-entity.vue'
 import _definitionAdapter from './src/adapters/definition-adapter'
 
 export default {
-	install (Vue, options) {
-		Vue.component('list-entities', _listEntities)
-		Vue.component('modal-entity', _modalEntity)
+	install (Vue, { listEntitiesIsGlobal = true, modalEntityIsGlobal = true }) {
+		if (listEntitiesIsGlobal)
+			Vue.component('list-entities', _listEntities)
+		if (modalEntityIsGlobal)
+			Vue.component('modal-entity', _modalEntity)
 	}
 }
 
