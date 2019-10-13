@@ -1,3 +1,7 @@
+.wrapper-list-entities .vuestic-widget {
+  box-shadow: 0 4px 50px -18px hsla(0,0%,43.9%,.565);
+}
+
 .wrapper-list-entities .color-icon-label-table td:first-child {
   width: 1rem;
 }
