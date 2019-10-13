@@ -226,5 +226,5 @@
 <script src="./list-entities.js"></script>
 
 <style lang="css">
-	@import url("./list-entities.css");
+	@import "./list-entities.css";
 </style>

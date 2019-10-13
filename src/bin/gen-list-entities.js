@@ -668,7 +668,7 @@ let struct = `<template>${template}</template>
 
 if (style) struct = struct + `
 <style lang="${lang}"${scoped ? ' scoped' : ''}>
-	@import url("./${name}.${ext}");
+	@import "./${name}.${ext}";
 </style>
 `
 
