@@ -137,7 +137,7 @@ export default {
 			if (!this.request)
 				throw new Error('a propriedade "request" não foi definida')
 
-			this.request.delete(this.entityRemove[this.idAttrName])
+			this.request.delete(this.entityRemove[this.idAttrName], this.entityRemove, this.indexEntityRemove, this.entities)
 				.then(res => {
 					this.$emit('on_remove', this.entityRemove, this.indexEntityRemove)
 
