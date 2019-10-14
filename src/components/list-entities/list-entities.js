@@ -304,25 +304,14 @@ export default {
 			if (!inputSearch)
 				return []
 
-			if (inputSearch.toLowerCase() === this.trueStr.toLowerCase()) {
-				let params = {}
-				params = {
-					value: true,
-					attr,
-					operator: 'default',
-					descriptor: this.descriptorEntity[attr]
-				}
-				return [params]
-			}
+			inputSearch = inputSearch.trim()
 
-			let params = {}
-			params = {
-				value: false,
+			return [{
+				value: inputSearch.toLowerCase() === this.trueStr.toLowerCase(),
 				attr,
-				operator: 'default',
+				operator: '$eq',
 				descriptor: this.descriptorEntity[attr]
-			}
-			return [params]
+			}]
 		},
 
 		getParamsByDate (attr, inputSearch, operatorName) {
@@ -331,8 +320,8 @@ export default {
 
 			let operator
 
-			if (operatorName === 'default')
-				operator = 'default'
+			if (operatorName === '$')
+				operator = '$'
 			else
 				operator = this.dateOperators[operatorName]
 
@@ -369,74 +358,70 @@ export default {
 				utilPlus = 1
 			}
 
-			if (operator === 'equals' && utilPlus === 0) {
-				let params = {
+			if (utilPlus === 0) {
+				return [{
 					value: date,
 					attr,
-					operator: 'equals',
+					operator,
 					descriptor: this.descriptorEntity[attr]
-				}
-				return [params]
-			} else if (operator === 'equals') {
+				}]
+			} else if (operator === '$eq') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
 				let param1 = {
 					value: date,
 					attr,
-					operator: 'greaterOrEqualThan',
+					operator: '$gte',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				let param2 = {
 					value: date2,
 					attr,
-					operator: 'lessThan',
+					operator: '$lt',
 					descriptor: this.descriptorEntity[attr]
 				}
 
 				return [param1, param2]
-			} else if (operator === 'greaterThan') {
+			} else if (operator === '$gt') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
-				let param = {
+				return [{
 					value: date2,
 					attr,
-					operator: 'greaterOrEqualThan',
+					operator: '$gte',
 					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param]
-			} else if (operator === 'lessThan') {
-				let param = {
+				}]
+			} else if (operator === '$lt') {
+				return [{
 					value: date,
 					attr,
-					operator: 'lessThan',
+					operator: '$lt',
 					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param]
-			} else if (operator === 'greaterOrEqualThan') {
-				let param = {
+				}]
+			} else if (operator === '$gte') {
+				return [{
 					value: date,
 					attr,
-					operator: 'greaterOrEqualThan',
+					operator: '$gte',
 					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param]
-			} else if (operator === 'lessOrEqualThan') {
+				}]
+			} else if (operator === '$lte') {
 				let date2 = dateUtility.plus(date, utilPeriod, utilPlus)
 
-				let param = {
+				return [{
 					value: date2,
 					attr,
-					operator: 'lessThan',
+					operator: '$lt',
 					descriptor: this.descriptorEntity[attr]
-				}
-
-				return [param]
+				}]
 			} else {
-				return []
+				return [{
+					value: date,
+					attr,
+					operator,
+					descriptor: this.descriptorEntity[attr]
+				}]
 			}
 		},
 
@@ -446,19 +431,17 @@ export default {
 
 			let operator
 
-			if (operatorName === 'default')
-				operator = 'default'
+			if (operatorName === '$')
+				operator = '$'
 			else
 				operator = this.numberOperators[operatorName]
 
-			let param = {}
-			param = {
+			return [{
 				value: parseFloat(inputSearch),
 				attr,
 				operator,
 				descriptor: this.descriptorEntity[attr]
-			}
-			return [param]
+			}]
 		},
 
 		getParamsByString (attr, inputSearch, operatorName) {
@@ -467,19 +450,17 @@ export default {
 
 			let operator
 
-			if (operatorName === 'default')
-				operator = 'default'
+			if (operatorName === '$')
+				operator = '$'
 			else
 				operator = this.stringOperators[operatorName]
 
-			let param = {}
-			param = {
+			return [{
 				value: inputSearch,
 				attr,
 				operator,
 				descriptor: this.descriptorEntity[attr]
-			}
-			return [param]
+			}]
 		}
 	},
 
@@ -620,10 +601,40 @@ export default {
 				})
 
 			return options
+		},
+
+		existsOptionsSearch () {
+			return (optionsSearch && optionsSearch.length)
+		},
+
+		existsOperators () {
+			return (searchOperatorsShow && operators && operators.length)
 		}
 	},
 
 	filters: {
+		/**
+		 * obtém a classe da div que envolve o input de texto usado para realizar pesquisas
+		 * @param {Array} c - array de classes predefinidas para a div que envolve o input de texto usado para realizar pesquisas
+		 * @param {boolean} existsOptionsSearch - true caso exista o select dos atributos a serem buscados
+		 * @param {boolean} existsOperators  - true caso exista o select das operações a serem realizadas
+		 * @param {function} classInput - função que recebe 'existsOptionsSearch' e 'existsOperators' respectivamente como argumentos e retorna
+		 * 	aquilo que esta função retorna
+		 * @returns {Array} a mesma coisa retornada pela função 'classInput' recebida como argumento. Se a função 'classInput' não retorna um array,
+		 * 	seu retorno é encapsulado em um array
+		 */
+		getClassInput (c, existsOptionsSearch, existsOperators, classInput) {
+			const cs = classInput(existsOptionsSearch, existsOperators)
+
+			if (!(cs instanceof Array))
+				cs = [cs]
+
+			return [
+				...c,
+				...cs
+			]
+		},
+
 		/**
 		 * Obtém o valor (ou valores) de um objeto por meio da especificação de uma propriedade.
 		 * @param {Object} obj - objeto a ter o valor de sua propriedade retornada
@@ -890,10 +901,14 @@ export default {
 		stringOperators: {
 			type: Object,
 			default: () => ({
-				contains: 'contains',
-				equals: 'equals',
-				startsWith: 'startsWith',
-				endsWith: 'endsWith'
+				'in': '$in',
+				'not in': '$nin',
+				'equals': '$eq',
+				'not equals': '$neq',
+				'starts with': '$sw',
+				'not starts with': '$nsw',
+				'ends with': '$ew',
+				'not ends with': '$new'
 			})
 		},
 
@@ -905,11 +920,12 @@ export default {
 		numberOperators: {
 			type: Object,
 			default: () => ({
-				equals: 'equals',
-				greaterThan: 'greaterThan',
-				lessThan: 'lessThan',
-				greaterOrEqualThan: 'greaterOrEqualThan',
-				lessOrEqualThan: 'lessOrEqualThan'
+				'equals': '$eq',
+				'not equals': '$neq',
+				'greater than': '$gt',
+				'greater than or equal to': '$gte',
+				'less than': '$lt',
+				'less than or equal to': '$lte'
 			})
 		},
 
@@ -921,11 +937,12 @@ export default {
 		dateOperators: {
 			type: Object,
 			default: () => ({
-				equals: 'equals',
-				greaterThan: 'greaterThan',
-				lessThan: 'lessThan',
-				greaterOrEqualThan: 'greaterOrEqualThan',
-				lessOrEqualThan: 'lessOrEqualThan'
+				'equals': '$eq',
+				'not equals': '$neq',
+				'greater than': '$gt',
+				'greater than or equal to': '$gte',
+				'less than': '$lt',
+				'less than or equal to': '$lte'
 			})
 		},
 
@@ -976,7 +993,7 @@ export default {
 
 		/** texto do botão "OK" do modal de exibição da entidade */
 		confirmTextModalEntity: {
-			Type: String,
+			type: String,
 			default: 'OK'
 		},
 
@@ -1144,14 +1161,33 @@ export default {
 
 		/** true para que o modal de exibição da entidade seja pequeno */
 		smallModalEntity: {
-			Type: Boolean,
+			type: Boolean,
 			default: false
 		},
 
 		/** true para que o modal de exibição da entidade NÃO seja fechado ao clicar no fundo */
 		forceModalEntity: {
-			Type: Boolean,
+			type: Boolean,
 			default: false
+		},
+
+		classOptionsSearch: {
+			type: String|Array|Object,
+			default: () => 'col-md-2'
+		},
+
+		classOperators: {
+			type: String|Array|Object,
+			default: () => 'col-md-2'
+		},
+
+		classInput: {
+			type: Function,
+			default: (existsOptionsSearch, existsOperators) => ({
+				'col-md-12': !existsOptionsSearch && !existsOperators,
+				'col-md-10': existsOptionsSearch && !existsOperators,
+				'col-md-8': !existsOptionsSearch && !existsOperators
+			})
 		},
 
 		// propriedades sincronas
