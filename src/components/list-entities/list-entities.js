@@ -19,10 +19,6 @@ export default {
 	data () {
 		return {
 			entities: [], // entidades a serem listadas
-			totalElements: 0,
-			attrSearch: null,
-			inputSearch: '',
-			page: 1,
 
 			showSuccess: false, // usado para verificar se o modal de sucesso está sendo exibido
 			showConfirm: false, // usado para verificar se o modal de confirmação de remoão está sendo exibido
@@ -36,19 +32,29 @@ export default {
 	},
 
 	created () {
+		this.initSync()
 		this.entities = this.value
 		this.prepareDescriptor()
-		this.attrSearch = this.attrSearch$
 
-		if (this.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
-			this.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
-		else if (this.attrSearch === null)
-			this.attrSearch = { display: '', value: '' }
+		if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
+			this.sync.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+		else if (this.sync.attrSearch === null)
+			this.sync.attrSearch = { display: '', value: '' }
 
 		if (this.autoSearch) this.search() // se autoSearch for true busca-se ao inciar o componente
 	},
 
 	methods: {
+		/**
+		 * inicializa a propriedade sync com pelo menos os valores padrão
+		 */
+		initSync () {
+			this.sync.totalElements = this.sync.totalElements !== undefined ? this.sync.totalElements : 0
+			this.sync.page = this.sync.page !== undefined ? this.sync.page : 1
+			this.sync.attrSearch = this.sync.attrSearch !== undefined ? this.sync.attrSearch : null
+			this.sync.inputSearch = this.sync.inputSearch !== undefined ? this.sync.inputSearch : ''
+		},
+
 		/**
 		 * evento lançado ao clicar em qualquer tecla no campo de pesquisa
 		 * @param {Event} e - evento do DOM
@@ -201,19 +207,19 @@ export default {
 
 		search (startList) {
 			if (!this.optionsSearch || !this.optionsSearch.length) {
-				this.$emit('on_search', this.inputSearch, this.paramsRequest, null, null)
+				this.$emit('on_search', this.sync.inputSearch, this.paramsRequest, null, null)
 				return
 			}
 
-			let attr = this.attrSearch.value
+			let attr = this.sync.attrSearch.value
 			let type
 
-			if (this.attrSearch.value === this.attrAll)
+			if (this.sync.attrSearch.value === this.attrAll)
 				type = null
 			else
 				type = this.descriptorEntity[attr].type
 
-			let inputSearch = this.inputSearch
+			let inputSearch = this.sync.inputSearch
 			inputSearch = inputSearch.trim()
 
 			let operatorName = this.searchOperator
@@ -232,7 +238,7 @@ export default {
 			}
 
 			if (startList)
-				this.page = 1
+				this.sync.page = 1
 
 			params = [
 				...params,
@@ -265,9 +271,9 @@ export default {
 		},
 
 		async searchDefault (inputSearch, params) {
-			let { count, entities } = await this.request.searchDefault(this.page, this.pageSize, this.definitions.sort, inputSearch, params)
+			let { count, entities } = await this.request.searchDefault(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, params)
 
-			this.totalElements = count
+			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count)
@@ -275,9 +281,9 @@ export default {
 		},
 
 		async searchAll () {
-			let { count, entities } = await this.request.searchAll(this.page, this.pageSize, this.definitions.sort)
+			let { count, entities } = await this.request.searchAll(this.sync.page, this.pageSize, this.definitions.sort)
 
-			this.totalElements = count
+			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count)
@@ -285,9 +291,9 @@ export default {
 		},
 
 		async searchAttr (inputSearch, params) {
-			let { count, entities } = await this.request.searchAttr(this.page, this.pageSize, this.definitions.sort, inputSearch, params)
+			let { count, entities } = await this.request.searchAttr(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, params)
 
-			this.totalElements = count
+			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count)
@@ -495,17 +501,6 @@ export default {
 				this.entities = newValue
 		},
 
-		/** ao mudar a quantidade total de elementos da pesquisa */
-		totalElements (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.$emit('update:totalElements$', newValue)
-		},
-
-		totalElements$ (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.totalElements = newValue
-		},
-
 		/** ao mudar o atributo de ordenação, realiza-se a pesquisa novamente na mesma página */
 		'definitions.sort' (newValue, oldValue) {
 			if (newValue !== oldValue)
@@ -521,15 +516,12 @@ export default {
 		 * @param {object} oldValue - valor antigo que foi selecionado
 		 *     para filtragem
 		 */
-		attrSearch (newValue, oldValue) {
+		'sync.attrSearch' (newValue, oldValue) {
 			if (newValue !== oldValue && this.searchOperatorsShow && this.operators && this.operators.length)
 				this.searchOperator = this.operators[0]
 
-			if (newValue !== oldValue)
-				this.$emit('update:attrSearch$', newValue)
-
 			if (!newValue) { // se novo valor for "vazio"
-				this.attrSearch = oldValue // atribui-se o valor antigo
+				this.sync.attrSearch = oldValue // atribui-se o valor antigo
 			} else {
 				oldValue = oldValue || newValue
 
@@ -553,22 +545,9 @@ export default {
 			}
 		},
 
-		attrSearch$ (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.attrSearch = newValue
-		},
-
 		/** ao mudar a página da tabela busca-se novamente as entidades da tabela */
-		page (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.$emit('update:page$', newValue)
-
+		'sync.page' () {
 			this.search(false) // busca-se na página atual
-		},
-
-		page$ (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.page = newValue
 		},
 
 		/** Ao mudar paramsRequest busca-se novamente */
@@ -580,16 +559,6 @@ export default {
 		'definitions.descriptor' (descriptor) {
 			this.prepareDescriptor(descriptor)
 		},
-
-		inputSearch (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.$emit('update:inputSearch$', newValue)
-		},
-
-		inputSearch$ (newValue, oldValue) {
-			if (newValue !== oldValue)
-				this.inputSearch = newValue
-		}
 	},
 
 	computed: {
@@ -600,19 +569,19 @@ export default {
 
 		/** retorna o atributo a ser exebido por último na tabela */
 		lastAttr () {
-			let v = this.attrSearch.value
+			let v = this.sync.attrSearch.value
 
 			if (
 				v === this.attrAll ||
 				this.definitions.displayAttrs.find(attr => attr.value === v)
 			) return this.definitions.defaultLastAttr
 
-			return this.attrSearch
+			return this.sync.attrSearch
 		},
 
 		/** lista de operadores a serem usados na pesquisa */
 		operators () {
-			const descriptorValue = this.descriptorEntity[this.attrSearch.value]
+			const descriptorValue = this.descriptorEntity[this.sync.attrSearch.value]
 			if (!descriptorValue) return []
 
 			let objOperators = {}
@@ -1192,28 +1161,33 @@ export default {
 			required: true
 		},
 
-		/** quantidade total de entidades (quantidade total de resultados) */
-		totalElements$: {
-			type: Number,
-			default: 0
-		},
-
-		/** página atual sendo exibida */
-		page$: {
-			type: Number,
-			default: 1
-		},
-
-		/** atributo que está sendo buscado */
-		attrSearch$: {
+		sync: {
 			type: Object,
-			default: () => null
-		},
+			default: () => ({
+				/** quantidade total de entidades (quantidade total de resultados) */
+				totalElements: {
+					type: Number,
+					default: 0
+				},
 
-		/** valor que está sendo buscado */
-		inputSearch$: {
-			type: String,
-			default: ''
+				/** página atual sendo exibida */
+				page: {
+					type: Number,
+					default: 1
+				},
+
+				/** atributo que está sendo buscado */
+				attrSearch: {
+					type: Object,
+					default: () => null
+				},
+
+				/** valor que está sendo buscado */
+				inputSearch: {
+					type: String,
+					default: ''
+				}
+			})
 		}
 	}
 }

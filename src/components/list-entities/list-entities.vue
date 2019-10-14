@@ -18,7 +18,7 @@
 									<!-- <label class="before-select">Pesquisar: </label> -->
 									<b-form-select
 										v-if="optionsSearch && optionsSearch.length"
-										v-model="attrSearch"
+										v-model="sync.attrSearch"
 										:options="optionsSearch"
 									/> <!-- select dos tributos a serem filtrados -->
 								</div> <!-- end class form-group -->
@@ -48,7 +48,7 @@
 											<input
 												id="txtsearch"
 												name="search"
-												v-model="inputSearch"
+												v-model="sync.inputSearch"
 												@keypress="keyHandler($event)"
 												ref="txtSearch"
 											/> <!-- campo de pesquisa -->
@@ -173,7 +173,7 @@
 									</component> <!-- end show or vuestic-widget -->
 
 									<slot name="pagination"> <!-- slot do paginador de resultados da tabela -->
-										<b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="totalElements" v-model="page" :per-page="pageSize" /> <!-- paginador do bootstrap-vue -->
+										<b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="sync.totalElements" v-model="sync.page" :per-page="pageSize" /> <!-- paginador do bootstrap-vue -->
 									</slot> <!-- end slot pagination -->
 								</div> <!-- end col ? -->
 							</div> <!-- end row ? -->
