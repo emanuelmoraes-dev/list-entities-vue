@@ -18,7 +18,10 @@ module.exports = {
 		'indent': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'tab'], // identação por tabulação
 		'no-tabs': 0, // com tabulação
 		'curly': 'off', // if de um comando pode não ter chaves
-		'no-mixed-operators': 'off' // desabilita bloqueio de uso de operações como '&&' e '||'
+		'no-mixed-operators': 'off', // desabilita bloqueio de uso de operações como '&&' e '||'
+		'no-unused-vars': 'off', // variáveis declaradas não precisam necessariamente ser usadas
+		'require-atomic-updates': 'off',
+		'no-mixed-spaces-and-tabs': 'off'
 	},
 	parserOptions: {
 		parser: 'babel-eslint'
