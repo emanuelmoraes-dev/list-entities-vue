@@ -9,13 +9,11 @@
 			:optionReport="true"
 			@on_error="onError"
 		/>
-		<!-- <list-peoples v-model="peoples" @on_error="onError"></list-peoples> -->
   </div>
 </template>
 
 <script>
 import listEntities from './components/list-entities/list-entities.vue'
-// import listPeoples from './examples/list-peoples/list-peoples.vue'
 import definitionAdapter from './adapters/definition-adapter'
 
 export default {
@@ -23,7 +21,6 @@ export default {
 
 	components: {
 		listEntities
-		// listPeoples
 	},
 
 	data () {
