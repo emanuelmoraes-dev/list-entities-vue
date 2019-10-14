@@ -6,7 +6,7 @@
           <vuestic-widget
             :hidePrimary="hideSearch"
             :compactSecundary="isCompact"
-            :headerText="isCompact && titleTable || titleSearch"
+            :headerText="isCompact ? titleTable : titleSearch"
           >
             <div v-if="$slots.headerText" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
               <slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
