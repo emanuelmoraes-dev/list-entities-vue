@@ -353,8 +353,11 @@ export default {
 			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 3)) {
 				utilPeriod = dateUtility.PERIODS.DAY
 				utilPlus = 1
-			} else {
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 2)) {
 				utilPeriod = dateUtility.PERIODS.MONTH
+				utilPlus = 1
+			} else {
+				utilPeriod = dateUtility.PERIODS.YEAR
 				utilPlus = 1
 			}
 
