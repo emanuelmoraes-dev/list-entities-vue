@@ -16,7 +16,6 @@ module.exports = {
 		'spaced-comment': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'always'], // espaço depois de comentário
 		'space-before-blocks': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'always'], // espaço antes de bloco de código
 		'indent': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'tab'], // identação por tabulação
-		'indent-size': process.env.NODE_ENV === 'production' ? 'off' : [true, 2], // tamanho da identação definida para 2
 		'no-tabs': 0, // com tabulação
 		'curly': 'off', // if de um comando pode não ter chaves
 		'no-mixed-operators': 'off' // desabilita bloqueio de uso de operações como '&&' e '||'
