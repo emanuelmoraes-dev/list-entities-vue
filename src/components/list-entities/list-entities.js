@@ -872,7 +872,7 @@ export default {
 			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
 		},
 
-		/** parâmetros padrão a serem inserodos na busca */
+		/** parâmetros padrão a serem inseridos na busca */
 		paramsRequest: {
 			type: Array,
 			default: () => []
