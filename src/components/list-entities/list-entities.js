@@ -977,13 +977,13 @@ export default {
 		},
 
 		/** títuto do modal de sucesso */
-		titleSuccess: {
+		titleSuccessModal: {
 			type: String,
 			default: 'Success!'
 		},
 
 		/** título do modal de confirmação */
-		titleConfirm: {
+		titleConfirmModal: {
 			type: String,
 			default: 'Attention!'
 		},
@@ -1028,19 +1028,19 @@ export default {
 		},
 
 		/** texto a ser exibido no botão de "OK" do modal de sucesso */
-		okText: {
+		okTextModal: {
 			type: String,
 			default: 'OK'
 		},
 
 		/** texto a ser exibido no botão de "confirmação" do modal de confirmação */
-		confirmText: {
+		confirmTextModal: {
 			type: String,
 			default: 'YES'
 		},
 
 		/** texto a ser exibido no botão de "cancelamento" do modal de confirmação */
-		cancelText: {
+		cancelTextModal: {
 			type: String,
 			default: 'NO'
 		},
@@ -1103,7 +1103,7 @@ export default {
 		},
 
 		/** se false, o componente não irá exibir as opções padrão na listagem */
-		optionShow: {
+		showOptions: {
 			type: Boolean,
 			default: true
 		},

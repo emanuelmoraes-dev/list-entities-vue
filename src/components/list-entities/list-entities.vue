@@ -97,7 +97,7 @@
 														</td> <!-- end td lastAttr -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
-														<td class="text-center" v-if="optionShow && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
+														<td class="text-center" v-if="showOptions && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
 													</tr> <!-- end tr -->
 												</thead> <!-- end thead -->
 
@@ -132,7 +132,7 @@
 															<slot :name="opt" :entity="entity" :index="index"></slot>
 														</td> <!-- end v-for options -->
 
-														<slot v-if="optionShow" name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
+														<slot v-if="showOptions" name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
 															<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
 																<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
 																	<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
@@ -179,16 +179,16 @@
 
 			<div class="modals">
         <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
-            :okText="okText">
-          <div slot="title">{{titleSuccess}}</div>
+            :okText="okTextModal">
+          <div slot="title">{{titleSuccessModal}}</div>
           <div>
             {{ removeSuccessMessage }}
           </div>
         </vuestic-modal>
 
         <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
-            :okText="confirmText" :cancelText="cancelText" @ok="onRemove">
-          <div slot="title">{{titleConfirm}}</div>
+            :okText="confirmTextModal" :cancelText="cancelTextModal" @ok="onRemove">
+          <div slot="title">{{titleConfirmModal}}</div>
           <div>
             {{ removeConfirmMessage }}
           </div>
