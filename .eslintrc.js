@@ -22,7 +22,8 @@ module.exports = {
 		'no-mixed-operators': 'off', // permite que os operadores '&&' e '||' possam ser usados misturados sem parênteses
 		'no-unused-vars': 'off', // variáveis declaradas não precisam necessariamente ser usadas
 		'require-atomic-updates': 'off', // permite ações sincronas independentes serem realizadas depois de await
-		'no-mixed-spaces-and-tabs': 'off' // permite que espaços e tabulações sejam misturados
+		'no-mixed-spaces-and-tabs': 'off', // permite que espaços e tabulações sejam misturados
+		'no-irregular-whitespace': 'off' // permite que qualquer tipo de espaço em branco ocorra em conjunto com outros
 	},
 	parserOptions: {
 		parser: 'babel-eslint'

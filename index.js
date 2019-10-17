@@ -1,4 +1,3 @@
-'use strict'
 
 import _listEntities from './src/components/list-entities/list-entities.vue'
 import _modalEntity from './src/components/modal-entity/modal-entity.vue'
@@ -8,12 +7,12 @@ export default {
 	install (Vue, {
 		nameListEntities = 'list-entities',
 		nameModalEntity = 'modal-entity',
-		lang='en',
-		dictionaries=[],
-		ctxName='$le',
-		ctxNameDef='def',
-		ctxNameDictionaries='dictionaries',
-		ctxNameLang='lang'
+		lang = 'en',
+		dictionaries = [],
+		ctxName = '$le',
+		ctxNameDef = 'def',
+		ctxNameDictionaries = 'dictionaries',
+		ctxNameLang = 'lang'
 	} = {}) {
 		if (nameListEntities)
 			Vue.component(nameListEntities, _listEntities)

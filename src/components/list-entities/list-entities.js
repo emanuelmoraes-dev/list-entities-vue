@@ -537,7 +537,7 @@ export default {
 		/** quando o usuário mudar o 'descriptor', recria-se no 'descriptorEntity' */
 		'definitions.descriptor' (descriptor) {
 			this.prepareDescriptor(descriptor)
-		},
+		}
 	},
 
 	computed: {
@@ -600,11 +600,11 @@ export default {
 		},
 
 		existsOptionsSearch () {
-			return (optionsSearch && optionsSearch.length)
+			return (this.optionsSearch && this.optionsSearch.length)
 		},
 
 		existsOperators () {
-			return (searchOperatorsShow && operators && operators.length)
+			return (this.searchOperatorsShow && this.operators && this.operators.length)
 		}
 	},
 
@@ -620,7 +620,7 @@ export default {
 		 * 	seu retorno é encapsulado em um array
 		 */
 		getClassInput (c, existsOptionsSearch, existsOperators, classInput) {
-			const cs = classInput(existsOptionsSearch, existsOperators)
+			let cs = classInput(existsOptionsSearch, existsOperators)
 
 			if (!(cs instanceof Array))
 				cs = [cs]
@@ -1052,12 +1052,12 @@ export default {
 		},
 
 		classOptionsSearch: {
-			type: String|Array|Object,
+			type: String | Array | Object,
 			default: () => 'col-md-2'
 		},
 
 		classOperators: {
-			type: String|Array|Object,
+			type: String | Array | Object,
 			default: () => 'col-md-2'
 		},
 

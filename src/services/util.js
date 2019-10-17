@@ -13,10 +13,10 @@ export function getResultDictionary (i18nArgs, ctx, lang, dictionaries, index = 
 		dict = dict()
 
 	if (lang && dict.lang && lang !== dict.lang)
-		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index+1, dictionary)
+		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index + 1, dictionary)
 
 	if (dict.use && !dict.use(i18nArgs, ctx))
-		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index+1, dictionary)
+		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index + 1, dictionary)
 
 	patchUpdate(dictionary, dict, i18nArgs, ctx)
 
