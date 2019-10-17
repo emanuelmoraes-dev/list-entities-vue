@@ -16,7 +16,7 @@ module.exports = {
 		'space-before-blocks': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'always'], // espaço antes de bloco de código
 		'indent': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'tab'], // identação por tabulação
 		'linebreak-style': 'off', // ninguem se importa com LF ou CRLF
-		'semi': 'never', // sem ponto e vírgula
+		'semi': 'error', // sem ponto e vírgula
 		'no-tabs': 0, // com tabulação
 		'curly': 'off', // if de somente 1 (um) comando pode não ter chaves
 		'no-mixed-operators': 'off', // permite que os operadores '&&' e '||' possam ser usados misturados sem parênteses
