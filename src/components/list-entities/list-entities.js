@@ -7,17 +7,17 @@ import Show from './show/show.vue'
 import * as util from '../../services/util'
 
 export default {
-	name: 'list-entities',
-
 	components: {
 		VuesticWidget, // componente de widget do vuestic (com algumas customizações)
 		VuesticModal, // componente de modal do vuestic (com algumas cusomizações)
-		ModalEntity, // componente personalizado para a exibição de entidades
+		'modal-entity': ModalEntity, // componente personalizado para a exibição de entidades
 		Show // componente responsável por exibir todo o conteúdo dentro dele ignorando o parâmetro headerText
 	},
 
 	data () {
 		return {
+			dictionary: null, // dicionário mesclado com as definições globais e locais
+			descriptorEntity: null, // 'defitions.descriptor' refatorado
 			entities: [], // entidades a serem listadas
 
 			showSuccess: false, // usado para verificar se o modal de sucesso está sendo exibido
@@ -26,13 +26,13 @@ export default {
 			entityRemove: null, // entidade selecionada para remoção
 			indexEntityRemove: null, // index da entidade selecionada para remoção
 			isUpdateLastAttr: true, // se true, quando value (v-model) for atualizado o último atributo a ser exibido na tabela será atualizado também
-			descriptorEntity: null, // 'defitions.descriptor' refatorado
 			searchOperator: null // operador selecionado para busca
 		}
 	},
 
 	created () {
 		this.initSync()
+		this.initDictionary()
 		this.entities = this.value
 		this.prepareDescriptor()
 
@@ -46,13 +46,29 @@ export default {
 
 	methods: {
 		/**
-		 * inicializa a propriedade sync com pelo menos os valores padrão
+		 * inicializa a propriedade sync com pelo menos com os valores padrão
 		 */
 		initSync () {
 			this.sync.totalElements = this.sync.totalElements !== undefined ? this.sync.totalElements : 0
 			this.sync.page = this.sync.page !== undefined ? this.sync.page : 1
 			this.sync.attrSearch = this.sync.attrSearch !== undefined ? this.sync.attrSearch : null
 			this.sync.inputSearch = this.sync.inputSearch !== undefined ? this.sync.inputSearch : ''
+		},
+
+		/**
+		 * inicializa o dictionary mesclando as definições globais e locais
+		 */
+		initDictionary () {
+			let localDictionary = this.localDictionary
+
+			if (!localDictionary)
+				localDictionary = {}
+
+			const ctxName = this.$getListEntitiesCtxName()
+			const ctx = this[ctxName]
+
+			const globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.getLang(), ctx.getDictionaries())
+			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
 		},
 
 		/**
@@ -214,7 +230,7 @@ export default {
 			let attr = this.sync.attrSearch.value
 			let type
 
-			if (this.sync.attrSearch.value === this.attrAll)
+			if (this.sync.attrSearch.value === this.dictionary.attrAll)
 				type = null
 			else
 				type = this.descriptorEntity[attr].type
@@ -307,7 +323,7 @@ export default {
 			inputSearch = inputSearch.trim()
 
 			return [{
-				value: inputSearch.toLowerCase() === this.trueStr.toLowerCase(),
+				value: inputSearch.toLowerCase() === this.dictionary.trueStr.toLowerCase(),
 				attr,
 				operator: '$eq',
 				descriptor: this.descriptorEntity[attr]
@@ -520,10 +536,10 @@ export default {
 				else
 					attrSort = this.definitions.sort
 
-				// se o novo atributo a ser filtrado escondeu o aributo que anteriormente estava sendo usado na ordenação
+				// se o novo atributo a ser filtrado escondeu o atributo que anteriormente estava sendo usado na ordenação
 				if (!this.definitions.displayAttrs.find(a => a.value === attrSort) && newValue.value !== oldValue.value &&
-            (![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.attrAll }].find(a => a.value === newValue.value) ||
-                ![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.attrAll }].find(a => a.value === oldValue.value))) {
+            (![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.dictionary.attrAll }].find(a => a.value === newValue.value) ||
+                ![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.dictionary.attrAll }].find(a => a.value === oldValue.value))) {
 					this.onClickHeader(`+${this.definitions.displayAttrs[0].value}`) // ordena-se as entidades pelo primeiro atributo de maneira crecente
 				}
 			}
@@ -556,7 +572,7 @@ export default {
 			let v = this.sync.attrSearch.value
 
 			if (
-				v === this.attrAll ||
+				v === this.dictionary.attrAll ||
 				this.definitions.displayAttrs.find(attr => attr.value === v)
 			) return this.definitions.defaultLastAttr
 
@@ -594,13 +610,13 @@ export default {
 				value: opt
 			}))
 
-			if (this.attrAll && options.length)
+			if (this.dictionary.attrAll && options.length)
 				options.splice(0, 0, {
 					value: {
-						display: this.attrAll,
-						value: this.attrAll
+						display: this.dictionary.attrAll,
+						value: this.dictionary.attrAll
 					},
-					text: this.attrAll
+					text: this.dictionary.attrAll
 				})
 
 			return options
@@ -956,63 +972,6 @@ export default {
 		},
 
 		/**
-		 * opção de busca (objeto com 'display' e 'value') representando
-		 * a opção de pesquisa por todos os atributos
-		 */
-		attrAll: {
-			type: String,
-			default: 'All'
-		},
-
-		/** título para exibir no widget de busca */
-		titleSearch: {
-			type: String,
-			default: 'Search'
-		},
-
-		/** nome a aparecer acima das opções na tabela */
-		tdOptionName: {
-			type: String,
-			default: 'OPTIONS:'
-		},
-
-		/** títuto do modal de sucesso */
-		titleSuccessModal: {
-			type: String,
-			default: 'Success!'
-		},
-
-		/** título do modal de confirmação */
-		titleConfirmModal: {
-			type: String,
-			default: 'Attention!'
-		},
-
-		/** título do modal de exibição da entidade */
-		titleModalEntity: {
-			type: String,
-			default: 'Entity Data'
-		},
-
-		/** texto do botão "OK" do modal de exibição da entidade */
-		confirmTextModalEntity: {
-			type: String,
-			default: 'OK'
-		},
-
-		/** mensagem a ser exibida no modal de sucesso exibido ao remover uma entidade com sucesso */
-		removeSuccessMessage: {
-			type: String,
-			default: 'Successfully deleted entity!'
-		},
-
-		/** mensagem a ser exibida no modal de confirmação de remoção de entidade */
-		removeConfirmMessage: {
-			type: String,
-			default: 'Are you sure you want to delete this entity?'
-		},
-
-		/**
 		 * contém o texto a ser exibido no header da tabela
 		 * acima do conteúdo presentte no slot 'check'
 		 */
@@ -1025,36 +984,6 @@ export default {
 		idAttrName: {
 			type: String,
 			default: 'id'
-		},
-
-		/** texto a ser exibido no botão de "OK" do modal de sucesso */
-		okTextModal: {
-			type: String,
-			default: 'OK'
-		},
-
-		/** texto a ser exibido no botão de "confirmação" do modal de confirmação */
-		confirmTextModal: {
-			type: String,
-			default: 'YES'
-		},
-
-		/** texto a ser exibido no botão de "cancelamento" do modal de confirmação */
-		cancelTextModal: {
-			type: String,
-			default: 'NO'
-		},
-
-		/** string que representa o valor 'true' para ser usado nas buscas */
-		trueStr: {
-			type: String,
-			default: 'YES'
-		},
-
-		/** string que representa o valor 'false' para ser usado nas buscas */
-		falseStr: {
-			type: String,
-			default: 'NO'
 		},
 
 		/** classe css do botão "OK" do modal de exibição da entidade */
@@ -1191,6 +1120,16 @@ export default {
 				'col-md-10': existsOptionsSearch && !existsOperators,
 				'col-md-8': !existsOptionsSearch && !existsOperators
 			})
+		},
+
+		i18nArgs: {
+			type: Object,
+			default: () => ({})
+		},
+
+		localDictionary: {
+			type: Object,
+			default: () => ({})
 		},
 
 		// propriedades sincronas

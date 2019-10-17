@@ -1,3 +1,119 @@
+import en from '../dictionaries/en'
+
+export function getResultDictionary (i18nArgs, ctx, lang, dictionaries, index = 0, dictionary = null) {
+	if (!dictionary)
+		dictionary = en()
+
+	if (index >= dictionaries.length)
+		return dictionary
+
+	let dict = dictionaries[index]
+
+	if (typeof dict === 'function')
+		dict = dict()
+
+	if (lang && dict.lang && lang !== dict.lang)
+		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index+1, dictionary)
+
+	if (dict.use && !dict.use(i18nArgs, ctx))
+		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index+1, dictionary)
+
+	patchUpdate(dictionary, dict, i18nArgs, ctx)
+
+	return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index, dictionary)
+}
+
+/**
+ * Gets the value of each attribute and subatribute (attribute present in
+ * an object that is the value of some attribute) present in "source" and
+ * assigns it in "target". Attributes present in "target" but not present
+ * in "source" are not replaced. This operation is similar to the REST
+ * "patch" operation, except that the REST "path" operation assigns an
+ * object value without parsing its subatributes. If any attribute is a
+ * method, the method's return will be assigned, taking as argument the
+ * values ​​contained in "args"
+ * @param {Object} target - Object to have its attributes updated
+ * @param {Object} source - Object with updated values
+ * @param {...any} args - arguments to pass to methods in "source" to
+ * 	assign method result to "target" attribute
+ * @returns {Object} target with updated values
+ *
+ * @example
+ * let old = {
+ *     v: 100,
+ *     p: 200,
+ *     a: {
+ *         b: 10,
+ *         c: 20
+ *     },
+ *
+ *     b: {
+ *         d: {
+ *             w: 90,
+ *             y: 80,
+ *             z: [{ info: '321' }]
+ *         }
+ *     }
+ * }
+ *
+ * let updated = {
+ *     p: 2,
+ *     a: {
+ *         b: 1
+ *     },
+ *
+ *     b: {
+ *         d: {
+ *             w: 9,
+ *             z: [{ info2: '123' }],
+ *             newAttr: 'new',
+ * 						 sum: (a, b) => a + b
+ *         }
+ *     }
+ * }
+ *
+ * patchUpdate(old, updated, 10, 30)
+ *
+ * console.log(old)
+ * // output:
+ * //
+ * // {
+ * //    v: 100,
+ * //    p: 2,
+ * //    a: {
+ * //        b: 1,
+ * //        c: 20
+ * //    },
+ * //
+ * //    b: {
+ * //        d: {
+ * //            w: 9,
+ * //            y: 80,
+ * //            z: [{ info2: '123' }],
+ * //            newAttr: 'new',
+ * //						 sum: 40
+ * //        }
+ * //    }
+ * // }
+ */
+export function patchUpdate (target, source, ...args) {
+	if (!target) return source
+	if (source instanceof Array) return source
+
+	if (source && typeof source === 'object' && !(source instanceof Date)) {
+		for (let key in source) {
+			let value = source[key]
+			if (typeof value === 'function')
+				value = value(...args)
+			target[key] = exports.patchUpdate(target[key], value, ...args)
+		}
+	} else {
+		return source
+	}
+
+	return target
+}
+
 /**
  * converte um objeto em um objeto pronto para ser enviado em requisição
  * @param {Object} ob - objeto a ser preparado para requisição

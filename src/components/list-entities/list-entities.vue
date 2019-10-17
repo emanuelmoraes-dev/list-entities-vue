@@ -6,7 +6,7 @@
           <vuestic-widget
             :hidePrimary="hideSearch"
             :compactSecundary="!hideSearch && isCompact"
-            :headerText="isCompact ? titleTable : titleSearch"
+            :headerText="isCompact ? titleTable : dictionary.titleSearch"
           >
             <div v-if="$slots.headerText" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
               <slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
@@ -97,7 +97,7 @@
 														</td> <!-- end td lastAttr -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
-														<td class="text-center" v-if="showOptions && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
+														<td class="text-center" v-if="showOptions && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ dictionary.tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
 													</tr> <!-- end tr -->
 												</thead> <!-- end thead -->
 
@@ -179,32 +179,32 @@
 
 			<div class="modals">
         <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
-            :okText="okTextModal">
-          <div slot="title">{{titleSuccessModal}}</div>
+            :okText="dictionary.okTextModal">
+          <div slot="title">{{dictionary.titleSuccessModal}}</div>
           <div>
-            {{ removeSuccessMessage }}
+            {{ dictionary.removeSuccessMessage }}
           </div>
         </vuestic-modal>
 
         <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
-            :okText="confirmTextModal" :cancelText="cancelTextModal" @ok="onRemove">
-          <div slot="title">{{titleConfirmModal}}</div>
+            :okText="dictionary.confirmTextModal" :cancelText="dictionary.cancelTextModal" @ok="onRemove">
+          <div slot="title">{{dictionary.titleConfirmModal}}</div>
           <div>
-            {{ removeConfirmMessage }}
+            {{ dictionary.removeConfirmMessage }}
           </div>
         </vuestic-modal>
 
 				<modal-entity
 					ref="showModalEntity"
-					:title="titleModalEntity"
+					:title="dictionary.titleModalEntity"
 					:okClass="okClassModalEntity"
-					:confirmText="confirmTextModalEntity"
+					:confirmText="dictionary.confirmTextModalEntity"
 					:entity="enityShow"
 					:small="smallModalEntity"
 					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:force="forceModalEntity"
-					:trueStr="trueStr"
-					:falseStr="falseStr"
+					:trueStr="dictionary.trueStr"
+					:falseStr="dictionary.falseStr"
 					:defaultPattern="defaultPattern"
 				>
 					<template v-for="slotName of definitions.modalSlots">
