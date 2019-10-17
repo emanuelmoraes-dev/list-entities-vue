@@ -238,7 +238,7 @@ export default {
 			let inputSearch = this.sync.inputSearch
 			inputSearch = inputSearch.trim()
 
-			let operatorName = this.searchOperator
+			let operator = this.searchOperator
 
 			let params = []
 
@@ -246,11 +246,11 @@ export default {
 				if (type === Boolean)
 					params = this.getParamsByBoolean(attr, inputSearch)
 				else if (type === Date)
-					params = this.getParamsByDate(attr, inputSearch, operatorName)
+					params = this.getParamsByDate(attr, inputSearch, operator)
 				else if (type === Number)
-					params = this.getParamsByNumber(attr, inputSearch, operatorName)
+					params = this.getParamsByNumber(attr, inputSearch, operator)
 				else
-					params = this.getParamsByString(attr, inputSearch, operatorName)
+					params = this.getParamsByString(attr, inputSearch, operator)
 			}
 
 			if (startList)
@@ -330,16 +330,9 @@ export default {
 			}]
 		},
 
-		getParamsByDate (attr, inputSearch, operatorName) {
+		getParamsByDate (attr, inputSearch, operator) {
 			if (!inputSearch)
 				return []
-
-			let operator
-
-			if (operatorName === '$')
-				operator = '$'
-			else
-				operator = this.dateOperators[operatorName]
 
 			let descriptorValue = this.descriptorEntity[attr]
 			let date = dateUtility.toDate(inputSearch, descriptorValue.pattern)
@@ -444,16 +437,9 @@ export default {
 			}
 		},
 
-		getParamsByNumber (attr, inputSearch, operatorName) {
+		getParamsByNumber (attr, inputSearch, operator) {
 			if (!inputSearch)
 				return []
-
-			let operator
-
-			if (operatorName === '$')
-				operator = '$'
-			else
-				operator = this.numberOperators[operatorName]
 
 			return [{
 				value: parseFloat(inputSearch),
@@ -463,16 +449,9 @@ export default {
 			}]
 		},
 
-		getParamsByString (attr, inputSearch, operatorName) {
+		getParamsByString (attr, inputSearch, operator) {
 			if (!inputSearch)
 				return []
-
-			let operator
-
-			if (operatorName === '$')
-				operator = '$'
-			else
-				operator = this.stringOperators[operatorName]
 
 			return [{
 				value: inputSearch,
@@ -584,21 +563,19 @@ export default {
 			const descriptorValue = this.descriptorEntity[this.sync.attrSearch.value]
 			if (!descriptorValue) return []
 
-			let objOperators = {}
+			let operators = []
 
 			if (descriptorValue.type === String)
-				objOperators = this.stringOperators
+				operators = this.stringOperators
 			else if (descriptorValue.type === Number)
-				objOperators = this.numberOperators
+				operators = this.numberOperators
 			else if (descriptorValue.type === Date)
-				objOperators = this.dateOperators
+				operators = this.dateOperators
 			else
 				return []
 
-			return Object.keys(objOperators).filter(opDisplay => {
-				let opValue = objOperators[opDisplay]
-				return descriptorValue[opValue] !== false
-			})
+			return operators.filter(o => !descriptorValue.disableOperators || !descriptorValue.disableOperators.find(dop => dop === o))
+				.map(text => ({ text, value: this.dictionary.translate.operators[text] }))
 		},
 
 		optionsSearch () {
@@ -914,55 +891,26 @@ export default {
 
 		/**
 		 * mapeia as operações disponíveis para busca de atributos textuais.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
 		 */
 		stringOperators: {
-			type: Object,
-			default: () => ({
-				'in': '$in',
-				'not in': '$nin',
-				'equals': '$eq',
-				'not equals': '$neq',
-				'starts with': '$sw',
-				'not starts with': '$nsw',
-				'ends with': '$ew',
-				'not ends with': '$new'
-			})
+			type: Array,
+			default: () => ['$in', '$nin', '$eq', '$neq', '$sw', '$nsw', '$ew', '$new']
 		},
 
 		/**
 		 * mapeia as operações disponíveis para busca de atributos numéricos.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
 		 */
 		numberOperators: {
-			type: Object,
-			default: () => ({
-				'equals': '$eq',
-				'not equals': '$neq',
-				'greater than': '$gt',
-				'greater than or equal to': '$gte',
-				'less than': '$lt',
-				'less than or equal to': '$lte'
-			})
+			type: Array,
+			default: () => ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']
 		},
 
 		/**
 		 * mapeia as operações disponpiveis para busca de atributos temporais.
-		 * A chave é o valor do texto a aparecer nas opções de operações e o
-		 * valor é o tipo de operação
 		 */
 		dateOperators: {
-			type: Object,
-			default: () => ({
-				'equals': '$eq',
-				'not equals': '$neq',
-				'greater than': '$gt',
-				'greater than or equal to': '$gte',
-				'less than': '$lt',
-				'less than or equal to': '$lte'
-			})
+			type: Array,
+			default: () => ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']
 		},
 
 		/** título para exibir no widget da tabela de resultados */

@@ -55,39 +55,44 @@ export default function definitionAdapter (def) {
 		if ('joinSep' in defValue)
 			descriptor[attr].joinSep = defValue.joinSep
 
-		if ('contains' in defValue)
-			descriptor[attr].contains = defValue.contains
+		// if ('contains' in defValue)
+		// 	descriptor[attr].contains = defValue.contains
 
-		if ('startsWith' in defValue)
-			descriptor[attr].startsWith = defValue.startsWith
+		// if ('startsWith' in defValue)
+		// 	descriptor[attr].startsWith = defValue.startsWith
 
-		if ('endsWith' in defValue)
-			descriptor[attr].endsWith = defValue.endsWith
+		// if ('endsWith' in defValue)
+		// 	descriptor[attr].endsWith = defValue.endsWith
 
-		if ('equals' in defValue)
-			descriptor[attr].equals = defValue.equals
+		// if ('equals' in defValue)
+		// 	descriptor[attr].equals = defValue.equals
+		// else if (defValue.array)
+		// 	descriptor[attr].equals = false
+
+		// if ('greaterThan' in defValue)
+		// 	descriptor[attr].greaterThan = defValue.greaterThan
+		// else if (defValue.array)
+		// 	descriptor[attr].greaterThan = false
+
+		// if ('lessThan' in defValue)
+		// 	descriptor[attr].lessThan = defValue.lessThan
+		// else if (defValue.array)
+		// 	descriptor[attr].lessThan = false
+
+		// if ('greaterOrEqualThan' in defValue)
+		// 	descriptor[attr].greaterOrEqualThan = defValue.greaterOrEqualThan
+		// else if (defValue.array)
+		// 	descriptor[attr].greaterOrEqualThan = false
+
+		// if ('lessOrEqualThan' in defValue)
+		// 	descriptor[attr].lessOrEqualThan = defValue.lessOrEqualThan
+		// else if (defValue.array)
+		// 	descriptor[attr].lessOrEqualThan = false
+
+		if ('disableOperators' in defValue)
+			descriptor[attr].disableOperators = def.disableOperators
 		else if (defValue.array)
-			descriptor[attr].equals = false
-
-		if ('greaterThan' in defValue)
-			descriptor[attr].greaterThan = defValue.greaterThan
-		else if (defValue.array)
-			descriptor[attr].greaterThan = false
-
-		if ('lessThan' in defValue)
-			descriptor[attr].lessThan = defValue.lessThan
-		else if (defValue.array)
-			descriptor[attr].lessThan = false
-
-		if ('greaterOrEqualThan' in defValue)
-			descriptor[attr].greaterOrEqualThan = defValue.greaterOrEqualThan
-		else if (defValue.array)
-			descriptor[attr].greaterOrEqualThan = false
-
-		if ('lessOrEqualThan' in defValue)
-			descriptor[attr].lessOrEqualThan = defValue.lessOrEqualThan
-		else if (defValue.array)
-			descriptor[attr].lessOrEqualThan = false
+			descriptor[attr].disableOperators = ['$gt', '$gte', '$lt', '$lte']
 
 		if (!('modalJoinSep' in defValue) && 'joinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.joinSep
