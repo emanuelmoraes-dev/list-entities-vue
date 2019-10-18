@@ -32,7 +32,7 @@ export default {
 
 	created () {
 		this.initSync()
-		this.initDictionary()
+		this.loadDictionary()
 		this.entities = this.value
 		this.prepareDescriptor()
 
@@ -58,7 +58,7 @@ export default {
 		/**
 		 * inicializa o dictionary mesclando as definições globais e locais
 		 */
-		initDictionary () {
+		loadDictionary () {
 			let localDictionary = this.localDictionary
 
 			if (!localDictionary)
