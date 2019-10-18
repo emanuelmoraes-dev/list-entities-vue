@@ -14,18 +14,13 @@
 
 <script>
 import listEntities from './components/list-entities/list-entities.vue'
-import definitionAdapter from './adapters/definition-adapter'
 
 export default {
 	name: 'app',
 
-	components: {
-		listEntities
-	},
-
 	data () {
 		return {
-			definitions: definitionAdapter({
+			definitions: this.$le.def({
 				name: {
 					type: String,
 					sort: 1,

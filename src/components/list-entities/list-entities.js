@@ -67,7 +67,8 @@ export default {
 			const ctxName = this.$getListEntitiesCtxName()
 			const ctx = this[ctxName]
 
-			const globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.getLang(), ctx.getDictionaries())
+			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.getLang(), ctx.getDictionaries())
+			globalDictionary = globalDictionary.translate
 			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
 		},
 
@@ -575,7 +576,7 @@ export default {
 				return []
 
 			return operators.filter(o => !descriptorValue.disableOperators || !descriptorValue.disableOperators.find(dop => dop === o))
-				.map(text => ({ text, value: this.dictionary.translate.operators[text] }))
+				.map(value => ({ value, text: this.dictionary.operators[value] }))
 		},
 
 		optionsSearch () {
@@ -1066,7 +1067,7 @@ export default {
 			default: (existsOptionsSearch, existsOperators) => ({
 				'col-md-12': !existsOptionsSearch && !existsOperators,
 				'col-md-10': existsOptionsSearch && !existsOperators,
-				'col-md-8': !existsOptionsSearch && !existsOperators
+				'col-md-8': existsOptionsSearch && existsOperators
 			})
 		},
 
@@ -1091,28 +1092,16 @@ export default {
 			type: Object,
 			default: () => ({
 				/** quantidade total de entidades (quantidade total de resultados) */
-				totalElements: {
-					type: Number,
-					default: 0
-				},
+				totalElements: 0,
 
 				/** página atual sendo exibida */
-				page: {
-					type: Number,
-					default: 1
-				},
+				page: 1,
 
 				/** atributo que está sendo buscado */
-				attrSearch: {
-					type: Object,
-					default: () => null
-				},
+				attrSearch: null,
 
 				/** valor que está sendo buscado */
-				inputSearch: {
-					type: String,
-					default: ''
-				}
+				inputSearch: ''
 			})
 		}
 	}
