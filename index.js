@@ -2,13 +2,14 @@
 import _listEntities from './src/components/list-entities/list-entities.vue'
 import _modalEntity from './src/components/modal-entity/modal-entity.vue'
 import _def from './src/adapters/def'
+import _dictionaries from './src/dictionaries'
 
 export default {
 	install (Vue, {
 		nameListEntities = 'list-entities',
 		nameModalEntity = 'modal-entity',
 		lang = 'en',
-		dictionaries = [],
+		dictionaries = _dictionaries,
 		ctxName = '$lev',
 		ctxNameDef = 'def',
 		ctxNameDictionaries = 'dictionaries',
@@ -83,3 +84,5 @@ export default {
 export const listEntities = _listEntities
 export const modalEntity = _modalEntity
 export const def = _def
+export const dictionaries = _dictionaries
+export * from './src/dictionaries'

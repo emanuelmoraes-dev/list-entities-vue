@@ -20,7 +20,7 @@ export function getResultDictionary (i18nArgs, ctx, lang, dictionaries, index = 
 
 	patchUpdate(dictionary, dict, i18nArgs, ctx)
 
-	return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index, dictionary)
+	return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index + 1, dictionary)
 }
 
 /**
@@ -105,7 +105,7 @@ export function patchUpdate (target, source, ...args) {
 			let value = source[key]
 			if (typeof value === 'function')
 				value = value(...args)
-			target[key] = exports.patchUpdate(target[key], value, ...args)
+			target[key] = patchUpdate(target[key], value, ...args)
 		}
 	} else {
 		return source
