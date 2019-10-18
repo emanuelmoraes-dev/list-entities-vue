@@ -8,7 +8,7 @@ import app from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import plugin from '../index'
 
-Vue.use(plugin, { lang: 'pt' })
+Vue.use(plugin)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
