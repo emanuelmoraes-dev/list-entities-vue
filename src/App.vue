@@ -20,7 +20,7 @@ export default {
 
 	data () {
 		return {
-			definitions: this.$le.def({
+			definitions: this.$lev.def({
 				name: {
 					type: String,
 					sort: 1,

@@ -9,7 +9,7 @@ export default {
 		nameModalEntity = 'modal-entity',
 		lang = 'en',
 		dictionaries = [],
-		ctxName = '$le',
+		ctxName = '$lev',
 		ctxNameDef = 'def',
 		ctxNameDictionaries = 'dictionaries',
 		ctxNameLang = 'lang'
