@@ -75,6 +75,12 @@ export default {
 			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
 		},
 
+		translatePattern (pattern) {
+			if (!this.dictionary || !this.dictionary.patterns || !(pattern in this.dictionary.patterns))
+				return pattern
+			return this.dictionary.patterns[pattern]
+		},
+
 		/**
 		 * evento lançado ao clicar em qualquer tecla no campo de pesquisa
 		 * @param {Event} e - evento do DOM
@@ -339,8 +345,8 @@ export default {
 				return []
 
 			let descriptorValue = this.descriptorEntity[attr]
-			let date = dateUtility.toDate(inputSearch, descriptorValue.pattern)
-			let pattern = dateUtility.getMinPattern(inputSearch, descriptorValue.pattern)
+			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern))
+			let pattern = dateUtility.getMinPattern(inputSearch, this.translatePattern(descriptorValue.pattern))
 
 			let cmpDate1 = new Date(2019, 7, 7, 7, 7, 7, 7)
 			let cmpDate2 = dateUtility.toDate(
@@ -690,8 +696,8 @@ export default {
 			}
 
 			else if (typeof value === 'boolean') return (value && 'SIM') || 'NÃO'
-			else if (value instanceof Date) return dateUtility.dateToStr(value, descriptor[attr.value].pattern)
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), descriptor[attr.value].pattern)
+			else if (value instanceof Date) return dateUtility.dateToStr(value, this.translatePattern(descriptor[attr.value].pattern))
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), this.translatePattern(descriptor[attr.value].pattern))
 			return value
 		}
 	},

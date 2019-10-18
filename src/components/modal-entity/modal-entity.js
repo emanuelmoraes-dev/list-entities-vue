@@ -30,6 +30,12 @@ export default {
 	},
 
 	methods: {
+		translatePattern (pattern) {
+			if (!this.dictionary || !this.dictionary.patterns || !(pattern in this.dictionary.patterns))
+				return pattern
+			return this.dictionary.patterns[pattern]
+		},
+
 		/**
 		 * inicializa o dictionary mesclando as definições globais e locais
 		 */
@@ -177,7 +183,9 @@ export default {
 			} else if (descriptorValue.type === Date) {
 				return dateUtility.dateToStr(
 					value,
-					descriptorValue.pattern
+					this.translatePattern(
+						descriptorValue.pattern
+					)
 				)
 			} else if (descriptorValue.type === Array) {
 				if (descriptorValue.adapter) {
