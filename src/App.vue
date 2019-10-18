@@ -1,8 +1,7 @@
 <template>
   <div id="app">
 		<list-entities
-			v-model="peoples"
-			:searchOperatorsShow="true"
+			v-model="products"
 			:definitions="definitions"
 			:optionEdit="true"
 			:optionReport="true"
@@ -23,39 +22,44 @@ export default {
 				name: {
 					type: String,
 					sort: 1,
-					modalHeaderText: 'fullname:',
+					modalHeaderText: true,
 					optionSearch: true,
 					displayAttr: true
 				},
-				country: {
+				brand: {
 					type: String,
+					modalHeaderText: true,
 					optionSearch: true,
+					displayAttr: true
+				},
+				price: {
+					type: Number,
+					modalHeaderText: true,
+					optionSearch: true,
+					displayAttr: true,
 					defaultLastAttr: true
 				},
-				gender: {
-					type: String,
-					optionSearch: true
+				perishable: {
+					type: Boolean,
+					modalHeaderText: true,
+					optionSearch: true,
+					displayAttr: true
 				},
-				phones: {
-					type: String,
-					array: true,
+				expiration: {
+					type: Date,
+					modalHeaderText: true,
 					optionSearch: true,
 					displayAttr: true
 				}
 			}),
 
-			peoples: [
+			products: [
 				{
-					name: 'José Martins',
-					country: 'Brazil',
-					gender: 'male',
-					phones: ['(99) 99999-9999', '(88) 88888-8888']
-				},
-				{
-					name: 'Antônio de Paula',
-					country: 'Brazil',
-					gender: 'male',
-					phones: ['(77) 77777-7777', '(66) 66666-6666']
+					name: 'Coca Cola',
+					brand: 'The Coca-Cola Company',
+					price: 4,
+					perishable: false,
+					expiration: new Date(2019, 10, 18)
 				}
 			]
 		}

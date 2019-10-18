@@ -681,7 +681,7 @@ export default {
 		 * @param {string} joinSep - string usada para unir os  valores de um array (se for o caso)
 		 * @returns {any}
 		 */
-		parseAttr (value, attr, descriptor, joinSep) {
+		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern) {
 			if (!attr) return value
 
 			if (value instanceof Array) {
@@ -695,9 +695,9 @@ export default {
 				// eslint-disable-next-line brace-style
 			}
 
-			else if (typeof value === 'boolean') return (value && 'SIM') || 'NÃO'
-			else if (value instanceof Date) return dateUtility.dateToStr(value, this.translatePattern(descriptor[attr.value].pattern))
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), this.translatePattern(descriptor[attr.value].pattern))
+			else if (typeof value === 'boolean') return (value && trueStr) || falseStr
+			else if (value instanceof Date) return dateUtility.dateToStr(value, translatePattern(descriptor[attr.value].pattern))
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), translatePattern(descriptor[attr.value].pattern))
 			return value
 		}
 	},

@@ -174,7 +174,7 @@ export default {
 		 * @param {string} falseStr - valor textual que representa o valor booleano false
 		 * @returns {any}
 		 */
-		parseValue (value, descriptorValue, trueStr, falseStr) {
+		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern) {
 			if (value === undefined || value === null) {
 				return ''
 			}
