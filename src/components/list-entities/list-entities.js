@@ -914,12 +914,6 @@ export default {
 			default: () => ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']
 		},
 
-		/** título para exibir no widget da tabela de resultados */
-		titleTable: {
-			type: String,
-			required: true
-		},
-
 		/**
 		 * contém o texto a ser exibido no header da tabela
 		 * acima do conteúdo presentte no slot 'check'

@@ -2,7 +2,6 @@
   <div id="app">
 		<list-entities
 			v-model="peoples"
-			titleTable="Peoples"
 			:searchOperatorsShow="true"
 			:definitions="definitions"
 			:optionEdit="true"

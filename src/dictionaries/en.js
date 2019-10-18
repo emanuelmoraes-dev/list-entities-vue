@@ -18,6 +18,7 @@ export default () => ({
 		},
 		attrAll: 'All',
 		titleSearch: 'Search',
+		titleTable: 'Entities',
 		tdOptionName: 'OPTIONS:',
 		titleSuccessModal: 'Success!',
 		titleConfirmModal: 'Attention!',

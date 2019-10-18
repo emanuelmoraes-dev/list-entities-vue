@@ -6,7 +6,7 @@
           <vuestic-widget
             :hidePrimary="hideSearch"
             :compactSecundary="!hideSearch && isCompact"
-            :headerText="isCompact ? titleTable : dictionary.titleSearch"
+            :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
           >
             <div v-if="$slots.headerText" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
               <slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
@@ -67,7 +67,7 @@
 
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
-									<component :is="componentShowTable" :headerText="titleTable">
+									<component :is="componentShowTable" :headerText="dictionary.titleTable">
 										<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
 
 										<div class="table-responsive">
