@@ -23,7 +23,7 @@ export default {
 				name: {
 					type: String,
 					sort: 1,
-					modalHeaderText: 'fullname',
+					modalHeaderText: 'fullname:',
 					optionSearch: true,
 					displayAttr: true
 				},

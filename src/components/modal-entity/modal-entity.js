@@ -7,6 +7,11 @@ export default {
 
 	data () {
 		return {
+			ctxLev: {},
+
+			dictionary: null, // dicionário mesclado com as definições globais e locais
+			descriptorEntity: {}, // descriptor adaptado para a utilização interna deste componente
+
 			optimizer: { // otimização de funções
 				getPropertyValue: { // otimização da função getPropertyValue
 					dymanicProgramming: { // otimização por programação dinâmica
@@ -15,16 +20,34 @@ export default {
 				}
 			},
 
-			show: false, // Usado para descobrir se o modal está aberto
-			descriptorEntity: {} // descriptor adaptado para a utilização interna deste componente
+			show: false // Usado para descobrir se o modal está aberto
 		}
 	},
 
 	created () {
+		this.loadDictionary()
 		this.adapterDescriptor()
 	},
 
 	methods: {
+		/**
+		 * inicializa o dictionary mesclando as definições globais e locais
+		 */
+		loadDictionary () {
+			let localDictionary = this.localDictionary
+
+			if (!localDictionary)
+				localDictionary = {}
+
+			const ctxName = this.$getListEntitiesCtxName()
+			const ctx = this[ctxName]
+			this.ctxLev = ctx
+
+			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
+			globalDictionary = globalDictionary.translate
+			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
+		},
+
 		/**
 		 * retorna o valor do filtro 'getAttr' usando otimização
 		 * @param {Object} entity - entidade que está sendo exibida no modal
@@ -95,6 +118,10 @@ export default {
 	},
 
 	watch: {
+		'ctxLev.lang' () {
+			this.loadDictionary()
+		},
+
 		descriptor (descriptor) {
 			this.adapterDescriptor(descriptor)
 		},
@@ -105,6 +132,18 @@ export default {
 	},
 
 	filters: {
+		/**
+		 * traduz a exibição de um valor mediante um dicionário
+		 * @param {string|number} value - valor a ser traduzido
+		 * @param {Object} dictionary - dicionário contendo a tradução para o termo informado
+		 * @return {string|number} valor traduzido
+		 */
+		translate (value, dictionary) {
+			if (!dictionary || !dictionary.attrs || !(value in dictionary.attrs))
+				return value
+			return dictionary.attrs[value]
+		},
+
 		/**
 		 * Obtém o valor (ou valores) de um objeto por meio da especificação de uma propriedade.
 		 * @param {Object} obj - objeto a ter o valor de sua propriedade retornada
@@ -200,12 +239,6 @@ export default {
 			required: true
 		},
 
-		/** título a ser exibido no modal */
-		title: {
-			type: String,
-			required: true
-		},
-
 		/** false para o modal ser largo */
 		small: {
 			type: Boolean,
@@ -218,24 +251,6 @@ export default {
 			default: false
 		},
 
-		/** texto a ser exibido no botão de fechar o modal */
-		okText: {
-			type: String,
-			default: 'OK'
-		},
-
-		/** string que representa o valor 'true' para ser exibido */
-		trueStr: {
-			type: String,
-			default: 'YES'
-		},
-
-		/** string que representa o valor 'false' para ser exibido */
-		falseStr: {
-			type: String,
-			default: 'NO'
-		},
-
 		/** string que representa o padrão de exibição de datas */
 		defaultPattern: {
 			type: String,
@@ -246,6 +261,16 @@ export default {
 		okClass: {
 			type: String,
 			default: 'btn btn-primary btn-modal btn-ok-modal'
+		},
+
+		i18nArgs: {
+			type: Object,
+			default: () => ({})
+		},
+
+		localDictionary: {
+			type: Object,
+			default: () => ({})
 		}
 	}
 }

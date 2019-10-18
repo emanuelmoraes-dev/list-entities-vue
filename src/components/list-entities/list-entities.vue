@@ -83,7 +83,7 @@
 														> <!-- td atributos -->
 															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-down"></span>
 															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-up"></span>
-															{{attr.display}}:
+															{{ attr.display | translate(dictionary) }}:
 														</td> <!-- end v-for td atributos -->
 
 														<td
@@ -93,7 +93,7 @@
 														> <!-- td lastAttr -->
 															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-down"></span>
 															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-up"></span>
-															{{lastAttr.display}}:
+															{{ lastAttr.display | translate(dictionary) }}:
 														</td> <!-- end td lastAttr -->
 
 														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
@@ -196,16 +196,14 @@
 
 				<modal-entity
 					ref="showModalEntity"
-					:title="dictionary.titleModalEntity"
 					:okClass="okClassModalEntity"
-					:confirmText="dictionary.confirmTextModalEntity"
 					:entity="enityShow"
 					:small="smallModalEntity"
 					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:force="forceModalEntity"
-					:trueStr="dictionary.trueStr"
-					:falseStr="dictionary.falseStr"
 					:defaultPattern="defaultPattern"
+					:i18nArgs="i18nArgsModal"
+					:localDictionary="dictionary"
 				>
 					<template v-for="slotName of definitions.modalSlots">
 						<div :key="slotName" :slot="slotName" slot-scope="{ property }">

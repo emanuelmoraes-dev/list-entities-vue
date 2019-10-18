@@ -8,12 +8,9 @@ export default {
 	install (Vue, {
 		nameListEntities = 'list-entities',
 		nameModalEntity = 'modal-entity',
-		lang = 'en',
 		dictionaries = _dictionaries,
 		ctxName = '$lev',
-		ctxNameDef = 'def',
-		ctxNameDictionaries = 'dictionaries',
-		ctxNameLang = 'lang'
+		lang = 'en'
 	} = {}) {
 		if (nameListEntities)
 			Vue.component(nameListEntities, _listEntities)
@@ -29,54 +26,9 @@ export default {
 
 		if (ctxName) {
 			Vue.prototype[ctxName] = {}
-
-			if (ctxNameDef)
-				Vue.prototype[ctxName][ctxNameDef] = _def
-
-			if (ctxNameDictionaries)
-				Vue.prototype[ctxName][ctxNameDictionaries] = dictionaries
-
-			if (ctxNameLang)
-				Vue.prototype[ctxName][ctxNameLang] = lang
-
-			Vue.prototype[ctxName].getDef = function () {
-				if (!ctxNameDef || (typeof ctxNameDef !== 'string' && typeof ctxNameDef !== 'symbol'))
-					throw new Error('"ctxNameDef" possui valor inválido')
-				return Vue.prototype[ctxName][ctxNameDef]
-			}
-
-			Vue.prototype[ctxName].setLang = function (lang) {
-				if (!ctxNameLang || (typeof ctxNameLang !== 'string' && typeof ctxNameLang !== 'symbol'))
-					throw new Error('"ctxNameLang" possui valor inválido')
-				Vue.prototype[ctxName][ctxNameLang] = lang
-			}
-
-			Vue.prototype[ctxName].getLang = function () {
-				if (!ctxNameLang || (typeof ctxNameLang !== 'string' && typeof ctxNameLang !== 'symbol'))
-					throw new Error('"ctxNameLang" possui valor inválido')
-				return Vue.prototype[ctxName][ctxNameLang]
-			}
-
-			Vue.prototype[ctxName].setDictionaries = function (dictionaries) {
-				if (!ctxNameDictionaries || (typeof ctxNameDictionaries !== 'string' && typeof ctxNameDictionaries !== 'symbol'))
-					throw new Error('"ctxNameDictionaries" possui valor inválido')
-				Vue.prototype[ctxName][ctxNameDictionaries] = dictionaries
-			}
-
-			Vue.prototype[ctxName].getDictionaries = function () {
-				if (!ctxNameDictionaries || (typeof ctxNameDictionaries !== 'string' && typeof ctxNameDictionaries !== 'symbol'))
-					throw new Error('"ctxNameDictionaries" possui valor inválido')
-				return Vue.prototype[ctxName][ctxNameDictionaries]
-			}
-
-			Vue.prototype[ctxName].addDictionary = function (dictionary, index = null) {
-				if (!ctxNameDictionaries || (typeof ctxNameDictionaries !== 'string' && typeof ctxNameDictionaries !== 'symbol'))
-					throw new Error('"ctxNameDictionaries" possui valor inválido')
-				if (index === null || index === undefined)
-					Vue.prototype[ctxName][ctxNameDictionaries].push(dictionary)
-				else
-					Vue.prototype[ctxName][ctxNameDictionaries].splice(index, 0, dictionary)
-			}
+			Vue.prototype[ctxName].def = _def
+			Vue.prototype[ctxName].dictionaries = dictionaries
+			Vue.prototype[ctxName].lang = lang
 		}
 	}
 }

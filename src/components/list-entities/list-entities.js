@@ -16,6 +16,8 @@ export default {
 
 	data () {
 		return {
+			ctxLev: {},
+
 			dictionary: null, // dicionário mesclado com as definições globais e locais
 			descriptorEntity: null, // 'defitions.descriptor' refatorado
 			entities: [], // entidades a serem listadas
@@ -66,8 +68,9 @@ export default {
 
 			const ctxName = this.$getListEntitiesCtxName()
 			const ctx = this[ctxName]
+			this.ctxLev = ctx
 
-			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.getLang(), ctx.getDictionaries())
+			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
 			globalDictionary = globalDictionary.translate
 			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
 		},
@@ -464,6 +467,10 @@ export default {
 	},
 
 	watch: {
+		'ctxLev.lang' () {
+			this.loadDictionary()
+		},
+
 		/**
 		 * ao atualizar a lista de entidades atualiza-se o atributo '__lastAttrValue' de todas as entidades
 		 * @param {Object[]} value - entidades sendo exibidas na tabela
@@ -497,8 +504,9 @@ export default {
 		 *     para filtragem
 		 */
 		'sync.attrSearch' (newValue, oldValue) {
-			if (newValue !== oldValue && this.searchOperatorsShow && this.operators && this.operators.length)
-				this.searchOperator = this.operators[0]
+			if (newValue !== oldValue && this.searchOperatorsShow && this.operators && this.operators.length) {
+				this.searchOperator = this.operators[0].value
+			}
 
 			if (!newValue) { // se novo valor for "vazio"
 				this.sync.attrSearch = oldValue // atribui-se o valor antigo
@@ -584,7 +592,7 @@ export default {
 				return []
 
 			let options = this.definitions.optionsSearch.map(opt => ({
-				text: opt.display,
+				text: this.$options.filters.translate(opt.display, this.dictionary),
 				value: opt
 			}))
 
@@ -610,6 +618,18 @@ export default {
 	},
 
 	filters: {
+		/**
+		 * traduz a exibição de um valor mediante um dicionário
+		 * @param {string|number} value - valor a ser traduzido
+		 * @param {Object} dictionary - dicionário contendo a tradução para o termo informado
+		 * @return {string|number} valor traduzido
+		 */
+		translate (value, dictionary) {
+			if (!dictionary || !dictionary.attrs || !(value in dictionary.attrs))
+				return value
+			return dictionary.attrs[value]
+		},
+
 		/**
 		 * obtém a classe da div que envolve o input de texto usado para realizar pesquisas
 		 * @param {Array} c - array de classes predefinidas para a div que envolve o input de texto usado para realizar pesquisas
@@ -1066,6 +1086,11 @@ export default {
 		},
 
 		i18nArgs: {
+			type: Object,
+			default: () => ({})
+		},
+
+		i18nArgsModal: {
 			type: Object,
 			default: () => ({})
 		},

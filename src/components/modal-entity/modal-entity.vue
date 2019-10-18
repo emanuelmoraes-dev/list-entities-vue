@@ -8,12 +8,12 @@
         :show.sync="show"
 				:small="small"
 				:force="force"
-				:okText="okText"
+				:okText="dictionary.okTextModal"
 				:okClass="okClass"
 
 				@ok="() => $emit('ok')"
 			> <!-- componente de modal do vuestic  -->
-				<div slot="title">{{ title }}</div> <!-- título do modal -->
+				<div slot="title">{{ dictionary.titleModalEntity }}</div> <!-- título do modal -->
         <div class="content">
           <div
             v-for="(property, index) of Object.keys(descriptorEntity)"
@@ -25,7 +25,7 @@
               </slot> <!-- chama slot `${property}_slot` -->
             </div> <!-- end v-if -->
             <div v-else class="line-modal-property"> <!-- se o usuário não informar o que deverá ser exibido para esta propriedade -->
-              <div class="property-name">{{ descriptorEntity[property].display }}</div> <!-- o nome da propriedade a ser exibida está presente em display no 'descriptor' desta propriedade -->
+              <div class="property-name">{{ descriptorEntity[property].display | translate(dictionary) }}</div> <!-- o nome da propriedade a ser exibida está presente em display no 'descriptor' desta propriedade -->
               <div class="property-value">
                 <span v-if="descriptorEntity[property].sep === '\n'">
                   <!--
@@ -41,7 +41,7 @@
                   </span> <!-- end v-for -->
                 </span> <!-- end v-if -->
                 <span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
-                  {{ entity | getAttr(property) | parseValue(descriptorEntity[property], trueStr, falseStr) }}
+                  {{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr) }}
                 </span> <!-- end v-else -->
               </div> <!-- end class property-value -->
             </div> <!-- end class line-modal-property && end v-else -->
