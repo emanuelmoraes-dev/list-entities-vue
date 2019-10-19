@@ -99,8 +99,14 @@ export default function definitionAdapter (def) {
 		else if ('modalJoinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.modalJoinSep
 
-		if ('modalHeaderText' in defValue)
-			descriptorModal[attr].display = defValue.modalHeaderText
+		const modalheaderText = defValue.modalHeaderText
+
+		if (typeof modalheaderText === 'string' && modalheaderText)
+			descriptorModal[attr].display = modalheaderText
+		else if (modalheaderText)
+			descriptorModal[attr].display = attr
+		else
+			delete descriptorModal[attr]
 
 		if (defValue.optionSearch) {
 			let optS = { display: attr, value: attr }
