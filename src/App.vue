@@ -43,19 +43,17 @@ export default {
 					displayModal: true,
 					optionSearch: true,
 					displayAttr: true,
-					defaultLastAttr: true
 				},
 				perishable: {
 					type: Boolean,
 					displayModal: true,
 					optionSearch: true,
-					displayAttr: true
+					defaultLastAttr: true
 				},
 				expiration: {
 					type: Date,
 					displayModal: true,
 					optionSearch: true,
-					displayAttr: true
 				}
 			}),
 
