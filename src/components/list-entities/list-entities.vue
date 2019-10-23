@@ -77,6 +77,7 @@
 													<tr>
 														<td v-if="$scopedSlots.check">{{tdCheckName}}</td>
 														<td
+															class="header-attr"
 															:class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
 															v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
 															@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
