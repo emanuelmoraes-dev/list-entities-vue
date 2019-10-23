@@ -984,7 +984,7 @@ export default {
 		/** true para unir o widget de busca com o widget com a tabela de resultados */
 		isCompact: {
 			type: Boolean,
-			default: false
+			default: true
 		},
 
 		/** se true, o último atributo da tabel será escondido */
