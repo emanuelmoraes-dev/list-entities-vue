@@ -1,12 +1,18 @@
 <template>
   <div id="app">
-		<list-entities
-			v-model="products"
-			:definitions="definitions"
-			:optionEdit="true"
-			:optionReport="true"
-			@on_error="onError"
-		/>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<list-entities
+						v-model="products"
+						:definitions="definitions"
+						:optionEdit="true"
+						:optionReport="true"
+						@on_error="onError"
+					/>
+				</div>
+			</div>
+		</div>
   </div>
 </template>
 
@@ -22,32 +28,32 @@ export default {
 				name: {
 					type: String,
 					sort: 1,
-					modalHeaderText: true,
+					displayModal: true,
 					optionSearch: true,
 					displayAttr: true
 				},
 				brand: {
 					type: String,
-					modalHeaderText: true,
+					displayModal: true,
 					optionSearch: true,
 					displayAttr: true
 				},
 				price: {
 					type: Number,
-					modalHeaderText: true,
+					displayModal: true,
 					optionSearch: true,
 					displayAttr: true,
 					defaultLastAttr: true
 				},
 				perishable: {
 					type: Boolean,
-					modalHeaderText: true,
+					displayModal: true,
 					optionSearch: true,
 					displayAttr: true
 				},
 				expiration: {
 					type: Date,
-					modalHeaderText: true,
+					displayModal: true,
 					optionSearch: true,
 					displayAttr: true
 				}
@@ -76,3 +82,9 @@ export default {
 	}
 }
 </script>
+
+<style>
+#app {
+	margin-top: 1rem;
+}
+</style>
