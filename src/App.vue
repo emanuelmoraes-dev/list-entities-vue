@@ -42,7 +42,7 @@ export default {
 					type: Number,
 					displayModal: true,
 					optionSearch: true,
-					displayAttr: true,
+					displayAttr: true
 				},
 				perishable: {
 					type: Boolean,
@@ -53,7 +53,7 @@ export default {
 				expiration: {
 					type: Date,
 					displayModal: true,
-					optionSearch: true,
+					optionSearch: true
 				}
 			}),
 
