@@ -104,7 +104,7 @@ export default function definitionAdapter (def) {
 		if (typeof displayModal === 'string' && displayModal)
 			descriptorModal[attr].display = displayModal
 		else if (displayModal)
-			descriptorModal[attr].display = attr
+			descriptorModal[attr].display = `${attr}:`
 		else
 			delete descriptorModal[attr]
 
