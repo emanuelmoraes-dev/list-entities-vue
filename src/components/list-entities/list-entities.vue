@@ -3,7 +3,8 @@
     <div class="wrapper-list-entities"> <!-- classe que encapsula o componente list-entities -->
       <div class="row">
         <div class="col-xs-12 col-md-12">
-          <vuestic-widget
+          <component
+						:is="rootComponent"
             :hidePrimary="hideSearch"
             :compactSecundary="!hideSearch && isCompact"
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
@@ -173,7 +174,7 @@
 								</div> <!-- end col ? -->
 							</div> <!-- end row ? -->
 						</div> <!-- end slot secundary -->
-          </vuestic-widget> <!-- end vuestic-widget -->
+          </component> <!-- end root component -->
         </div> <!-- end col -->
       </div> <!-- end row -->
 

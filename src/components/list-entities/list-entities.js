@@ -558,7 +558,12 @@ export default {
 	computed: {
 		/** nome do componente que irá envolver a tabela */
 		componentShowTable () {
-			return this.isCompact ? 'show' : 'vuestic-widget'
+			return this.isCompact || !this.useWidget ? 'show' : 'vuestic-widget'
+		},
+
+		/** nome do componente que irá envolver todo o list-entities */
+		rootComponent () {
+			return this.useWidget ? 'vuestic-widget' : 'show'
 		},
 
 		/** retorna o atributo a ser exebido por último na tabela */
@@ -1104,6 +1109,11 @@ export default {
 		localDictionary: {
 			type: Object,
 			default: () => ({})
+		},
+
+		useWidget: {
+			type: Boolean,
+			default: true
 		},
 
 		// propriedades sincronas
