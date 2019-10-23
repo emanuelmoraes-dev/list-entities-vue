@@ -183,7 +183,7 @@ export default {
 			} else if (descriptorValue.type === Date) {
 				return dateUtility.dateToStr(
 					value,
-					this.translatePattern(
+					translatePattern(
 						descriptorValue.pattern
 					)
 				)
