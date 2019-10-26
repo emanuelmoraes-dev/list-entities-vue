@@ -1133,7 +1133,7 @@ export default {
 
 		value: {
 			type: Array,
-			required: true
+			default: () => []
 		},
 
 		sync: {
