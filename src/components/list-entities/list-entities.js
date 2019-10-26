@@ -5,6 +5,7 @@ import VuesticModal from '../../../lib/vuestic/components/vuestic-modal/VuesticM
 import ModalEntity from '../modal-entity/modal-entity.vue'
 import Show from './show/show.vue'
 import * as util from '../../services/util'
+import InvalidDateFormatError from './err/invalid-date-format-error'
 
 export default {
 	components: {
@@ -232,68 +233,73 @@ export default {
 		},
 
 		search (startList) {
-			if (!this.optionsSearch || !this.optionsSearch.length) {
-				this.$emit('on_search', this.sync.inputSearch, this.paramsRequest, null, null)
-				return
-			}
+			try {
+				if (!this.optionsSearch || !this.optionsSearch.length) {
+					this.$emit('on_search', this.sync.inputSearch, this.paramsRequest, null, null)
+					return
+				}
 
-			let attr = this.sync.attrSearch.value
-			let type
+				let attr = this.sync.attrSearch.value
+				let type
 
-			if (this.sync.attrSearch.value === this.dictionary.attrAll)
-				type = null
-			else
-				type = this.descriptorEntity[attr].type
-
-			let inputSearch = this.sync.inputSearch
-			inputSearch = inputSearch.trim()
-
-			let operator = this.searchOperator
-
-			let params = []
-
-			if (attr && type) {
-				if (type === Boolean)
-					params = this.getParamsByBoolean(attr, inputSearch)
-				else if (type === Date)
-					params = this.getParamsByDate(attr, inputSearch, operator)
-				else if (type === Number)
-					params = this.getParamsByNumber(attr, inputSearch, operator)
+				if (this.sync.attrSearch.value === this.dictionary.attrAll)
+					type = null
 				else
-					params = this.getParamsByString(attr, inputSearch, operator)
+					type = this.descriptorEntity[attr].type
+
+				let inputSearch = this.sync.inputSearch
+				inputSearch = inputSearch.trim()
+
+				let operator = this.searchOperator
+
+				let params = []
+
+				if (attr && type) {
+					if (type === Boolean)
+						params = this.getParamsByBoolean(attr, inputSearch)
+					else if (type === Date)
+						params = this.getParamsByDate(attr, inputSearch, operator)
+					else if (type === Number)
+						params = this.getParamsByNumber(attr, inputSearch, operator)
+					else
+						params = this.getParamsByString(attr, inputSearch, operator)
+				}
+
+				if (startList)
+					this.sync.page = 1
+
+				params = [
+					...params,
+					...this.paramsRequest
+				]
+
+				this.$emit('on_search', inputSearch, params, attr, type)
+
+				if (!this.request)
+					return
+
+				if (!type && inputSearch)
+					this.searchDefault(inputSearch, params).catch(err => {
+						this.$emit('on_error', err)
+						this.$emit('on_error_search', err)
+						this.$emit('on_error_search_default', err)
+					})
+				else if (!params || !params.length)
+					this.searchAll().catch(err => {
+						this.$emit('on_error', err)
+						this.$emit('on_error_search', err)
+						this.$emit('on_error_search_all', err)
+					})
+				else
+					this.searchAttr(inputSearch, params).catch(err => {
+						this.$emit('on_error', err)
+						this.$emit('on_error_search', err)
+						this.$emit('on_error_search_attr', err)
+					})
+			} catch (err) {
+				this.$emit('on_error', err)
+				this.$emit('on_error_search', err)
 			}
-
-			if (startList)
-				this.sync.page = 1
-
-			params = [
-				...params,
-				...this.paramsRequest
-			]
-
-			this.$emit('on_search', inputSearch, params, attr, type)
-
-			if (!this.request)
-				return
-
-			if (!type && inputSearch)
-				this.searchDefault(inputSearch, params).catch(err => {
-					this.$emit('on_error', err)
-					this.$emit('on_error_search', err)
-					this.$emit('on_error_search_default', err)
-				})
-			else if (!params || !params.length)
-				this.searchAll().catch(err => {
-					this.$emit('on_error', err)
-					this.$emit('on_error_search', err)
-					this.$emit('on_error_search_all', err)
-				})
-			else
-				this.searchAttr(inputSearch, params).catch(err => {
-					this.$emit('on_error', err)
-					this.$emit('on_error_search', err)
-					this.$emit('on_error_search_attr', err)
-				})
 		},
 
 		async searchDefault (inputSearch, params) {
@@ -346,6 +352,10 @@ export default {
 
 			let descriptorValue = this.descriptorEntity[attr]
 			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern))
+
+			if (!date)
+				throw new InvalidDateFormatError(inputSearch)
+
 			let pattern = dateUtility.getMinPattern(inputSearch, this.translatePattern(descriptorValue.pattern))
 
 			let cmpDate1 = new Date(2019, 7, 7, 7, 7, 7, 7)
@@ -375,9 +385,11 @@ export default {
 			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 2)) {
 				utilPeriod = dateUtility.PERIODS.MONTH
 				utilPlus = 1
-			} else {
+			} else if (dateUtility.dateEquals(cmpDate1, cmpDate2, 1)) {
 				utilPeriod = dateUtility.PERIODS.YEAR
 				utilPlus = 1
+			} else {
+				throw new InvalidDateFormatError(inputSearch)
 			}
 
 			if (utilPlus === 0) {

@@ -3,6 +3,7 @@ import _listEntities from './src/components/list-entities/list-entities.vue'
 import _modalEntity from './src/components/modal-entity/modal-entity.vue'
 import _def from './src/adapters/def'
 import _dictionaries from './src/dictionaries'
+import _InvalidDateFormatError from './src/components/list-entities/err/invalid-date-format-error'
 
 export default {
 	install (Vue, {
@@ -37,4 +38,5 @@ export const listEntities = _listEntities
 export const modalEntity = _modalEntity
 export const def = _def
 export const dictionaries = _dictionaries
+export const InvalidDateFormatError = _InvalidDateFormatError
 export * from './src/dictionaries'
