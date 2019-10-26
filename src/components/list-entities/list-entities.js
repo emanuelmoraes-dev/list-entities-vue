@@ -522,7 +522,7 @@ export default {
 		 *     para filtragem
 		 */
 		'sync.attrSearch' (newValue, oldValue) {
-			if (newValue !== oldValue && this.searchOperatorsShow && this.operators && this.operators.length) {
+			if (newValue !== oldValue && this.showSearchOperators && this.operators && this.operators.length) {
 				this.searchOperator = this.operators[0].value
 			}
 
@@ -639,7 +639,7 @@ export default {
 		},
 
 		existsOperators () {
-			return (this.searchOperatorsShow && this.operators && this.operators.length)
+			return (this.showSearchOperators && this.operators && this.operators.length)
 		}
 	},
 
@@ -940,7 +940,7 @@ export default {
 		},
 
 		/** true para mostrar operadores de comparação a serem usados na pesquisa */
-		searchOperatorsShow: {
+		showSearchOperators: {
 			type: Boolean,
 			default: false
 		},
