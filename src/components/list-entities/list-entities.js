@@ -720,8 +720,32 @@ export default {
 	},
 
 	props: {
+		/** true para unir o widget de busca com o widget com a tabela de resultados */
+		isCompact: {
+			type: Boolean,
+			default: false
+		},
+
+		/** true para que o vuestic-widget possa ser usado para estilizar o componente */
+		useWidget: {
+			type: Boolean,
+			default: true
+		},
+
 		/** se true, chama-se automaticamente o método search */
 		autoSearch: {
+			type: Boolean,
+			default: false
+		},
+
+		/** true para ocultar o widget de busca */
+		hideSearch: {
+			type: Boolean,
+			default: false
+		},
+
+		/** se true, o último atributo da tabel será escondido */
+		hideLastAttr: {
 			type: Boolean,
 			default: false
 		},
@@ -987,24 +1011,6 @@ export default {
 			default: () => ({})
 		},
 
-		/** true para ocultar o widget de busca */
-		hideSearch: {
-			type: Boolean,
-			default: false
-		},
-
-		/** true para unir o widget de busca com o widget com a tabela de resultados */
-		isCompact: {
-			type: Boolean,
-			default: false
-		},
-
-		/** se true, o último atributo da tabel será escondido */
-		hideLastAttr: {
-			type: Boolean,
-			default: false
-		},
-
 		/** lista de classes css a serem usadas em cada linha da tabela */
 		classLine: {
 			type: Array,
@@ -1121,11 +1127,6 @@ export default {
 		localDictionary: {
 			type: Object,
 			default: () => ({})
-		},
-
-		useWidget: {
-			type: Boolean,
-			default: true
 		},
 
 		// propriedades sincronas
