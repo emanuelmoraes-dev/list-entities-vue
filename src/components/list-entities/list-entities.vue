@@ -143,6 +143,8 @@
 
 														<slot v-if="showOptions" name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
 															<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
+																<slot name="beforeDefaultOptions" :entity="entity" :index="index"></slot>
+
 																<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
 																	<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
 																		<span class="far fa-eye"></span>
@@ -166,6 +168,8 @@
 																		<span class="icon fas fa-file-alt"></span>
 																	</button>
 																</slot> <!-- end slot optionReport -->
+
+																<slot name="afterDefaultOptions" :entity="entity" :index="index"></slot>
 															</td> <!-- end td opções padrão -->
 														</slot> <!-- end slot opções padrão -->
 													</tr> <!-- end tr v-for entities -->
