@@ -9,56 +9,58 @@
             :compactSecundary="!hideSearch && isCompact"
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
           >
-            <div v-if="$slots.headerText" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
-              <slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
-            </div> <!-- end v-if -->
+						<div v-if="$slots.headerText && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+							<slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
+						</div> <!-- end v-if -->
 
-            <div class="row">
-              <div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
-								<div class="form-group form-group-select">
-									<!-- <label class="before-select">Pesquisar: </label> -->
-									<b-form-select
-										v-model="sync.attrSearch"
-										:options="optionsSearch"
-									/> <!-- select dos tributos a serem filtrados -->
-								</div> <!-- end class form-group -->
-              </div> <!-- end col -->
+						<div v-show="!hideSearch" class="primary">
+							<div class="row">
+								<div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
+									<div class="form-group form-group-select">
+										<!-- <label class="before-select">Pesquisar: </label> -->
+										<b-form-select
+											v-model="sync.attrSearch"
+											:options="optionsSearch"
+										/> <!-- select dos tributos a serem filtrados -->
+									</div> <!-- end class form-group -->
+								</div> <!-- end col -->
 
-							<div v-if="existsOptionsSearch && existsOperators" :class="classOperators">
+								<div v-if="existsOptionsSearch && existsOperators" :class="classOperators">
 
-								<!-- select com as operações a serem usadas para filtrar a busca -->
+									<!-- select com as operações a serem usadas para filtrar a busca -->
 
-								<div class="form-group form-group-select">
-									<!-- <label class="before-select">Operador: </label> -->
-									<b-form-select
-										v-model="searchOperator"
-										:options="operators"
-									/> <!-- select de operações -->
-								</div> <!-- end class form-group -->
-							</div> <!-- end col -->
+									<div class="form-group form-group-select">
+										<!-- <label class="before-select">Operador: </label> -->
+										<b-form-select
+											v-model="searchOperator"
+											:options="operators"
+										/> <!-- select de operações -->
+									</div> <!-- end class form-group -->
+								</div> <!-- end col -->
 
-              <div :class="[] | getClassInput(existsOptionsSearch, existsOperators, classInput)"> <!-- campo de pesquisa -->
-                <div class="form-group">
-                  <div class="input-group d-flex">
-										<div class="flex-1">
-											<input
-												id="txtsearch"
-												name="search"
-												v-model="sync.inputSearch"
-												@keypress="keyHandler($event)"
-												ref="txtSearch"
-											/> <!-- campo de pesquisa -->
-											<label class="control-label" for="txtsearch">Buscar:</label>
-											<i class="bar"></i>
-										</div>
-										<button
-											@click.prevent.stop="search(true)"
-											class="btn btn-success option search"
-										>Buscar</button>
-                  </div> <!-- end class input-group -->
-                </div> <!-- end class form-group -->
-              </div> <!-- end col -->
-            </div> <!-- end class row -->
+								<div :class="[] | getClassInput(existsOptionsSearch, existsOperators, classInput)"> <!-- campo de pesquisa -->
+									<div class="form-group">
+										<div class="input-group d-flex">
+											<div class="flex-1">
+												<input
+													id="txtsearch"
+													name="search"
+													v-model="sync.inputSearch"
+													@keypress="keyHandler($event)"
+													ref="txtSearch"
+												/> <!-- campo de pesquisa -->
+												<label class="control-label" for="txtsearch">Buscar:</label>
+												<i class="bar"></i>
+											</div>
+											<button
+												@click.prevent.stop="search(true)"
+												class="btn btn-success option search"
+											>Buscar</button>
+										</div> <!-- end class input-group -->
+									</div> <!-- end class form-group -->
+								</div> <!-- end col -->
+							</div> <!-- end class row -->
+						</div> <!-- end class primary -->
 
 						<div slot="secundary">
 							<!--
