@@ -971,7 +971,7 @@ export default {
 
 		/**
 		 * contém o texto a ser exibido no header da tabela
-		 * acima do conteúdo presentte no slot 'check'
+		 * acima do conteúdo presente no slot 'check'
 		 */
 		tdCheckName: {
 			type: String,
