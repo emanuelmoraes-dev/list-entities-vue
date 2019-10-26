@@ -918,21 +918,6 @@ export default {
 			default: () => null
 		},
 
-		/** nome da rota contendo a página de edição da entidade */
-		routeNameEdit: {
-			type: String,
-			default: () => null
-		},
-
-		/**
-		 * função que recebe uma entidade e sua posição na tabela e
-		 * retorna os parâmetros a passar para a rota de edição
-		 */
-		parseEditParams: {
-			type: Function,
-			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
-		},
-
 		/** parâmetros padrão a serem inseridos na busca */
 		paramsRequest: {
 			type: Array,
@@ -1017,16 +1002,16 @@ export default {
 			default: () => []
 		},
 
-		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
-		customRemove: {
-			type: Boolean,
-			default: false
-		},
-
 		/** se false, o componente não irá exibir as opções padrão na listagem */
 		showOptions: {
 			type: Boolean,
 			default: true
+		},
+
+		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
+		customRemove: {
+			type: Boolean,
+			default: false
 		},
 
 		/** true para exibir a opção de remover uma entidade */
@@ -1041,16 +1026,31 @@ export default {
 			default: true
 		},
 
+		/** true para exibir a opção de gerar e baixar um relatório das informações da entidade */
+		optionReport: {
+			type: Boolean,
+			default: false
+		},
+
 		/** true para exibir a opção de editar uma entidade */
 		optionEdit: {
 			type: Boolean,
 			default: false
 		},
 
-		/** true para exibir a opção de gerar e baixar um relatório das informações da entidade */
-		optionReport: {
-			type: Boolean,
-			default: false
+		/** nome da rota contendo a página de edição da entidade */
+		routeNameEdit: {
+			type: String,
+			default: () => null
+		},
+
+		/**
+		 * função que recebe uma entidade e sua posição na tabela e
+		 * retorna os parâmetros a passar para a rota de edição
+		 */
+		parseEditParams: {
+			type: Function,
+			default: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })
 		},
 
 		/** quantidade máxima de numeros (botões) de páginas a serem na paginação */
