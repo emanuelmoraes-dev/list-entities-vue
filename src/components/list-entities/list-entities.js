@@ -1072,7 +1072,7 @@ export default {
 		/** tamanho dos botões das páginas */
 		sizePagination: {
 			type: String,
-			default: ''
+			default: 'md'
 		},
 
 		/** quantidade de linhas máximas a serem exibidas por págna */
