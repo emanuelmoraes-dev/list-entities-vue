@@ -95,7 +95,7 @@ export default {
 				else if (descriptorValue === Boolean)
 					descriptorValue = { type: Boolean }
 				else if (descriptorValue === Date)
-					descriptorValue = { type: Date, pattern: this.defaultPattern }
+					descriptorValue = { type: Date }
 				else if (descriptorValue === Array)
 					descriptorValue = { type: Array }
 				else
@@ -103,14 +103,6 @@ export default {
 
 				if (descriptorValue.display === undefined)
 					descriptorValue.display = `${key} :`
-
-				if (
-					descriptorValue &&
-          descriptorValue.type === Date &&
-          descriptorValue.pattern === undefined
-				) {
-					descriptorValue.pattern = this.defaultPattern
-				}
 
 				this.$set(this.descriptorEntity, key, descriptorValue)
 			}
@@ -174,7 +166,7 @@ export default {
 		 * @param {string} falseStr - valor textual que representa o valor booleano false
 		 * @returns {any}
 		 */
-		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern) {
+		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (value === undefined || value === null) {
 				return ''
 			}
@@ -184,7 +176,7 @@ export default {
 				return dateUtility.dateToStr(
 					value,
 					translatePattern(
-						descriptorValue.pattern
+						descriptorValue.pattern || defaultPattern
 					)
 				)
 			} else if (descriptorValue.type === Array) {
