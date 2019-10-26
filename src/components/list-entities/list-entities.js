@@ -912,7 +912,7 @@ export default {
 		/** string que representa o padrão de exibição de datas */
 		defaultPattern: {
 			type: String,
-			default: 'yyyy/MM/dd'
+			default: 'dd/MM/yyyy'
 		},
 
 		/** true para mostrar operadores de comparação a serem usados na pesquisa */
