@@ -514,6 +514,15 @@ export default {
 		},
 
 		/**
+		 * ao mudar o parâmetro 'showSearchOperators' para true seleciona-se
+		 * searchOperator para o primeiro operador
+		 */
+		showSearchOperators (newValue, oldValue) {
+			if (newValue !== oldValue && newValue && this.operators && this.operators.length)
+				this.searchOperator = this.operators[0].value
+		},
+
+		/**
 		 * ao mudar o atributo a ser filtrado, verifica-se se
 		 * o primeiro atribuo deve ser aquele a qual deve ser
 		 * usado para ordenar as entidades
