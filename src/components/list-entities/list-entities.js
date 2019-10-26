@@ -12,7 +12,7 @@ export default {
 		VuesticWidget, // componente de widget do vuestic (com algumas customizações)
 		VuesticModal, // componente de modal do vuestic (com algumas cusomizações)
 		'modal-entity': ModalEntity, // componente personalizado para a exibição de entidades
-		Show // componente responsável por exibir todo o conteúdo dentro dele ignorando o parâmetro headerText
+		Show // componente responsável por exibir todo o conteúdo dentro dele ignorando os parâmetros
 	},
 
 	data () {
@@ -570,7 +570,7 @@ export default {
 	computed: {
 		/** nome do componente que irá envolver a tabela */
 		componentShowTable () {
-			return this.isCompact || !this.useWidget ? 'show' : 'vuestic-widget'
+			return (this.isCompact && !this.hideSearch) || !this.useWidget ? 'show' : 'vuestic-widget'
 		},
 
 		/** nome do componente que irá envolver todo o list-entities */

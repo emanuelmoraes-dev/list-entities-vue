@@ -9,8 +9,8 @@
             :compactSecundary="!hideSearch && isCompact"
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
           >
-						<div v-if="$slots.headerText && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
-							<slot name="headerText"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
+						<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
 						</div> <!-- end v-if -->
 
 						<div v-show="!hideSearch" class="primary">
@@ -71,6 +71,10 @@
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
 									<component :is="componentShowTable" :headerText="dictionary.titleTable">
+										<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
+											<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
+										</div> <!-- end v-if -->
+
 										<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
 
 										<div class="table-responsive">
