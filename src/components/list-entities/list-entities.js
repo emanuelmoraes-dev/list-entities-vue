@@ -213,20 +213,12 @@ export default {
 				else if (descriptorValue === Boolean)
 					descriptorValue = { type: Boolean }
 				else if (descriptorValue === Date)
-					descriptorValue = { type: Date, pattern: this.defaultPattern }
+					descriptorValue = { type: Date }
 				else
 					descriptorValue = { ...descriptorValue }
 
 				if (descriptorValue.display === undefined)
 					descriptorValue.display = `${key} :`
-
-				if (
-					descriptorValue &&
-          descriptorValue.type === Date &&
-          descriptorValue.pattern === undefined
-				) {
-					descriptorValue.pattern = this.defaultPattern
-				}
 
 				this.$set(this.descriptorEntity, key, descriptorValue)
 			}
@@ -351,12 +343,12 @@ export default {
 				return []
 
 			let descriptorValue = this.descriptorEntity[attr]
-			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern))
+			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern || this.defaultPattern))
 
 			if (!date)
 				throw new InvalidDateFormatError(inputSearch)
 
-			let pattern = dateUtility.getMinPattern(inputSearch, this.translatePattern(descriptorValue.pattern))
+			let pattern = dateUtility.getMinPattern(inputSearch, this.translatePattern(descriptorValue.pattern || this.defaultPattern))
 
 			let cmpDate1 = new Date(2019, 7, 7, 7, 7, 7, 7)
 			let cmpDate2 = dateUtility.toDate(
@@ -710,7 +702,7 @@ export default {
 		 * @param {string} joinSep - string usada para unir os  valores de um array (se for o caso)
 		 * @returns {any}
 		 */
-		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern) {
+		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (!attr) return value
 
 			if (value instanceof Array) {
@@ -725,8 +717,8 @@ export default {
 			}
 
 			else if (typeof value === 'boolean') return (value && trueStr) || falseStr
-			else if (value instanceof Date) return dateUtility.dateToStr(value, translatePattern(descriptor[attr.value].pattern))
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), translatePattern(descriptor[attr.value].pattern))
+			else if (value instanceof Date) return dateUtility.dateToStr(value, translatePattern(descriptor[attr.value].pattern || defaultPattern))
+			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), translatePattern(descriptor[attr.value].pattern || defaultPattern))
 			return value
 		}
 	},
