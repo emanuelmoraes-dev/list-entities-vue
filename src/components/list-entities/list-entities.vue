@@ -124,7 +124,7 @@
 																</slot>
 															</td> <!-- end v-for displayAttrs -->
 
-															<td v-if="!hideLastAttr">
+															<td v-if="!hideLastAttr && definitions.defaultLastAttr">
 																<slot :name="`${lastAttr.value}_slot`" :entity="entity" :index="index">
 																	{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args)) }}
 																</slot>

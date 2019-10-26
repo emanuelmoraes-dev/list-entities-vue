@@ -9,7 +9,7 @@ export default function definitionAdapter (def) {
 	let modalSlots = []
 	let optionsSearch = []
 	let displayAttrs = []
-	let defaultLastAttr = {}
+	let defaultLastAttr = null
 	let sort
 
 	let index = -1
@@ -134,6 +134,8 @@ export default function definitionAdapter (def) {
 		}
 
 		if ('defaultLastAttr' in defValue && defValue.defaultLastAttr !== false) {
+			if (!defaultLastAttr) defaultLastAttr = {}
+
 			defaultLastAttr.display = attr
 			defaultLastAttr.value = attr
 

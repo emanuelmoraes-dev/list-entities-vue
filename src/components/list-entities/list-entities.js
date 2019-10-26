@@ -578,8 +578,11 @@ export default {
 			return this.useWidget ? 'vuestic-widget' : 'show'
 		},
 
-		/** retorna o atributo a ser exebido por último na tabela */
+		/** retorna o nome do atributo a ser exibido por último na tabela */
 		lastAttr () {
+			if (this.hideLastAttr || !this.definitions.defaultLastAttr)
+				return ''
+
 			let v = this.sync.attrSearch.value
 
 			if (
@@ -782,11 +785,11 @@ export default {
 					return false
 				}
 
-				if (typeof value.defaultLastAttr !== 'object' ||
-						!value.defaultLastAttr ||
-						typeof value.defaultLastAttr.display !== 'string' ||
-						typeof value.defaultLastAttr.value !== 'string'
-				) {
+				if (value.defaultLastAttr && (
+					typeof value.defaultLastAttr !== 'object' ||
+					typeof value.defaultLastAttr.display !== 'string' ||
+					typeof value.defaultLastAttr.value !== 'string'
+				)) {
 					console.error('definitions.defaultLastAttr not is object with string props display and value')
 					return false
 				}
