@@ -191,7 +191,7 @@
       </div> <!-- end row -->
 
 			<div class="modals">
-        <vuestic-modal v-if="isShowModal" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
+        <vuestic-modal v-if="isShowSuccessModalRemove" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
             :okText="dictionary.okTextModal">
           <div slot="title">{{dictionary.titleSuccessModal}}</div>
           <div>

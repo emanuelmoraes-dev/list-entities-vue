@@ -168,7 +168,7 @@ export default {
 				.then(res => {
 					this.$emit('on_remove', this.entityRemove, this.indexEntityRemove)
 
-					if (this.isShowModal)
+					if (this.isShowSuccessModalRemove)
 						this.$refs.successModal.open()
 
 					this.search(false)
@@ -1090,7 +1090,7 @@ export default {
 		},
 
 		/** true para que um modal de sucesso seja exibdo ao remover uma entidade */
-		isShowModal: {
+		isShowSuccessModalRemove: {
 			type: Boolean,
 			default: false
 		},
