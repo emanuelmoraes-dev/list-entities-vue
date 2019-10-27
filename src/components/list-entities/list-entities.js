@@ -849,22 +849,6 @@ export default {
 					return false
 				}
 
-				let cvalue = { ...value }
-
-				delete cvalue.descriptor
-				delete cvalue.optionsSearch
-				delete cvalue.displayAttrs
-				delete cvalue.sort
-				delete cvalue.descriptorModal
-				delete cvalue.mapPropModalEntity
-				delete cvalue.defaultLastAttr
-				delete cvalue.modalSlots
-
-				if (Object.keys(cvalue).length) {
-					console.error(Object.keys(cvalue).join(',') + ' invalid in definitions')
-					return false
-				}
-
 				return true
 			},
 
@@ -901,18 +885,6 @@ export default {
 
 				if (value.delete && typeof value.delete !== 'function') {
 					console.error('request.delete not is a function')
-					return false
-				}
-
-				let cvalue = { ...value }
-
-				delete cvalue.searchDefault
-				delete cvalue.searchAll
-				delete cvalue.searchAttr
-				delete cvalue.delete
-
-				if (Object.keys(cvalue).length) {
-					console.error(Object.keys(cvalue).join(',') + ' invalid in request')
 					return false
 				}
 
