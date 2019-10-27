@@ -16,6 +16,7 @@ export default () => ({
 			$lt: 'menor que',
 			$lte: 'menor ou igual que'
 		},
+		btnSearch: 'Buscar',
 		attrAll: 'Todos',
 		titleSearch: 'Buscar',
 		titleTable: 'Entidades',

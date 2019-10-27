@@ -49,13 +49,13 @@
 													@keypress="keyHandler($event)"
 													ref="txtSearch"
 												/> <!-- campo de pesquisa -->
-												<label class="control-label" for="txtsearch">Buscar:</label>
+												<label class="control-label" for="txtsearch">{{ dictionary.btnSearch }}:</label>
 												<i class="bar"></i>
 											</div>
 											<button
 												@click.prevent.stop="search(true)"
-												class="btn btn-success option search"
-											>Buscar</button>
+												:class="okClassBtnSearch"
+											>{{ dictionary.btnSearch }}</button>
 										</div> <!-- end class input-group -->
 									</div> <!-- end class form-group -->
 								</div> <!-- end col -->

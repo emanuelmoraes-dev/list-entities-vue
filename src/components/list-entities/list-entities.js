@@ -963,6 +963,12 @@ export default {
 			default: 'btn btn-primary btn-modal btn-ok-modal'
 		},
 
+		/** classe css do botão "SEARCH" de busca das entidades */
+		okClassBtnSearch: {
+			type: String,
+			default: 'btn btn-success option search'
+		},
+
 		/**
 		 * objeto cuja as chaves são o nome dos slots a serem exibidos após a exibição de todos os atributos.
 		 * O valor de cada chave é o nome a ser exibido no header para cada opção informada
