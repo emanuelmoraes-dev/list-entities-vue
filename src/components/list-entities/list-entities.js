@@ -964,7 +964,7 @@ export default {
 		},
 
 		/** classe css do botão "SEARCH" de busca das entidades */
-		okClassBtnSearch: {
+		btnSearchClass: {
 			type: String,
 			default: 'btn btn-success option search'
 		},

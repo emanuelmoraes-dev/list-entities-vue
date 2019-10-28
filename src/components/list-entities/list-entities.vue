@@ -54,7 +54,7 @@
 											</div>
 											<button
 												@click.prevent.stop="search(true)"
-												:class="okClassBtnSearch"
+												:class="btnSearchClass"
 											>{{ dictionary.btnSearch }}</button>
 										</div> <!-- end class input-group -->
 									</div> <!-- end class form-group -->

@@ -14,7 +14,7 @@
 						:showSearchOperators="showSearchOperators"
 						:idAttrName="idAttrName"
 						:okClassModalEntity="okClassModalEntity"
-						:okClassBtnSearch="okClassBtnSearch"
+						:btnSearchClass="btnSearchClass"
 						:showOptions="showOptions"
 						:customRemove="customRemove"
 						:optionRemove="optionRemove"
@@ -336,12 +336,12 @@
 						<div class="col-12">
 							<div class="form-group">
 								<div class="element-form large">
-									<label for="txt-ok-class-btn-search">okClassBtnSearch:</label>
+									<label for="txt-btn-search-class">btnSearchClass:</label>
 									<input
-										v-model="okClassBtnSearch"
+										v-model="btnSearchClass"
 										type="text"
 										class="form-control"
-										id="txt-ok-class-btn-search"
+										id="txt-btn-search-class"
 									/>
 								</div>
 							</div>
@@ -382,7 +382,7 @@ export default {
 			alignPagination: 'left',
 			sizePagination: 'md',
 			okClassModalEntity: 'btn btn-primary btn-modal btn-ok-modal',
-			okClassBtnSearch: 'btn btn-success option search',
+			btnSearchClass: 'btn btn-success option search',
 			idAttrName: 'id',
 			classOptionsSearch: 'col-md-2',
 			classOperators: 'col-md-2',
