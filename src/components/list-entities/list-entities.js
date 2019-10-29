@@ -1115,6 +1115,11 @@ export default {
 			default: () => ({})
 		},
 
+		localDictionaryModal: {
+			type: Object,
+			default: () => null
+		},
+
 		// propriedades sincronas
 
 		value: {

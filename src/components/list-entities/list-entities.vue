@@ -216,7 +216,7 @@
 					:force="forceModalEntity"
 					:defaultPattern="defaultPattern"
 					:i18nArgs="i18nArgsModal"
-					:localDictionary="dictionary"
+					:localDictionary="localDictionaryModal || dictionary"
 				>
 					<template v-for="slotName of definitions.modalSlots">
 						<div :key="slotName" :slot="slotName" slot-scope="{ property }">
