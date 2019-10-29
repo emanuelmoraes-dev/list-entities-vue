@@ -17,6 +17,7 @@ export default () => ({
 			$lte: 'less than or equal to'
 		},
 		btnSearch: 'Search',
+		labelSearch: 'Search',
 		attrAll: 'All',
 		titleSearch: 'Search',
 		titleTable: 'Entities',

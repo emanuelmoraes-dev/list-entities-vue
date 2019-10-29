@@ -477,6 +477,10 @@ export default {
 	},
 
 	watch: {
+		localDictionary () {
+			this.loadDictionary()
+		},
+
 		'ctxLev.lang' () {
 			this.loadDictionary()
 		},

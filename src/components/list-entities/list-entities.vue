@@ -49,7 +49,7 @@
 													@keypress="keyHandler($event)"
 													ref="txtSearch"
 												/> <!-- campo de pesquisa -->
-												<label class="control-label" for="txtsearch">{{ dictionary.btnSearch }}:</label>
+												<label class="control-label" for="txtsearch">{{ dictionary.labelSearch }}:</label>
 												<i class="bar"></i>
 											</div>
 											<button
