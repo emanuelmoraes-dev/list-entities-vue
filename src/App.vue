@@ -42,12 +42,29 @@
 						:i18nArgs="i18nArgs"
 						:i18nArgsModal="i18nArgsModal"
 						:localDictionary="localDictionary"
+						:localDictionaryModal="localDictionaryModal"
 						:definitions="definitions"
 						:request="request"
 						:options="options"
 						v-model="products"
 						@on_error="onError"
 					/>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					defining the entity being listed
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-definitions">definitions:</label>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="32"></textarea>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -349,12 +366,321 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					properties as functions
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-class-input">classInput:</label>
+								<textarea v-model="textClassInput" class="form-control" id="txt-text-class-input" rows="5"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					properties as array
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<div class="element-form fill">
+									<label for="txt-text-string-operators">stringOperators:</label>
+									<input
+										v-model="textStringOperators"
+										type="text"
+										class="form-control"
+										id="txt-text-string-operators"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<div class="element-form fill">
+									<label for="txt-text-number-operators">numberOperators:</label>
+									<input
+										v-model="textNumberOperators"
+										type="text"
+										class="form-control"
+										id="txt-text-number-operators"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<div class="element-form fill">
+									<label for="txt-text-date-operators">dateOperators:</label>
+									<input
+										v-model="textDateOperators"
+										type="text"
+										class="form-control"
+										id="txt-text-date-operators"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<div class="element-form fill">
+									<label for="txt-text-params-request">paramsRequest:</label>
+									<input
+										v-model="textParamsRequest"
+										type="text"
+										class="form-control"
+										id="txt-text-params-request"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					local dictionary
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-i18n-args">i18nArgs:</label>
+								<textarea v-model="textI18nArgs" class="form-control" id="txt-text-i18n-args" rows="1"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-i18n-args-modal">i18nArgsModal:</label>
+								<textarea v-model="textI18nArgsModal" class="form-control" id="txt-text-i18n-args-modal" rows="1"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-local-dictionary">localDictionary:</label>
+								<textarea v-model="textLocalDictionary" class="form-control" id="txt-text-local-dictionary" rows="35"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-local-dictionary-modal">localDictionaryModal:</label>
+								<textarea v-model="textLocalDictionaryModal" class="form-control" id="txt-text-local-dictionary-modal" rows="1"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					i18n
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-global-dictionaries">defining global dictionary:</label>
+								<textarea v-model="textGlobalDictionaries" class="form-control" id="txt-text-global-dictionaries" rows="79"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
   </div>
 </template>
 
 <script>
 import listEntities from './components/list-entities/list-entities.vue'
+
+const textClassInput = `(existsOptionsSearch, existsOperators) => ({
+	'col-md-12': !existsOptionsSearch && !existsOperators,
+	'col-md-10': existsOptionsSearch && !existsOperators,
+	'col-md-8': existsOptionsSearch && existsOperators
+})`
+
+const textDefinitions = `this.$lev.def({
+	name: {
+		type: String,
+		sort: 1,
+		displayModal: true,
+		optionSearch: true,
+		displayAttr: true
+	},
+	brand: {
+		type: String,
+		displayModal: true,
+		optionSearch: true,
+		displayAttr: true
+	},
+	price: {
+		type: Number,
+		displayModal: true,
+		optionSearch: true,
+		displayAttr: true
+	},
+	perishable: {
+		type: Boolean,
+		displayModal: true,
+		optionSearch: true,
+		defaultLastAttr: true
+	},
+	expiration: {
+		type: Date,
+		displayModal: true,
+		optionSearch: true
+	}
+})`
+
+const textLocalDictionary = `{
+	operators: {
+			$in: 'in',
+			$nin: 'not in',
+			$eq: 'equals',
+			$neq: 'not equals',
+			$sw: 'starts with',
+			$nsw: 'not starts with',
+			$ew: 'ends with',
+			$new: 'not ends with',
+			$gt: 'greater than',
+			$gte: 'greater than or equal to',
+			$lt: 'less than',
+			$lte: 'less than or equal to'
+		},
+		btnSearch: 'Search',
+		labelSearch: 'Search',
+		attrAll: 'All',
+		titleSearch: 'Search',
+		titleTable: 'Entities',
+		tdOptionName: 'OPTIONS:',
+		titleSuccessModal: 'Success!',
+		titleConfirmModal: 'Attention!',
+		titleModalEntity: 'Entity Data',
+		confirmTextModalEntity: 'OK',
+		removeSuccessMessage: 'Successfully deleted entity!',
+		removeConfirmMessage: 'Are you sure you want to delete this entity?',
+		okTextModal: 'OK',
+		confirmTextModal: 'YES',
+		cancelTextModal: 'NO',
+		trueStr: 'YES',
+		falseStr: 'NO',
+		attrs: { /* name: 'fullname' */ },
+		patterns: { /* 'dd/MM/yyyy': 'yyyy/dd/MM' */ }
+}`
+
+const textGlobalDictionaries = `this.$lev.lang = 'en'
+
+this.$lev.dictionaries = [
+	{
+		use: () => true,
+		lang: 'en',
+		translate: {
+			operators: {
+				$in: (i18nArgs, ctx) => 'in',
+				$nin: (i18nArgs, ctx) => 'not in',
+				$eq: (i18nArgs, ctx) => 'equals',
+				$neq: (i18nArgs, ctx) => 'not equals',
+				$sw: (i18nArgs, ctx) => 'starts with',
+				$nsw: (i18nArgs, ctx) => 'not starts with',
+				$ew: (i18nArgs, ctx) => 'ends with',
+				$new: (i18nArgs, ctx) => 'not ends with',
+				$gt: (i18nArgs, ctx) => 'greater than',
+				$gte: (i18nArgs, ctx) => 'greater than or equal to',
+				$lt: (i18nArgs, ctx) => 'less than',
+				$lte: (i18nArgs, ctx) => 'less than or equal to'
+			},
+			btnSearch: (i18nArgs, ctx) => 'Search',
+			labelSearch: (i18nArgs, ctx) => 'Search',
+			attrAll: (i18nArgs, ctx) => 'All',
+			titleSearch: (i18nArgs, ctx) => 'Search',
+			titleTable: (i18nArgs, ctx) => 'Entities',
+			tdOptionName: (i18nArgs, ctx) => 'OPTIONS:',
+			titleSuccessModal: (i18nArgs, ctx) => 'Success!',
+			titleConfirmModal: (i18nArgs, ctx) => 'Attention!',
+			titleModalEntity: (i18nArgs, ctx) => 'Entity Data',
+			confirmTextModalEntity: (i18nArgs, ctx) => 'OK',
+			removeSuccessMessage: (i18nArgs, ctx) => 'Successfully deleted entity!',
+			removeConfirmMessage: (i18nArgs, ctx) => 'Are you sure you want to delete this entity?',
+			okTextModal: (i18nArgs, ctx) => 'OK',
+			confirmTextModal: (i18nArgs, ctx) => 'YES',
+			cancelTextModal: (i18nArgs, ctx) => 'NO',
+			trueStr: (i18nArgs, ctx) => 'YES',
+			falseStr: (i18nArgs, ctx) => 'NO'
+		}
+	},
+
+	{
+		use: () => true,
+		lang: 'pt',
+		translate: {
+			operators: {
+				$in: (i18nArgs, ctx) => 'contém',
+				$nin: (i18nArgs, ctx) => 'não contém',
+				$eq: (i18nArgs, ctx) => 'igual',
+				$neq: (i18nArgs, ctx) => 'não igual',
+				$sw: (i18nArgs, ctx) => 'inicia com',
+				$nsw: (i18nArgs, ctx) => 'não inicia com',
+				$ew: (i18nArgs, ctx) => 'termina com',
+				$new: (i18nArgs, ctx) => 'não termina com',
+				$gt: (i18nArgs, ctx) => 'maior que',
+				$gte: (i18nArgs, ctx) => 'maior ou igual que',
+				$lt: (i18nArgs, ctx) => 'menor que',
+				$lte: (i18nArgs, ctx) => 'menor ou igual que'
+			},
+			btnSearch: (i18nArgs, ctx) => 'Buscar',
+			labelSearch: (i18nArgs, ctx) => 'Buscar',
+			attrAll: (i18nArgs, ctx) => 'Todos',
+			titleSearch: (i18nArgs, ctx) => 'Buscar',
+			titleTable: (i18nArgs, ctx) => 'Entidades',
+			tdOptionName: (i18nArgs, ctx) => 'OPÇÕES:',
+			titleSuccessModal: (i18nArgs, ctx) => 'Sucesso!',
+			titleConfirmModal: (i18nArgs, ctx) => 'Atenção!',
+			titleModalEntity: (i18nArgs, ctx) => 'Dados da Entidade',
+			confirmTextModalEntity: (i18nArgs, ctx) => 'OK',
+			removeSuccessMessage: (i18nArgs, ctx) => 'Entidade removida com sucesso!',
+			removeConfirmMessage: (i18nArgs, ctx) => 'Você tem certeza que deseja remover esta entidade?',
+			okTextModal: (i18nArgs, ctx) => 'OK',
+			confirmTextModal: (i18nArgs, ctx) => 'SIM',
+			cancelTextModal: (i18nArgs, ctx) => 'NÃO',
+			trueStr: (i18nArgs, ctx) => 'SIM',
+			falseStr: (i18nArgs, ctx) => 'NÃO'
+		}
+	}
+]`
+
+const textLocalDictionaryModal = 'null'
+const textStringOperators = "['$in', '$nin', '$eq', '$neq', '$sw', '$nsw', '$ew', '$new']"
+const textNumberOperators = "['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']"
+const textDateOperators = "['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']"
+const textParamsRequest = '[]'
+const textI18nArgs = '{}'
+const textI18nArgsModal = '{}'
 
 export default {
 	name: 'app',
@@ -386,11 +712,21 @@ export default {
 			idAttrName: 'id',
 			classOptionsSearch: 'col-md-2',
 			classOperators: 'col-md-2',
-			classInput: (existsOptionsSearch, existsOperators) => ({
-				'col-md-12': !existsOptionsSearch && !existsOperators,
-				'col-md-10': existsOptionsSearch && !existsOperators,
-				'col-md-8': existsOptionsSearch && existsOperators
-			}),
+
+			textClassInput,
+			textStringOperators,
+			textNumberOperators,
+			textDateOperators,
+			textParamsRequest,
+			textDefinitions,
+			textLocalDictionary,
+			textLocalDictionaryModal,
+			textI18nArgs,
+			textI18nArgsModal,
+			textGlobalDictionaries,
+
+			request: null,
+
 			sync: {
 				/** quantidade total de entidades (quantidade total de resultados) */
 				totalElements: 0,
@@ -404,47 +740,7 @@ export default {
 				/** valor que está sendo buscado */
 				inputSearch: ''
 			},
-			stringOperators: ['$in', '$nin', '$eq', '$neq', '$sw', '$nsw', '$ew', '$new'],
-			numberOperators: ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte'],
-			dateOperators: ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte'],
-			paramsRequest: [],
 			parseEditParams: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] }),
-			i18nArgs: {},
-			i18nArgsModal: {},
-			localDictionary: {},
-			definitions: this.$lev.def({
-				name: {
-					type: String,
-					sort: 1,
-					displayModal: true,
-					optionSearch: true,
-					displayAttr: true
-				},
-				brand: {
-					type: String,
-					displayModal: true,
-					optionSearch: true,
-					displayAttr: true
-				},
-				price: {
-					type: Number,
-					displayModal: true,
-					optionSearch: true,
-					displayAttr: true
-				},
-				perishable: {
-					type: Boolean,
-					displayModal: true,
-					optionSearch: true,
-					defaultLastAttr: true
-				},
-				expiration: {
-					type: Date,
-					displayModal: true,
-					optionSearch: true
-				}
-			}),
-			request: null,
 			options: {},
 			autoSearch: false,
 			routeNameEdit: null,
@@ -459,6 +755,55 @@ export default {
 					expiration: new Date(2019, 10, 18)
 				}
 			]
+		}
+	},
+
+	watch: {
+		textGlobalDictionaries (textGlobalDictionaries) {
+			this.textLocalDictionary = '{}'
+			eval(`(() => {${textGlobalDictionaries}})()`)
+		}
+	},
+
+	computed: {
+		classInput () {
+			return eval(`(${this.textClassInput})`)
+		},
+
+		definitions () {
+			return eval(`(${this.textDefinitions})`)
+		},
+
+		stringOperators () {
+			return eval(`(${this.textStringOperators})`)
+		},
+
+		numberOperators () {
+			return eval(`(${this.textNumberOperators})`)
+		},
+
+		dateOperators () {
+			return eval(`(${this.textDateOperators})`)
+		},
+
+		paramsRequest () {
+			return eval(`(${this.textParamsRequest})`)
+		},
+
+		localDictionary () {
+			return eval(`(${this.textLocalDictionary})`)
+		},
+
+		localDictionaryModal () {
+			return eval(`(${this.textLocalDictionaryModal})`)
+		},
+
+		i18nArgs () {
+			return eval(`(${this.textI18nArgs})`)
+		},
+
+		i18nArgsModal () {
+			return eval(`(${this.textI18nArgsModal})`)
 		}
 	},
 
@@ -482,6 +827,20 @@ export default {
 #app .props {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
+}
+
+#app .props .form-group .element-form.fill {
+	display: flex;
+	align-items: baseline;
+}
+
+#app .props .form-group .element-form.fill input[type="text"] {
+	flex: 1;
+	/* min-width: 4.5rem;
+	max-width: 6.3rem; */
+	margin-left: .1rem;
+	/* padding: 0px; */
+	text-align: left;
 }
 
 #app .props .form-group .element-form.medium {
