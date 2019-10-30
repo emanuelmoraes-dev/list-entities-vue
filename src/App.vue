@@ -693,7 +693,7 @@ export default {
 			hideLastAttr: false,
 			showSearchOperators: false,
 			showOptions: true,
-			showConfirmModalOnRemove: false,
+			showConfirmModalOnRemove: true,
 			optionRemove: true,
 			optionView: true,
 			optionReport: false,
