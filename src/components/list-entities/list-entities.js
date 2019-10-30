@@ -136,13 +136,13 @@ export default {
 		 * @param {number} index - posição da entidade a ser removida na tabela
 		 */
 		remove (entity, index) {
-			if (!this.customRemove) {
-				this.entityRemove = entity
-				this.indexEntityRemove = index
-				this.msg_modal = this.confirmMessage
+			this.entityRemove = entity
+			this.indexEntityRemove = index
+
+			if (this.showConfirmModalOnRemove) {
 				this.$refs.confirmModal.open()
 			} else {
-				this.$emit('on_remove', entity, index)
+				this.onRemove()
 			}
 		},
 
@@ -161,8 +161,10 @@ export default {
 
 		/** evento executado ao se confirmar a remoção de uma entidade */
 		onRemove () {
-			if (!this.request)
-				throw new Error('a propriedade "request" não foi definida')
+			if (!this.request || !this.request.delete) {
+				this.$emit('on_remove', this.entityRemove, this.indexEntityRemove)
+				return
+			}
 
 			this.request.delete(this.entityRemove[this.idAttrName], this.entityRemove, this.indexEntityRemove, this.entities)
 				.then(res => {
@@ -994,10 +996,10 @@ export default {
 			default: true
 		},
 
-		/** se false, o componente tentará remover automaticamente a entidade ao clicar na opção de remover */
-		customRemove: {
+		/** se true, um modal de confirmação será exibido antes de remover uma entidade */
+		showConfirmModalOnRemove: {
 			type: Boolean,
-			default: false
+			default: true
 		},
 
 		/** true para exibir a opção de remover uma entidade */
