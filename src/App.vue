@@ -514,7 +514,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-request">request:</label>
-								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="180"></textarea>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="187"></textarea>
 							</div>
 						</div>
 					</div>
