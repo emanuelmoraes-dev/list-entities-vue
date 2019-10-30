@@ -16,7 +16,7 @@
 						:okClassModalEntity="okClassModalEntity"
 						:btnSearchClass="btnSearchClass"
 						:showOptions="showOptions"
-						:customRemove="customRemove"
+						:showConfirmModalOnRemove="showConfirmModalOnRemove"
 						:optionRemove="optionRemove"
 						:optionView="optionView"
 						:optionReport="optionReport"
@@ -131,8 +131,8 @@
 						<div class="col-md-3 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
-									<input class="form-check-input" type="checkbox" id="chk-custom-remove" v-model="customRemove">
-									<label class="form-check-label" for="chk-custom-remove">customRemove</label>
+									<input class="form-check-input" type="checkbox" id="chk-show-confirm-modal-on-remove" v-model="showConfirmModalOnRemove">
+									<label class="form-check-label" for="chk-show-confirm-modal-on-remove">showConfirmModalOnRemove</label>
 								</div>
 							</div>
 						</div>
@@ -693,7 +693,7 @@ export default {
 			hideLastAttr: false,
 			showSearchOperators: false,
 			showOptions: true,
-			customRemove: false,
+			showConfirmModalOnRemove: false,
 			optionRemove: true,
 			optionView: true,
 			optionReport: false,
