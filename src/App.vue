@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="col">
 					<list-entities
+						:autoSearch="true"
 						:isCompact="isCompact"
 						:useWidget="useWidget"
-						:autoSearch="autoSearch"
 						:hideSearch="hideSearch"
 						:hideLastAttr="hideLastAttr"
 						:joinSep="joinSep"
@@ -46,7 +46,6 @@
 						:definitions="definitions"
 						:request="request"
 						:options="options"
-						v-model="products"
 						@on_error="onError"
 					/>
 				</div>
@@ -439,15 +438,8 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group">
-								<div class="element-form fill">
-									<label for="txt-text-params-request">paramsRequest:</label>
-									<input
-										v-model="textParamsRequest"
-										type="text"
-										class="form-control"
-										id="txt-text-params-request"
-									/>
-								</div>
+								<label for="txt-text-params-request">paramsRequest:</label>
+								<textarea v-model="textParamsRequest" class="form-control" id="txt-text-params-request" rows="1"></textarea>
 							</div>
 						</div>
 					</div>
@@ -507,6 +499,22 @@
 							<div class="form-group">
 								<label for="txt-text-global-dictionaries">defining global dictionary:</label>
 								<textarea v-model="textGlobalDictionaries" class="form-control" id="txt-text-global-dictionaries" rows="79"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					conducting research and removals
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-request">request:</label>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="180"></textarea>
 							</div>
 						</div>
 					</div>
@@ -674,6 +682,187 @@ this.$lev.dictionaries = [
 	}
 ]`
 
+const textRequest = `{
+	/** used by list-entities */
+	async searchAll (page, pageSize, sort) {
+		this._orderBy(this._products, sort)
+		let products = this._paginate(this._products, page, pageSize)
+		return {
+			count: products.length,
+			entities: products
+		}
+	},
+
+	/** used by list-entities */
+	async searchAttr (page, pageSize, sort, inputSearch, params) {
+		let products = this._filter(this._products, params)
+		this._orderBy(products, sort)
+		products = this._paginate(products, page, pageSize)
+		return {
+			count: products.length,
+			entities: products
+		}
+	},
+
+	/** used by list-entities */
+	async searchDefault (page, pageSize, sort, inputSearch, params) {
+		inputSearch = inputSearch.trim()
+		let products = this._filter(this._products, params)
+		products = products.filter(product => {
+			let valid = (
+				this._verify(product.name, '$in', inputSearch) ||
+				this._verify(product.brand, '$in', inputSearch) ||
+				this._verify(product.price, '$eq', inputSearch)
+			)
+
+			if (['yes', 'no', 'sim', 'não'].find(o => o === inputSearch))
+				return valid || this._verify(product.perishable, '$eq', inputSearch === 'yes' || inputSearch === 'sim')
+			return valid
+		})
+
+		this._orderBy(products, sort)
+		products = this._paginate(products, page, pageSize)
+
+		return {
+			count: products.length,
+			entities: products
+		}
+	},
+
+	/** used by list-entities */
+	async delete (id, entity, index, entities) {
+		this._products.splice(index, 1)
+	},
+
+	/** NOT used by list-entities */
+	_products: [
+		{
+			id: 1,
+			name: 'Coca Cola',
+			brand: 'The Coca-Cola Company',
+			price: 4,
+			perishable: false,
+			expiration: new Date(2019, 10, 18)
+		}
+	],
+
+	/** NOT used by list-entities */
+	_orderBy (products, sort) {
+		let signal
+		let attr
+
+		if (sort[0] === '-' || sort[0] === '+') {
+			signal = sort[0]
+			attr = sort.substring(1)
+		} else {
+			signal = '+'
+			attr = sort
+		}
+
+		if (signal === '+')
+			signal = 1
+		else
+			signal = -1
+
+		products.sort((a, b) => (a[attr] < b[attr]) ? -1 * signal : 1 * signal)
+	},
+
+	/** NOT used by list-entities */
+	_paginate (products, page, pageSize) {
+		return products.slice((page - 1) * pageSize, (page - 1) * pageSize + (pageSize-1))
+	},
+
+	/** NOT used by list-entities */
+	_filter (products, params) {
+		return products.filter(product => params.reduce((valid, param) => {
+			if (!valid)
+				return false
+
+			if (param.descriptor.searchSep) {
+				let values = param.value.split(param.descriptor.searchSep)
+					.map(value => this._verify(product[param.attr], param.operator, value))
+
+				return values.reduce((p, valid) => p && valid, true)
+			}
+
+			return this._verify(product[param.attr], param.operator, param.value)
+		}, true))
+	},
+
+	/** NOT used by list-entities */
+	_verify (value, operator, inputSearch) {
+		if (value instanceof Date)
+			value = value.getTime()
+
+		if (inputSearch instanceof Date)
+			inputSearch = inputSearch.getTime()
+
+		if (operator === '$') // if an operator has not been selected
+			operator = '$eq'
+
+		switch (operator) {
+			case '$in': return value.match(new RegExp(this._scape(inputSearch)))
+			case '$nin': return !value.match(new RegExp(this._scape(inputSearch)))
+			case '$eq': return \`\${value}\` === \`\${inputSearch}\`
+			case '$neq': return \`\${value}\` !== \`\${inputSearch}\`
+			case '$sw': return value.startsWith(inputSearch)
+			case '$nsw': return !value.startsWith(inputSearch)
+			case '$ew': return value.endsWith(inputSearch)
+			case '$new': return !value.endsWith(inputSearch)
+			case '$gt': {
+				if (typeof value === 'number' || typeof inputSearch === 'number') {
+					value = parseFloat(value)
+					inputSearch = parseFloat(inputSearch)
+				}
+
+				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+					return false
+
+				return value > inputSearch
+			}
+			case '$gte': {
+				if (typeof value === 'number' || typeof inputSearch === 'number') {
+					value = parseFloat(value)
+					inputSearch = parseFloat(inputSearch)
+				}
+
+				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+					return false
+
+				return value >= inputSearch
+			}
+			case '$lt': {
+				if (typeof value === 'number' || typeof inputSearch === 'number') {
+					value = parseFloat(value)
+					inputSearch = parseFloat(inputSearch)
+				}
+
+				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+					return false
+
+				return value < inputSearch
+			}
+			case '$lte': {
+				if (typeof value === 'number' || typeof inputSearch === 'number') {
+					value = parseFloat(value)
+					inputSearch = parseFloat(inputSearch)
+				}
+
+				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+					return false
+
+				return value <= inputSearch
+			}
+			default: return false
+		}
+	},
+
+	/** NOT used by list-entities */
+	_scape(str) {
+		return str.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&')
+	}
+}`
+
 const textLocalDictionaryModal = 'null'
 const textStringOperators = "['$in', '$nin', '$eq', '$neq', '$sw', '$nsw', '$ew', '$new']"
 const textNumberOperators = "['$eq', '$neq', '$gt', '$gte', '$lt', '$lte']"
@@ -686,6 +875,7 @@ export default {
 	name: 'app',
 
 	data () {
+		const vm = this
 		return {
 			isCompact: false,
 			useWidget: true,
@@ -724,8 +914,7 @@ export default {
 			textI18nArgs,
 			textI18nArgsModal,
 			textGlobalDictionaries,
-
-			request: null,
+			textRequest,
 
 			sync: {
 				/** quantidade total de entidades (quantidade total de resultados) */
@@ -744,17 +933,7 @@ export default {
 			options: {},
 			autoSearch: false,
 			routeNameEdit: null,
-			classLine: [],
-
-			products: [
-				{
-					name: 'Coca Cola',
-					brand: 'The Coca-Cola Company',
-					price: 4,
-					perishable: false,
-					expiration: new Date(2019, 10, 18)
-				}
-			]
+			classLine: []
 		}
 	},
 
@@ -804,6 +983,10 @@ export default {
 
 		i18nArgsModal () {
 			return eval(`(${this.textI18nArgsModal})`)
+		},
+
+		request () {
+			return eval(`(${this.textRequest})`)
 		}
 	},
 
