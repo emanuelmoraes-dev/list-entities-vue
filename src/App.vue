@@ -520,6 +520,36 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					other properties
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">prop</th>
+										<th scope="col">type</th>
+										<th scope="col">default value</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>parseEditParams</td>
+										<td>(entity, index, idAttrName) => object</td>
+										<td>(entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })</td>
+										<td>function that takes an entity, its position in the table and the name of the attribute that represents the id and returns the parameters to pass to the edit route</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
   </div>
 </template>
@@ -923,6 +953,11 @@ export default {
 			textGlobalDictionaries,
 			textRequest,
 
+			parseEditParams: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] }),
+			options: {},
+			autoSearch: false,
+			routeNameEdit: null,
+			classLine: [],
 			sync: {
 				/** quantidade total de entidades (quantidade total de resultados) */
 				totalElements: 0,
@@ -935,12 +970,7 @@ export default {
 
 				/** valor que está sendo buscado */
 				inputSearch: ''
-			},
-			parseEditParams: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] }),
-			options: {},
-			autoSearch: false,
-			routeNameEdit: null,
-			classLine: []
+			}
 		}
 	},
 

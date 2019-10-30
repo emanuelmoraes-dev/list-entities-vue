@@ -1062,8 +1062,8 @@ export default {
 		},
 
 		/**
-		 * função que recebe uma entidade e sua posição na tabela e
-		 * retorna os parâmetros a passar para a rota de edição
+		 * function that takes an entity, its position in the table and the name of the
+		 * attribute that represents the id and returns the parameters to pass to the edit route
 		 */
 		parseEditParams: {
 			type: Function,

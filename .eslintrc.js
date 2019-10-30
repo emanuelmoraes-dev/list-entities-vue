@@ -24,7 +24,8 @@ module.exports = {
 		'require-atomic-updates': 'off', // permite ações sincronas independentes serem realizadas depois de await
 		'no-mixed-spaces-and-tabs': 'off', // permite que espaços e tabulações sejam misturados
 		'no-irregular-whitespace': 'off', // permite que qualquer tipo de espaço em branco ocorra em conjunto com outros
-		'no-eval': 'off' // permite a utilização do eval
+		'no-eval': 'off', // permite a utilização do eval
+		'no-useless-escape': 'off'
 	},
 	parserOptions: {
 		parser: 'babel-eslint'
