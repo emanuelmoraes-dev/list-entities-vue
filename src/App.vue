@@ -127,7 +127,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-3 col-sm-4">
+						<div class="col-md-4 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-show-confirm-modal-on-remove" v-model="showConfirmModalOnRemove">
@@ -684,7 +684,7 @@ this.$lev.dictionaries = [
 
 const textRequest = `{
 	/** used by list-entities */
-	async searchAll (page, pageSize, sort) {
+	async searchAll (page, pageSize, sort, inputSearch) {
 		this._orderBy(this._products, sort)
 		let products = this._paginate(this._products, page, pageSize)
 		return {
@@ -694,7 +694,9 @@ const textRequest = `{
 	},
 
 	/** used by list-entities */
-	async searchAttr (page, pageSize, sort, inputSearch, params) {
+	async searchAttr (page, pageSize, sort, inputSearch, paramsRequest, params) {
+		params = params.slice()
+		params.push.apply(params, paramsRequest)
 		let products = this._filter(this._products, params)
 		this._orderBy(products, sort)
 		products = this._paginate(products, page, pageSize)
@@ -705,24 +707,11 @@ const textRequest = `{
 	},
 
 	/** used by list-entities */
-	async searchDefault (page, pageSize, sort, inputSearch, params) {
-		inputSearch = inputSearch.trim()
-		let products = this._filter(this._products, params)
-		products = products.filter(product => {
-			let valid = (
-				this._verify(product.name, '$in', inputSearch) ||
-				this._verify(product.brand, '$in', inputSearch) ||
-				this._verify(product.price, '$eq', inputSearch)
-			)
-
-			if (['yes', 'no', 'sim', 'não'].find(o => o === inputSearch))
-				return valid || this._verify(product.perishable, '$eq', inputSearch === 'yes' || inputSearch === 'sim')
-			return valid
-		})
-
+	async searchDefault (page, pageSize, sort, inputSearch, paramsRequest, params) {
+		let products = this._filter(this._products, paramsRequest)
+		products = this._filterOr(products, params)
 		this._orderBy(products, sort)
 		products = this._paginate(products, page, pageSize)
-
 		return {
 			count: products.length,
 			entities: products
@@ -774,7 +763,25 @@ const textRequest = `{
 
 	/** NOT used by list-entities */
 	_filter (products, params) {
-		return products.filter(product => params.reduce((valid, param) => {
+		return products.filter(product => this._productVerify(product, params))
+	},
+
+	/** NOT used by list-entities */
+	_filterOr (products, params) {
+		return products.filter(product => this._productVerifyOr(product, params))
+	},
+
+	/** NOT used by list-entities */
+	_productVerifyOr (product, params) {
+		return params.reduce((valid, and) => {
+			if (valid) return true
+			return this._productVerify(product, and)
+		}, false)
+	},
+
+	/** NOT used by list-entities */
+	_productVerify (product, params) {
+		return params.reduce((valid, param) => {
 			if (!valid)
 				return false
 
@@ -786,7 +793,7 @@ const textRequest = `{
 			}
 
 			return this._verify(product[param.attr], param.operator, param.value)
-		}, true))
+		}, true)
 	},
 
 	/** NOT used by list-entities */
