@@ -7,6 +7,8 @@ import Show from './show/show.vue'
 import * as util from '../../services/util'
 import InvalidDateFormatError from './err/invalid-date-format-error'
 
+const VALUE_ATTR_ALL = '__#$all$#__'
+
 export default {
 	components: {
 		VuesticWidget, // componente de widget do vuestic (com algumas customizações)
@@ -228,63 +230,36 @@ export default {
 
 		search (startList) {
 			try {
-				if (!this.optionsSearch || !this.optionsSearch.length) {
-					this.$emit('on_search', this.sync.inputSearch, this.paramsRequest, null, null)
-					return
-				}
-
-				let attr = this.sync.attrSearch.value
-				let type
-
-				if (this.sync.attrSearch.value === this.dictionary.attrAll)
-					type = null
-				else
-					type = this.descriptorEntity[attr].type
-
 				let inputSearch = this.sync.inputSearch
 				inputSearch = inputSearch.trim()
 
-				let operator
+				let paramsRequest = this.paramsRequest
 
-				if (this.existsOperators && this.sync.attrSearch.value !== this.dictionary.attrAll)
-					operator = this.searchOperator
-				else
-					operator = '$'
+				if (!paramsRequest)
+					paramsRequest = []
 
-				let params = []
-
-				if (attr && type) {
-					if (type === Boolean)
-						params = this.getParamsByBoolean(attr, inputSearch)
-					else if (type === Date)
-						params = this.getParamsByDate(attr, inputSearch, operator)
-					else if (type === Number)
-						params = this.getParamsByNumber(attr, inputSearch, operator)
-					else
-						params = this.getParamsByString(attr, inputSearch, operator)
-				}
+				let attr = this.sync.attrSearch.value
+				let params = this.getParams(attr, inputSearch)
 
 				if (startList)
 					this.sync.page = 1
 
-				params = [
-					...params,
-					...this.paramsRequest
-				]
-
-				this.$emit('on_search', inputSearch, params, attr, type)
+				if (!this.descriptorEntity[attr] || !this.descriptorEntity[attr].type)
+					this.$emit('on_search', inputSearch, paramsRequest, params, attr, null)
+				else
+					this.$emit('on_search', inputSearch, paramsRequest, params, attr, this.descriptorEntity[attr].type)
 
 				if (!this.request)
 					return
 
-				if (!type && inputSearch)
+				if (attr === VALUE_ATTR_ALL && inputSearch)
 					this.searchDefault(inputSearch, params).catch(err => {
 						this.$emit('on_error', err)
 						this.$emit('on_error_search', err)
 						this.$emit('on_error_search_default', err)
 					})
-				else if (!params || !params.length)
-					this.searchAll().catch(err => {
+				else if ((!params || !params.length) && (!paramsRequest || !paramsRequest.length))
+					this.searchAll(inputSearch).catch(err => {
 						this.$emit('on_error', err)
 						this.$emit('on_error_search', err)
 						this.$emit('on_error_search_all', err)
@@ -302,7 +277,12 @@ export default {
 		},
 
 		async searchDefault (inputSearch, params) {
-			let { count, entities } = await this.request.searchDefault(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, params)
+			let paramsRequest = this.paramsRequest
+
+			if (!paramsRequest)
+				paramsRequest = []
+
+			let { count, entities } = await this.request.searchDefault(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, paramsRequest, params)
 
 			this.sync.totalElements = count
 			this.entities = entities
@@ -311,8 +291,8 @@ export default {
 			this.$emit('on_search_default_success', entities, count, inputSearch, params)
 		},
 
-		async searchAll () {
-			let { count, entities } = await this.request.searchAll(this.sync.page, this.pageSize, this.definitions.sort)
+		async searchAll (inputSearch) {
+			let { count, entities } = await this.request.searchAll(this.sync.page, this.pageSize, this.definitions.sort, inputSearch)
 
 			this.sync.totalElements = count
 			this.entities = entities
@@ -322,7 +302,12 @@ export default {
 		},
 
 		async searchAttr (inputSearch, params) {
-			let { count, entities } = await this.request.searchAttr(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, params)
+			let paramsRequest = this.paramsRequest
+
+			if (!paramsRequest)
+				paramsRequest = []
+
+			let { count, entities } = await this.request.searchAttr(this.sync.page, this.pageSize, this.definitions.sort, inputSearch, paramsRequest, params)
 
 			this.sync.totalElements = count
 			this.entities = entities
@@ -331,14 +316,53 @@ export default {
 			this.$emit('on_search_attr_success', entities, count, inputSearch, params)
 		},
 
+		getParams (attr, inputSearch) {
+			if (!inputSearch) return []
+			if (attr === VALUE_ATTR_ALL || !this.optionsSearch || !this.optionsSearch.length)
+				return this.definitions.optionsSearch.map(opt => {
+					try {
+						return this.getParams(opt.value, inputSearch)
+					} catch (err) {
+						if (err instanceof InvalidDateFormatError)
+							return null
+						throw err
+					}
+				}).filter(p => p instanceof Array && p.length)
+
+			let type = this.descriptorEntity[attr].type
+			let operator
+
+			if (this.existsOperators)
+				operator = this.searchOperator
+			else
+				operator = '$'
+
+			if (operator === '$' && (type === Date || type === Boolean))
+				operator = '$eq'
+
+			let params
+
+			if (type === Boolean)
+				params = this.getParamsByBoolean(attr, inputSearch)
+			else if (type === Date)
+				params = this.getParamsByDate(attr, inputSearch, operator)
+			else if (type === Number)
+				params = this.getParamsByNumber(attr, inputSearch, operator)
+			else
+				params = this.getParamsByString(attr, inputSearch, operator)
+
+			return params
+		},
+
 		getParamsByBoolean (attr, inputSearch) {
-			if (!inputSearch)
+			inputSearch = inputSearch.toLowerCase()
+			if (inputSearch !== this.dictionary.trueStr.toLowerCase() && inputSearch !== this.dictionary.falseStr.toLowerCase())
 				return []
 
 			inputSearch = inputSearch.trim()
 
 			return [{
-				value: inputSearch.toLowerCase() === this.dictionary.trueStr.toLowerCase(),
+				value: inputSearch === this.dictionary.trueStr.toLowerCase(),
 				attr,
 				operator: '$eq',
 				descriptor: this.descriptorEntity[attr]
@@ -556,8 +580,8 @@ export default {
 
 				// se o novo atributo a ser filtrado escondeu o atributo que anteriormente estava sendo usado na ordenação
 				if (!this.definitions.displayAttrs.find(a => a.value === attrSort) && newValue.value !== oldValue.value &&
-            (![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.dictionary.attrAll }].find(a => a.value === newValue.value) ||
-                ![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: this.dictionary.attrAll }].find(a => a.value === oldValue.value))) {
+            (![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: VALUE_ATTR_ALL }].find(a => a.value === newValue.value) ||
+                ![...this.definitions.displayAttrs, this.definitions.defaultLastAttr, { value: VALUE_ATTR_ALL }].find(a => a.value === oldValue.value))) {
 					this.onClickHeader(`+${this.definitions.displayAttrs[0].value}`) // ordena-se as entidades pelo primeiro atributo de maneira crecente
 				}
 			}
@@ -598,7 +622,7 @@ export default {
 			let v = this.sync.attrSearch.value
 
 			if (
-				v === this.dictionary.attrAll ||
+				v === VALUE_ATTR_ALL ||
 				this.definitions.displayAttrs.find(attr => attr.value === v)
 			) return this.definitions.defaultLastAttr
 
@@ -638,7 +662,7 @@ export default {
 				options.splice(0, 0, {
 					value: {
 						display: this.dictionary.attrAll,
-						value: this.dictionary.attrAll
+						value: VALUE_ATTR_ALL
 					},
 					text: this.dictionary.attrAll
 				})
