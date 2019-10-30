@@ -244,7 +244,12 @@ export default {
 				let inputSearch = this.sync.inputSearch
 				inputSearch = inputSearch.trim()
 
-				let operator = this.searchOperator
+				let operator
+
+				if (this.existsOperators)
+					operator = this.searchOperator
+				else
+					operator = '$'
 
 				let params = []
 
