@@ -246,7 +246,7 @@ export default {
 
 				let operator
 
-				if (this.existsOperators)
+				if (this.existsOperators && this.sync.attrSearch.value !== this.dictionary.attrAll)
 					operator = this.searchOperator
 				else
 					operator = '$'
