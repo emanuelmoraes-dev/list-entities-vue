@@ -11,7 +11,7 @@ module.exports = {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'strict': process.env.NODE_ENV === 'production' ? 'off' : 'error', // com strict mode
-		'quotes': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'single'], // com aspas simples
+		'quotes': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'single', { avoidEscape: true }], // com aspas simples
 		'spaced-comment': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'always'], // espaço depois de comentário
 		'space-before-blocks': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'always'], // espaço antes de bloco de código
 		'indent': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'tab'], // identação por tabulação
