@@ -21,7 +21,7 @@ export default {
 
 		Vue.prototype.$getListEntitiesCtxName = function () {
 			if (!ctxName || (typeof ctxName !== 'string' && typeof ctxName !== 'symbol'))
-				throw new Error('"ctxName" possui valor inválido')
+				throw new Error('"ctxName" has invalid value')
 			return ctxName
 		}
 
