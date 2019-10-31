@@ -69,31 +69,65 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
-					most basic example of use
+					plugin options
 				</div>
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<pre><code class="lang-html">&lt;<span class="hljs-keyword">list-entities</span>
-    :definitions=<span class="hljs-comment">"$lev.def({</span>
-        <span class="hljs-built_in">name</span>: <span class="hljs-function">String</span>,
-        <span class="hljs-built_in">brand</span>: <span class="hljs-function">String</span>,
-        <span class="hljs-built_in">price</span>: <span class="hljs-function">String</span>,
-        <span class="hljs-built_in">perishable</span>: <span class="hljs-function">Boolean</span>,
-        <span class="hljs-built_in">expiration</span>: <span class="hljs-function">Date</span>
-    })<span class="hljs-comment">"</span>
-    v-model=<span class="hljs-comment">"[</span>
-        {
-            <span class="hljs-built_in">id</span>: <span class="hljs-number">1</span>,
-            <span class="hljs-built_in">name</span>: <span class="hljs-string">'Coca Cola'</span>,
-            <span class="hljs-built_in">brand</span>: <span class="hljs-string">'The Coca-Cola Company'</span>,
-            <span class="hljs-built_in">price</span>: <span class="hljs-number">4</span>,
-            <span class="hljs-built_in">perishable</span>: false,
-            <span class="hljs-built_in">expiration</span>: <span class="hljs-keyword">new</span> Date(<span class="hljs-number">2019</span>, <span class="hljs-number">10</span>, <span class="hljs-number">18</span>)
-        }
-    ]<span class="hljs-comment">"</span>
-/&gt;
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">option</th>
+										<th scope="col">type</th>
+										<th scope="col">default value</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>nameListEntities</td>
+										<td>String</td>
+										<td>list-entities</td>
+										<td>entity list component name</td>
+									</tr>
+									<tr>
+										<td>nameModalEntity</td>
+										<td>String</td>
+										<td>modal-entity</td>
+										<td>modal name that displays entity details</td>
+									</tr>
+									<tr>
+										<td>ctxName</td>
+										<td>String | Symbol</td>
+										<td>$lev</td>
+										<td>property name that each instance of Vue will have containing the function "def", the array "dictionaries" and the string "lang"</td>
+									</tr>
+									<tr>
+										<td>lang</td>
+										<td>String</td>
+										<td>en</td>
+										<td>language that will define which dictionaries will be used</td>
+									</tr>
+									<tr>
+										<td>dictionaries</td>
+										<td>Array</td>
+										<td>
+<pre><code class="lang-js">[
+    {
+        <span class="hljs-keyword">lang:</span><span class="hljs-variable"></span> <span class="hljs-string">'en'</span>,
+        // ...
+    },
+    {
+        <span class="hljs-keyword">lang:</span><span class="hljs-variable"></span> <span class="hljs-string">'pt'</span>,
+        // ...
+    }
+]
 </code></pre>
+										</td>
+										<td>dictionaries that will be used to define the global dictionary based on the "lang" and "use" properties. The global dictionary will merge all dictionaries with the correct language and the "use" function returning true. Reading occurs from first to last</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -101,9 +135,43 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
-					plugin options
+					most basic example of use
 				</div>
 				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<pre><code class="lang-html"><span class="hljs-keyword">&lt;template&gt;</span>
+    <span class="hljs-keyword">&lt;list-entities</span>
+        :definitions=<span class="hljs-comment">"$lev.def</span>({
+            <span class="hljs-built_in">name</span>: String,
+            <span class="hljs-built_in">brand</span>: String,
+            <span class="hljs-built_in">price</span>: String,
+            <span class="hljs-built_in">perishable</span>: Boolean,
+            <span class="hljs-built_in">expiration</span>: Date
+        })<span class="hljs-comment">"</span>
+        v-model=<span class="hljs-comment">"products"</span>
+    <span class="hljs-keyword">/&gt;</span>
+<span class="hljs-keyword">&lt;/template&gt;</span>
+
+<span class="hljs-keyword">&lt;script&gt;</span>
+    <span class="lang-js"><span class="hljs-title">export</span> <span class="hljs-keyword">default</span> {
+        <span class="hljs-class"><span class="hljs-keyword">data</span> () {
+            <span class="hljs-title">products</span>: [
+                {
+                    <span class="hljs-title">id</span>: <span class="hljs-number">1</span>,
+                    <span class="hljs-title">name</span>: <span class="hljs-string">'Coca Cola'</span>,
+                    <span class="hljs-title">brand</span>: <span class="hljs-string">'The Coca-Cola Company'</span>,
+                    <span class="hljs-title">price</span>: <span class="hljs-number">4</span>,
+                    <span class="hljs-title">perishable</span>: <span class="hljs-keyword">false</span>,
+                    <span class="hljs-title">expiration</span>: <span class="hljs-keyword">new</span> Date(2019, 10, 18)
+                }</span>
+            ]
+        }
+    }
+</span><span class="hljs-keyword">&lt;/script&gt;</span>
+</code></pre>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -170,12 +238,13 @@ Vue.use(BootstrapVue)
 										<td>sync</td>
 										<td>Object</td>
 										<td>
-											{<br />
-												<span class="tab-1"></span>totalElements: 0,<br />
-												<span class="tab-1"></span>page: 1,<br />
-												<span class="tab-1"></span>attrSearch: null,<br />
-												<span class="tab-1"></span>inputSearch: ''<br />
-											}
+<pre><code class="lang-js">{
+    <span class="hljs-attribute">totalElements</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attribute">page</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attribute">attrSearch</span>: <span class="hljs-keyword">null</span>,
+    <span class="hljs-attribute">inputSearch</span>: <span class="hljs-string">''</span>
+}
+</code></pre>
 										</td>
 										<td>contains a set of properties that are updated internally by the component</td>
 									</tr>
@@ -785,12 +854,13 @@ Vue.use(BootstrapVue)
 										<td>sync</td>
 										<td>Object</td>
 										<td>
-											{<br />
-												<span class="tab-1"></span>totalElements: 0,<br />
-												<span class="tab-1"></span>page: 1,<br />
-												<span class="tab-1"></span>attrSearch: null,<br />
-												<span class="tab-1"></span>inputSearch: ''<br />
-											}
+<pre><code class="lang-js">{
+    <span class="hljs-attribute">totalElements</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attribute">page</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attribute">attrSearch</span>: <span class="hljs-keyword">null</span>,
+    <span class="hljs-attribute">inputSearch</span>: <span class="hljs-string">''</span>
+}
+</code></pre>
 										</td>
 										<td>contains a set of properties that are updated internally by the component</td>
 									</tr>
@@ -1195,7 +1265,7 @@ export default {
 			showSearchOperators: false,
 			showOptions: true,
 			showConfirmModalOnRemove: true,
-			optionRemove: true,
+			optionRemove: false,
 			optionView: true,
 			optionReport: false,
 			optionEdit: false,
@@ -1402,39 +1472,47 @@ export default {
 	display: inline;
 }
 
-#app code.lang-js .hljs-keyword {
+#app .lang-js .hljs-keyword {
 	color: blue;
 }
 
-#app code.lang-js .hljs-built_in {
+#app .lang-js .hljs-built_in {
 	color: darkcyan;
 }
 
-#app code.lang-js .hljs-string {
+#app .lang-js .hljs-string {
 	color: crimson;
 }
 
-#app code.lang-html .hljs-keyword {
+#app .lang-js .hljs-number {
+	color: crimson;
+}
+
+#app .lang-js .hljs-title {
+	color: darkcyan;
+}
+
+#app .lang-js .hljs-attribute {
+	color: darkcyan;
+}
+
+#app .lang-html .hljs-keyword {
 	color: blue;
 }
 
-#app code.lang-html .hljs-built_in {
+#app .lang-html .hljs-built_in {
 	color: darkcyan;
 }
 
-#app code.lang-html .hljs-comment {
+#app .lang-html .hljs-comment {
 	color: crimson;
 }
 
-/* #app code.lang-html .hljs-function {
-	color: crimson;
-} */
-
-#app code.lang-html .hljs-string {
+#app .lang-html .hljs-string {
 	color: crimson;
 }
 
-#app code.lang-html .hljs-number {
+#app .lang-html .hljs-number {
 	color: crimson;
 }
 </style>
