@@ -759,19 +759,22 @@ export default {
 	},
 
 	props: {
-		/** true para unir o widget de busca com o widget com a tabela de resultados */
+		/** true to join the two component parts (the search widget and the table widget) */
 		isCompact: {
 			type: Boolean,
 			default: false
 		},
 
-		/** true para que o vuestic-widget possa ser usado para estilizar o componente */
+		/** true to use a widget to wrap the component */
 		useWidget: {
 			type: Boolean,
 			default: true
 		},
 
-		/** se true, chama-se automaticamente o método search */
+		/**
+		 * if true, the request.searchAll method is called automatically upon loading the
+		 * component
+		 */
 		autoSearch: {
 			type: Boolean,
 			default: false
@@ -1005,15 +1008,16 @@ export default {
 		},
 
 		/**
-		 * objeto cuja as chaves são o nome dos slots a serem exibidos após a exibição de todos os atributos.
-		 * O valor de cada chave é o nome a ser exibido no header para cada opção informada
+		 * object whose keys are the name of the slots to display after
+		 * all attributes are displayed. The value of each key is the
+		 * name to be displayed in the header of each entered option
 		 */
 		options: {
 			type: Object,
 			default: () => ({})
 		},
 
-		/** lista de classes css a serem usadas em cada linha da tabela */
+		/** css class list to use on each table row */
 		classLine: {
 			type: Array,
 			default: () => []
@@ -1055,7 +1059,7 @@ export default {
 			default: false
 		},
 
-		/** nome da rota contendo a página de edição da entidade */
+		/** name of route containing an entity edit page */
 		routeNameEdit: {
 			type: String,
 			default: () => null
@@ -1158,19 +1162,20 @@ export default {
 			default: () => []
 		},
 
+		/** contains a set of properties that are updated internally by the component */
 		sync: {
 			type: Object,
 			default: () => ({
-				/** quantidade total de entidades (quantidade total de resultados) */
+				/** total amount of results */
 				totalElements: 0,
 
-				/** página atual sendo exibida */
+				/** current page being displayed */
 				page: 1,
 
-				/** atributo que está sendo buscado */
+				/** attribute being fetched (example: { display: name, value: 'name' }) */
 				attrSearch: null,
 
-				/** valor que está sendo buscado */
+				/** value entered in the search field */
 				inputSearch: ''
 			})
 		}
