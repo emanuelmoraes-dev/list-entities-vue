@@ -1,6 +1,219 @@
 <template>
   <div id="app">
 		<div class="container-fluid">
+			<div class="d-flex justify-content-end">
+				<h1>Quick Start</h1>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					Dependencies
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<ul>
+								<li>fontawesome 5.x</li>
+								<li>jQuery</li>
+								<li>bootstrap-vue</li>
+								<li>custom CSS (style.css)</li>
+								<li>Vuestic Admin version 1.x custom CSS (vuestic.css)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					Conflicts
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<ul>
+								<li>bootstrap 3.x or less</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					importing component (sample code)
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<pre><code class="lang-js"><span class="hljs-keyword">import</span> <span class="hljs-string">'list-entities-vue/lib/vuestic/css/vuestic.css'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'list-entities-vue/lib/fontawesome/css/all.min.css'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'list-entities-vue/assets/css/style.css'</span>
+<span class="hljs-keyword">import</span> jQuery <span class="hljs-keyword">from</span> <span class="hljs-string">'jquery'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'bootstrap-vue/dist/bootstrap-vue.css'</span>
+
+<span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> ListEntities <span class="hljs-keyword">from</span> <span class="hljs-string">'list-entities-vue'</span>
+<span class="hljs-keyword">import</span> BootstrapVue <span class="hljs-keyword">from</span> <span class="hljs-string">'bootstrap-vue'</span>
+
+<span class="hljs-built_in">global</span>.jQuery = jQuery
+<span class="hljs-built_in">global</span>.$ = jQuery
+
+Vue.use(ListEntities)
+Vue.use(BootstrapVue)
+</code></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					most basic example of use
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<pre><code class="lang-html">&lt;<span class="hljs-keyword">list-entities</span>
+    :definitions=<span class="hljs-comment">"$lev.def({</span>
+        <span class="hljs-built_in">name</span>: <span class="hljs-function">String</span>,
+        <span class="hljs-built_in">brand</span>: <span class="hljs-function">String</span>,
+        <span class="hljs-built_in">price</span>: <span class="hljs-function">String</span>,
+        <span class="hljs-built_in">perishable</span>: <span class="hljs-function">Boolean</span>,
+        <span class="hljs-built_in">expiration</span>: <span class="hljs-function">Date</span>
+    })<span class="hljs-comment">"</span>
+    v-model=<span class="hljs-comment">"[</span>
+        {
+            <span class="hljs-built_in">id</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-built_in">name</span>: <span class="hljs-string">'Coca Cola'</span>,
+            <span class="hljs-built_in">brand</span>: <span class="hljs-string">'The Coca-Cola Company'</span>,
+            <span class="hljs-built_in">price</span>: <span class="hljs-number">4</span>,
+            <span class="hljs-built_in">perishable</span>: false,
+            <span class="hljs-built_in">expiration</span>: <span class="hljs-keyword">new</span> Date(<span class="hljs-number">2019</span>, <span class="hljs-number">10</span>, <span class="hljs-number">18</span>)
+        }
+    ]<span class="hljs-comment">"</span>
+/&gt;
+</code></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					plugin options
+				</div>
+				<div class="card-body">
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					all properties
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">prop</th>
+										<th scope="col">type</th>
+										<th scope="col">default value</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>isCompact</td>
+										<td>Boolean</td>
+										<td>false</td>
+										<td>true to join the two component parts (the search widget and the table widget)</td>
+									</tr>
+									<tr>
+										<td>useWidget</td>
+										<td>Boolean</td>
+										<td>true</td>
+										<td>true to use a widget to wrap the component</td>
+									</tr>
+									<tr>
+										<td>autoSearch</td>
+										<td>Boolean</td>
+										<td>false</td>
+										<td>if true, the "request.searchAll" method is called automatically upon loading the component</td>
+									</tr>
+									<tr>
+										<td>options</td>
+										<td>Object</td>
+										<td>{}</td>
+										<td>object whose keys are the name of the slots to display after all attributes are displayed. The value of each key is the name to be displayed in the header of each entered option</td>
+									</tr>
+									<tr>
+										<td>routeNameEdit</td>
+										<td>String</td>
+										<td>null</td>
+										<td>name of route containing an entity edit page</td>
+									</tr>
+									<tr>
+										<td>classLine</td>
+										<td>Array</td>
+										<td>[]</td>
+										<td>css class list to use on each table row</td>
+									</tr>
+									<tr>
+										<td>parseEditParams</td>
+										<td>Function</td>
+										<td>(entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })</td>
+										<td>function that takes an entity, its position in the table and the name of the attribute that represents the id and returns the parameters to pass to the edit route</td>
+									</tr>
+									<tr>
+										<td>sync</td>
+										<td>Object</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>totalElements: 0,<br />
+												<span class="tab-1"></span>page: 1,<br />
+												<span class="tab-1"></span>attrSearch: null,<br />
+												<span class="tab-1"></span>inputSearch: ''<br />
+											}
+										</td>
+										<td>contains a set of properties that are updated internally by the component</td>
+									</tr>
+									<tr>
+										<td>sync.totalElements</td>
+										<td>Number</td>
+										<td>0</td>
+										<td>total amount of results</td>
+									</tr>
+									<tr>
+										<td>sync.page</td>
+										<td>Number</td>
+										<td>1</td>
+										<td>current page being displayed</td>
+									</tr>.
+									<tr>
+										<td>sync.attrSearch</td>
+										<td>Object</td>
+										<td>null</td>
+										<td>attribute being fetched (example: { display: name, value: 'name' })</td>
+									</tr>
+									<tr>
+										<td>sync.inputSearch</td>
+										<td>String</td>
+										<td>''</td>
+										<td>value entered in the search field</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<h1>Demo</h1>
+			</div>
+
 			<div class="row">
 				<div class="col">
 					<list-entities
@@ -48,22 +261,6 @@
 						:options="options"
 						@on_error="onError"
 					/>
-				</div>
-			</div>
-
-			<div class="card props">
-				<div class="card-header">
-					defining the entity being listed
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								<label for="txt-text-definitions">definitions:</label>
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="32"></textarea>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 
@@ -368,6 +565,22 @@
 
 			<div class="card props">
 				<div class="card-header">
+					defining the entity being listed
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label for="txt-text-definitions">definitions:</label>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="32"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
 					properties as functions
 				</div>
 				<div class="card-body">
@@ -507,7 +720,7 @@
 
 			<div class="card props">
 				<div class="card-header">
-					conducting research and removals
+					example implementation of searches and removals
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -523,7 +736,7 @@
 
 			<div class="card props">
 				<div class="card-header">
-					other properties
+					properties not shown in demo
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -539,10 +752,71 @@
 								</thead>
 								<tbody>
 									<tr>
+										<td>autoSearch</td>
+										<td>Boolean</td>
+										<td>false</td>
+										<td>if true, the "request.searchAll" method is called automatically upon loading the component</td>
+									</tr>
+									<tr>
+										<td>options</td>
+										<td>Object</td>
+										<td>{}</td>
+										<td>object whose keys are the name of the slots to display after all attributes are displayed. The value of each key is the name to be displayed in the header of each entered option</td>
+									</tr>
+									<tr>
+										<td>routeNameEdit</td>
+										<td>String</td>
+										<td>null</td>
+										<td>name of route containing an entity edit page</td>
+									</tr>
+									<tr>
+										<td>classLine</td>
+										<td>Array</td>
+										<td>[]</td>
+										<td>css class list to use on each table row</td>
+									</tr>
+									<tr>
 										<td>parseEditParams</td>
-										<td>(entity, index, idAttrName) => object</td>
+										<td>Function</td>
 										<td>(entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })</td>
 										<td>function that takes an entity, its position in the table and the name of the attribute that represents the id and returns the parameters to pass to the edit route</td>
+									</tr>
+									<tr>
+										<td>sync</td>
+										<td>Object</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>totalElements: 0,<br />
+												<span class="tab-1"></span>page: 1,<br />
+												<span class="tab-1"></span>attrSearch: null,<br />
+												<span class="tab-1"></span>inputSearch: ''<br />
+											}
+										</td>
+										<td>contains a set of properties that are updated internally by the component</td>
+									</tr>
+									<tr>
+										<td>sync.totalElements</td>
+										<td>Number</td>
+										<td>0</td>
+										<td>total amount of results</td>
+									</tr>
+									<tr>
+										<td>sync.page</td>
+										<td>Number</td>
+										<td>1</td>
+										<td>current page being displayed</td>
+									</tr>.
+									<tr>
+										<td>sync.attrSearch</td>
+										<td>Object</td>
+										<td>null</td>
+										<td>attribute being fetched (example: { display: name, value: 'name' })</td>
+									</tr>
+									<tr>
+										<td>sync.inputSearch</td>
+										<td>String</td>
+										<td>''</td>
+										<td>value entered in the search field</td>
 									</tr>
 								</tbody>
 							</table>
@@ -852,7 +1126,7 @@ const textRequest = `{
 					inputSearch = parseFloat(inputSearch)
 				}
 
-				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
 					return false
 
 				return value > inputSearch
@@ -863,8 +1137,8 @@ const textRequest = `{
 					inputSearch = parseFloat(inputSearch)
 				}
 
-				if (Number.isNaN(value) || Number.isNaN(inputSearch))
-					return false
+				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
+					return falseW
 
 				return value >= inputSearch
 			}
@@ -874,7 +1148,7 @@ const textRequest = `{
 					inputSearch = parseFloat(inputSearch)
 				}
 
-				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
 					return false
 
 				return value < inputSearch
@@ -885,7 +1159,7 @@ const textRequest = `{
 					inputSearch = parseFloat(inputSearch)
 				}
 
-				if (Number.isNaN(value) || Number.isNaN(inputSearch))
+				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
 					return false
 
 				return value <= inputSearch
@@ -1044,6 +1318,10 @@ export default {
 	margin-top: 1rem;
 }
 
+#app .tab-1 {
+	margin-left: 4ch;
+}
+
 #app .props {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
@@ -1122,5 +1400,41 @@ export default {
 
 #app .props .form-group .element-form label, #app .props .form-group .element-form input {
 	display: inline;
+}
+
+#app code.lang-js .hljs-keyword {
+	color: blue;
+}
+
+#app code.lang-js .hljs-built_in {
+	color: darkcyan;
+}
+
+#app code.lang-js .hljs-string {
+	color: crimson;
+}
+
+#app code.lang-html .hljs-keyword {
+	color: blue;
+}
+
+#app code.lang-html .hljs-built_in {
+	color: darkcyan;
+}
+
+#app code.lang-html .hljs-comment {
+	color: crimson;
+}
+
+/* #app code.lang-html .hljs-function {
+	color: crimson;
+} */
+
+#app code.lang-html .hljs-string {
+	color: crimson;
+}
+
+#app code.lang-html .hljs-number {
+	color: crimson;
 }
 </style>
