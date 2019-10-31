@@ -19,7 +19,7 @@ export default function definitionAdapter (def) {
 		let defValue = def[attr]
 
 		if (typeof defValue === 'function')
-			defValue = { type: defValue }
+			defValue = { type: defValue, displayModal: true, displayAttr: true }
 
 		descriptor[attr] = { type: defValue.type }
 		descriptorModal[attr] = {}

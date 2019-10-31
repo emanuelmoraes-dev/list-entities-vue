@@ -41,6 +41,9 @@ export default {
 		this.entities = this.value
 		this.prepareDescriptor()
 
+		if (!this.definitions.sort)
+			this.definitions.sort = `+${Object.keys(this.descriptorEntity)[0]}`
+
 		if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
 			this.sync.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
 		else if (this.sync.attrSearch === null)
@@ -804,7 +807,7 @@ export default {
 					return false
 				}
 
-				if (typeof value.sort !== 'string') {
+				if (value.sort && typeof value.sort !== 'string') {
 					console.error('definitions.sort not is string')
 					return false
 				}
@@ -1038,7 +1041,7 @@ export default {
 		/** true para exibir a opção de remover uma entidade */
 		optionRemove: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 
 		/** true para exibir a opção de visualizar os dados da entidade em um modal */
