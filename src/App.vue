@@ -69,6 +69,60 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
+					exported by list-entities-vue
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">name</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td :style="{ color: 'blue' }">default</td>
+										<td>plugin to use with "Vue.use"</td>
+									</tr>
+									<tr>
+										<td>ListEntities</td>
+										<td>Entity Listing Component</td>
+									</tr>
+									<tr>
+										<td>ModalEntity</td>
+										<td>Modal for displaying details of an entity</td>
+									</tr>
+									<tr>
+										<td>def</td>
+										<td>function to define the modeling of the entity being displayed (also available in "this[ctxName].def" (by default, this.$lev.def))</td>
+									</tr>
+									<tr>
+										<td>InvalidDateFormatError</td>
+										<td>Error thrown if text entered in search field cannot be used to search for a Date field</td>
+									</tr>
+									<tr>
+										<td>dictionaries</td>
+										<td>dictionaries used by DEFAULT to define the global dictionary based on the "lang" and "use" properties. The global dictionary will merge all dictionaries with the correct language and the "use" function returning true. Reading occurs from first to last</td>
+									</tr>
+									<tr>
+										<td>en</td>
+										<td>English language dictionary used by DEFAULT to define the global English language dictionary</td>
+									</tr>
+									<tr>
+										<td>pt</td>
+										<td>Portuguese language dictionary used by DEFAULT to define the global Portuguese language dictionary</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
 					plugin options
 				</div>
 				<div class="card-body">
@@ -425,7 +479,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>sync.inputSearch</td>
 										<td>String</td>
-										<td>''</td>
+										<td></td>
 										<td>value entered in the search field</td>
 									</tr>
 								</tbody>
@@ -561,15 +615,6 @@ Vue.use(BootstrapVue)
 						<div class="col-md-3 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
-									<input class="form-check-input" type="checkbox" id="chk-option-remove" v-model="optionRemove">
-									<label class="form-check-label" for="chk-option-remove">optionRemove</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-3 col-sm-4">
-							<div class="form-group">
-								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-option-view" v-model="optionView">
 									<label class="form-check-label" for="chk-option-view">optionView</label>
 								</div>
@@ -579,8 +624,8 @@ Vue.use(BootstrapVue)
 						<div class="col-md-3 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
-									<input class="form-check-input" type="checkbox" id="chk-option-report" v-model="optionReport">
-									<label class="form-check-label" for="chk-option-report">optionReport</label>
+									<input class="form-check-input" type="checkbox" id="chk-option-remove" v-model="optionRemove">
+									<label class="form-check-label" for="chk-option-remove">optionRemove</label>
 								</div>
 							</div>
 						</div>
@@ -590,6 +635,15 @@ Vue.use(BootstrapVue)
 								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-option-edit" v-model="optionEdit">
 									<label class="form-check-label" for="chk-option-edit">optionEdit</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-sm-4">
+							<div class="form-group">
+								<div class="form-check form-check-inline prop">
+									<input class="form-check-input" type="checkbox" id="chk-option-report" v-model="optionReport">
+									<label class="form-check-label" for="chk-option-report">optionReport</label>
 								</div>
 							</div>
 						</div>
@@ -1046,7 +1100,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>sync.inputSearch</td>
 										<td>String</td>
-										<td>''</td>
+										<td></td>
 										<td>value entered in the search field</td>
 									</tr>
 								</tbody>
