@@ -21,7 +21,7 @@
           > <!-- percorre as propriedades do 'descriptorEntity' a serem exibidas no modal -->
             <slot :name="`${property}_before`" :property="property" :index="index" :descriptorValue="descriptorEntity[property]"> <!-- slot a ser passado antes de exibir a propriedade --></slot> <!-- end slot `${property}_before` -->
             <div v-if="$scopedSlots[`${property}_slot`]"> <!-- se o usuário informar o que deverá ser exibid para esta propriedade -->
-              <slot :name="property" :property="descriptorEntity[property]">
+              <slot :name="property" :property="property" :index="index" :descriptorValue="descriptorEntity[property]">
               </slot> <!-- chama slot `${property}_slot` -->
             </div> <!-- end v-if -->
             <div v-else class="line-modal-property"> <!-- se o usuário não informar o que deverá ser exibido para esta propriedade -->
