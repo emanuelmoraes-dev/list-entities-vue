@@ -253,7 +253,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>on_change_sort</td>
 										<td>(sort)</td>
-										<td>This event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending) if the sorting is changed</td>
+										<td>This event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending), if the sorting is changed</td>
 									</tr>
 									<tr>
 										<td>on_edit</td>
@@ -372,6 +372,225 @@ Vue.use(BootstrapVue)
 										<td>on_error_search_attr</td>
 										<td>(err)</td>
 										<td>This event throws an error when trying to perform a search for a specific attribute</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					all list-entity slots
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">slot</th>
+										<th scope="col">scoped?</th>
+										<th>dynamic?</th>
+										<th scope="col">parameters</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>titleSearch</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to display in search widget title</td>
+									</tr>
+									<tr>
+										<td>titleTable</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to display in table title</td>
+									</tr>
+									<tr>
+										<td>beforeTable</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to be displayed before anything</td>
+									</tr>
+									<tr>
+										<td>afterTable</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to be displayed after pagination</td>
+									</tr>
+									<tr>
+										<td>tblpre</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to display before entity table and after search widget</td>
+									</tr>
+									<tr>
+										<td>tblpos</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to display after entity table and before pagination</td>
+									</tr>
+									<tr>
+										<td>pagination</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to override the default bootstrap-vue pagination</td>
+									</tr>
+									<tr>
+										<td>check</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to display before any attribute on the same table row</td>
+									</tr>
+									<tr>
+										<td>entity_line</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to replace each entire row of the table</td>
+									</tr>
+									<tr>
+										<td>td_option</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to override default options displayed after all attributes in a table row</td>
+									</tr>
+									<tr>
+										<td>beforeDefaultOptions</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>options to display before default options (view, edit, report, remove)</td>
+									</tr>
+									<tr>
+										<td>optionView</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to replace the entity details view button</td>
+									</tr>
+									<tr>
+										<td>optionEdit</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to replace entity edit button</td>
+									</tr>
+									<tr>
+										<td>optionReport</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to replace entity reporting button</td>
+									</tr>
+									<tr>
+										<td>optionRemove</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to replace the remove entity button</td>
+									</tr>
+									<tr>
+										<td>afterDefaultOptions</td>
+										<td>YES</td>
+										<td>NO</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>options to display after default options (view, edit, report, remove)</td>
+									</tr>
+									<tr>
+										<td>${attr}_slot</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>content to override the display of the value of a specific attribute, with "attr" as the attribute name</td>
+									</tr>
+									<tr>
+										<td>${opt}</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>entity,<br />
+												<span class="tab-1"></span>index<br />
+											}
+										</td>
+										<td>option to display with its own header in the table, where "opt" is a key of the "options" property and the value linked to that key the content to display in the header</td>
+									</tr>
+									<tr>
+										<td>modal_${slotName}</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>property,<br />
+												<span class="tab-1"></span>index,<br />
+												<span class="tab-1"></span>descriptorValue<br />
+											}
+										</td>
+										<td>slot to switch to "modal-entity" (responsible for displaying a modal with entity details). "slotName" is the name of the slot that "modal-entity" will receive. The types of slots that the modal-entity receives will be described later. Thus, if "modal-entity" receives, for example, the slot "name_slot", then you should switch to "list-entitites" the slot "modal_name_slot"</td>
 									</tr>
 								</tbody>
 							</table>
