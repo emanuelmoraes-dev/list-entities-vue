@@ -177,6 +177,157 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
+					all events
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">event</th>
+										<th scope="col">parameters</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>input</td>
+										<td>(entities)</td>
+										<td>This event issues the list of entities when there are changes to the entities. (Note: When there are more attributes to search than attributes to display, the last attribute changes when selecting to search for an attribute not displayed. The value of this attribute is stored in the property "__lastAttrValue")</td>
+									</tr>
+									<tr>
+										<td>on_change_sort</td>
+										<td>(sort)</td>
+										<td>This event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending) if the sorting is changed</td>
+									</tr>
+									<tr>
+										<td>on_edit</td>
+										<td>(entity, index)</td>
+										<td>This event issues the entity and its position in the listing when the EDIT option is clicked</td>
+									</tr>
+									<tr>
+										<td>on_remove</td>
+										<td>(entity, index)</td>
+										<td>This event issues the entity and its position in the listing when the DELETE option is clicked</td>
+									</tr>
+									<tr>
+										<td>on_search</td>
+										<td>
+											(<br />
+												<span class="tab-1"></span>inputSearch,<br />
+												<span class="tab-1"></span>paramsRequest,<br />
+												<span class="tab-1"></span>params,<br />
+												<span class="tab-1"></span>attr,<br />
+												<span class="tab-1"></span>isAttrAll,<br />
+												<span class="tab-1"></span>type<br />
+											)
+										</td>
+										<td>
+											This event is started before a new search is performed with the following parameters:<br /> <br />
+
+											inputSearch: Text entered in the search field with spaces taken from the beginning and end of the sequence (trim). <br /><br />
+
+											paramsRequest: List of fixed parameters, passed by the property to the component, to filter all searches.<br /><br />
+
+											params: List of automatically generated parameters (which form an "and" clause) based on the selected attribute, selected operation, and "inputSearch" content. These parameters set the filtering for this particular search.<br /><br />
+
+											attr: name of the attribute selected for the search. If all attributes are selected, the value is '__#$all$#__'.<br /><br />
+
+											isAttrAll: This happens if "attr" equals '__#$all$#__'.<br /><br />
+
+											type: type of the attribute. If the attribute is '__#$all$#__' then the type is null.<br /><br />
+
+											(Note: If "isAttrAll" is true, "params" is an array of arrays, with each "params" element being the list of parameters that would be generated for a specific attribute.)<br /><br />
+
+											(Note: Each params element has the name of the attribute to be filtered (attr), the value to be compared (value), the comparison perator (operator), and an object (descriptor) that contains relevant information present in "definitions" passed as a property, such as the "type" containing the type of this attribute)
+										</td>
+									</tr>
+									<tr>
+										<td>on_search_success</td>
+										<td>
+											(<br />
+												<span class="tab-1"></span>entities,<br />
+												<span class="tab-1"></span>count,<br />
+												<span class="tab-1"></span>inputSearch<br />
+											)
+										</td>
+										<td>This event emit the list of entities, the total number of entities, and the search field text when any search is successful</td>
+									</tr>
+									<tr>
+										<td>on_search_default_success</td>
+										<td>
+											(<br />
+												<span class="tab-1"></span>entities,<br />
+												<span class="tab-1"></span>count,<br />
+												<span class="tab-1"></span>inputSearch,<br />
+												<span class="tab-1"></span>paramsRequest,<br />
+												<span class="tab-1"></span>params<br />
+											)</td>
+										<td>This event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for all attributes is successful</td>
+									</tr>
+									<tr>
+										<td>on_search_all_success</td>
+										<td>
+											(<br />
+												<span class="tab-1"></span>entities,<br />
+												<span class="tab-1"></span>count,<br />
+												<span class="tab-1"></span>inputSearch<br />
+											)
+										</td>
+										<td>This event emit the list of entities, the total number of entities, and the search field text when the search for all (unfiltered) entities completes successfully</td>
+									</tr>
+									<tr>
+										<td>on_search_attr_success</td>
+										<td>
+											(<br />
+												<span class="tab-1"></span>entities,<br />
+												<span class="tab-1"></span>count,<br />
+												<span class="tab-1"></span>inputSearch,<br />
+												<span class="tab-1"></span>paramsRequest,<br />
+												<span class="tab-1"></span>params<br />
+											)</td>
+										<td>This event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for a specific attribute completes successfully</td>
+									</tr>
+									<tr>
+										<td>on_error</td>
+										<td>(err)</td>
+										<td>This event throws an error thrown within the component</td>
+									</tr>
+									<tr>
+										<td>on_error_remove</td>
+										<td>(err)</td>
+										<td>This event throws an error thrown when trying to remove an entity</td>
+									</tr>
+									<tr>
+										<td>on_error_search</td>
+										<td>(err)</td>
+										<td>This event throws an error when trying to perform a search</td>
+									</tr>
+									<tr>
+										<td>on_error_search_default</td>
+										<td>(err)</td>
+										<td>This event throws an error while trying to perform a search for all attributes</td>
+									</tr>
+									<tr>
+										<td>on_error_search_all</td>
+										<td>(err)</td>
+										<td>This event throws an error when trying to perform a search for all entities (no filtering)</td>
+									</tr>
+									<tr>
+										<td>on_error_search_attr</td>
+										<td>(err)</td>
+										<td>This event throws an error when trying to perform a search for a specific attribute</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
 					all properties
 				</div>
 				<div class="card-body">
@@ -231,7 +382,12 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>parseEditParams</td>
 										<td>Function</td>
-										<td>(entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })</td>
+										<td>
+<pre><code class="lang-js">(<span class="hljs-attribute">entity</span>, <span class="hljs-attribute">index</span>, <span class="hljs-attribute">idAttrName</span>) =&gt; ({
+    <span class="hljs-attribute">[idAttrName]</span>: entity[idAttrName]
+})
+</code></pre>
+										</td>
 										<td>function that takes an entity, its position in the table and the name of the attribute that represents the id and returns the parameters to pass to the edit route</td>
 									</tr>
 									<tr>
@@ -847,7 +1003,12 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>parseEditParams</td>
 										<td>Function</td>
-										<td>(entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] })</td>
+										<td>
+<pre><code class="lang-js">(<span class="hljs-attribute">entity</span>, <span class="hljs-attribute">index</span>, <span class="hljs-attribute">idAttrName</span>) =&gt; ({
+    <span class="hljs-attribute">[idAttrName]</span>: entity[idAttrName]
+})
+</code></pre>
+										</td>
 										<td>function that takes an entity, its position in the table and the name of the attribute that represents the id and returns the parameters to pass to the edit route</td>
 									</tr>
 									<tr>
