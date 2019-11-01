@@ -248,9 +248,9 @@ export default {
 					this.sync.page = 1
 
 				if (!this.descriptorEntity[attr] || !this.descriptorEntity[attr].type)
-					this.$emit('on_search', inputSearch, paramsRequest, params, attr, null)
+					this.$emit('on_search', inputSearch, paramsRequest, params, attr, attr === VALUE_ATTR_ALL, null)
 				else
-					this.$emit('on_search', inputSearch, paramsRequest, params, attr, this.descriptorEntity[attr].type)
+					this.$emit('on_search', inputSearch, paramsRequest, params, attr, attr === VALUE_ATTR_ALL, this.descriptorEntity[attr].type)
 
 				if (!this.request)
 					return
@@ -290,7 +290,7 @@ export default {
 			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_success', entities, count, inputSearch)
 			this.$emit('on_search_default_success', entities, count, inputSearch, params)
 		},
 
@@ -300,7 +300,7 @@ export default {
 			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_success', entities, count, inputSearch)
 			this.$emit('on_search_all_success', entities, count)
 		},
 
@@ -315,7 +315,7 @@ export default {
 			this.sync.totalElements = count
 			this.entities = entities
 			this.updateLastAttr(entities)
-			this.$emit('on_search_success', entities, count)
+			this.$emit('on_search_success', entities, count, inputSearch)
 			this.$emit('on_search_attr_success', entities, count, inputSearch, params)
 		},
 
