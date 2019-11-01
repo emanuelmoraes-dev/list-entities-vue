@@ -1,6 +1,6 @@
 
-import _listEntities from './src/components/list-entities/list-entities.vue'
-import _modalEntity from './src/components/modal-entity/modal-entity.vue'
+import _ListEntities from './src/components/list-entities/list-entities.vue'
+import _ModalEntity from './src/components/modal-entity/modal-entity.vue'
 import _def from './src/adapters/def'
 import _dictionaries from './src/dictionaries'
 import _InvalidDateFormatError from './src/components/list-entities/err/invalid-date-format-error'
@@ -14,10 +14,10 @@ export default {
 		lang = 'en'
 	} = {}) {
 		if (nameListEntities)
-			Vue.component(nameListEntities, _listEntities)
+			Vue.component(nameListEntities, _ListEntities)
 
 		if (nameModalEntity)
-			Vue.component(nameModalEntity, _modalEntity)
+			Vue.component(nameModalEntity, _ModalEntity)
 
 		Vue.prototype.$getListEntitiesCtxName = function () {
 			if (!ctxName || (typeof ctxName !== 'string' && typeof ctxName !== 'symbol'))
@@ -34,8 +34,8 @@ export default {
 	}
 }
 
-export const listEntities = _listEntities
-export const modalEntity = _modalEntity
+export const ListEntities = _ListEntities
+export const ModalEntity = _ModalEntity
 export const def = _def
 export const dictionaries = _dictionaries
 export const InvalidDateFormatError = _InvalidDateFormatError
