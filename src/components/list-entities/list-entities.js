@@ -291,7 +291,7 @@ export default {
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count, inputSearch)
-			this.$emit('on_search_default_success', entities, count, inputSearch, params)
+			this.$emit('on_search_default_success', entities, count, inputSearch, paramsRequest, params)
 		},
 
 		async searchAll (inputSearch) {
@@ -301,7 +301,7 @@ export default {
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count, inputSearch)
-			this.$emit('on_search_all_success', entities, count)
+			this.$emit('on_search_all_success', entities, count, inputSearch)
 		},
 
 		async searchAttr (inputSearch, params) {
@@ -316,7 +316,7 @@ export default {
 			this.entities = entities
 			this.updateLastAttr(entities)
 			this.$emit('on_search_success', entities, count, inputSearch)
-			this.$emit('on_search_attr_success', entities, count, inputSearch, params)
+			this.$emit('on_search_attr_success', entities, count, inputSearch, paramsRequest, params)
 		},
 
 		getParams (attr, inputSearch) {
