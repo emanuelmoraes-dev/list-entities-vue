@@ -220,7 +220,7 @@
 					:i18nArgs="i18nArgsModal"
 					:localDictionary="localDictionaryModal || dictionary"
 				>
-					<template v-for="slotName of definitions.modalSlots">
+					<template v-for="slotName of modalSlots">
 						<div :key="slotName" :slot="slotName" slot-scope="{ property, index, descriptorValue }">
 							<slot :name="`modal_${slotName}`" :property="property" :index="index" :descriptorValue="descriptorValue"></slot>
 						</div>

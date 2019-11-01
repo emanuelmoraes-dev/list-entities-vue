@@ -590,7 +590,7 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>descriptorValue<br />
 											}
 										</td>
-										<td>slot to switch to "modal-entity" (responsible for displaying a modal with entity details). "slotName" is the name of the slot that "modal-entity" will receive. The types of slots that the modal-entity receives will be described later. Thus, if "modal-entity" receives, for example, the slot "name_slot", then you should switch to "list-entitites" the slot "modal_name_slot"</td>
+										<td>slot to switch to "modal-entity" (responsible for displaying a modal with entity details). "slotName" is the name of the slot that "modal-entity" will receive. The types of slots that the modal-entity receives will be described later. Thus, if "modal-entity" receives, for example, the slot "name_slot", then you should switch to "list-entitites" the slot "modal_name_slot". For "slotName" can be used, you must add "slotName" in "modalSlots" property</td>
 									</tr>
 								</tbody>
 							</table>
@@ -651,6 +651,12 @@ Vue.use(BootstrapVue)
 										<td>Array</td>
 										<td>[]</td>
 										<td>css class list to use on each table row</td>
+									</tr>
+									<tr>
+										<td>modalSlots</td>
+										<td>Array</td>
+										<td>[]</td>
+										<td>list of slots to place in the "modal-entity"</td>
 									</tr>
 									<tr>
 										<td>parseEditParams</td>
@@ -757,6 +763,7 @@ Vue.use(BootstrapVue)
 						:definitions="definitions"
 						:request="request"
 						:options="options"
+						:modalSlots="modalSlots"
 						@on_error="onError"
 					/>
 				</div>
@@ -1274,6 +1281,12 @@ Vue.use(BootstrapVue)
 										<td>css class list to use on each table row</td>
 									</tr>
 									<tr>
+										<td>modalSlots</td>
+										<td>Array</td>
+										<td>[]</td>
+										<td>list of slots to place in the "modal-entity"</td>
+									</tr>
+									<tr>
 										<td>parseEditParams</td>
 										<td>Function</td>
 										<td>
@@ -1736,6 +1749,7 @@ export default {
 			autoSearch: false,
 			routeNameEdit: null,
 			classLine: [],
+			modalSlots: [],
 			sync: {
 				/** quantidade total de entidades (quantidade total de resultados) */
 				totalElements: 0,

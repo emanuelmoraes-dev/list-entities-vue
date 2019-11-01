@@ -836,20 +836,6 @@ export default {
 					return false
 				}
 
-				if (
-					value.modalSlots &&
-					(
-						!(value.modalSlots instanceof Array) ||
-						value.modalSlots.length !== 0 &&
-						value.modalSlots.find(s => typeof s !== 'string')
-					)
-				) {
-					console.error('definitions.modalSlots not is string[]')
-					return false
-				}
-
-				value.modalSlots = value.modalSlots || []
-
 				if (!(value.optionsSearch instanceof Array)) {
 					console.error('definitions.optionsSearch not is array<{ display: string, value: string }>')
 					return false
@@ -1156,6 +1142,11 @@ export default {
 		localDictionaryModal: {
 			type: Object,
 			default: () => null
+		},
+
+		modalSlots: {
+			type: Array,
+			default: () => []
 		},
 
 		// propriedades sincronas
