@@ -183,6 +183,8 @@
 									<slot name="pagination"> <!-- slot do paginador de resultados da tabela -->
 										<b-pagination :limit="limitPagination" :align="alignPagination" :size="sizePagination" :total-rows="sync.totalElements" v-model="sync.page" :per-page="pageSize" /> <!-- paginador do bootstrap-vue -->
 									</slot> <!-- end slot pagination -->
+
+									<slot name="afterTable"></slot>
 								</div> <!-- end col ? -->
 							</div> <!-- end row ? -->
 						</div> <!-- end slot secundary -->
@@ -219,8 +221,8 @@
 					:localDictionary="localDictionaryModal || dictionary"
 				>
 					<template v-for="slotName of definitions.modalSlots">
-						<div :key="slotName" :slot="slotName" slot-scope="{ property }">
-							<slot :name="`modal_${slotName}`" :property="property"></slot>
+						<div :key="slotName" :slot="slotName" slot-scope="{ property, index, descriptorValue }">
+							<slot :name="`modal_${slotName}`" :property="property" :index="index" :descriptorValue="descriptorValue"></slot>
 						</div>
 					</template>
 				</modal-entity>
