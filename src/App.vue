@@ -624,15 +624,6 @@ Vue.use(BootstrapVue)
 						<div class="col-md-3 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
-									<input class="form-check-input" type="checkbox" id="chk-option-remove" v-model="optionRemove">
-									<label class="form-check-label" for="chk-option-remove">optionRemove</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-3 col-sm-4">
-							<div class="form-group">
-								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-option-edit" v-model="optionEdit">
 									<label class="form-check-label" for="chk-option-edit">optionEdit</label>
 								</div>
@@ -644,6 +635,15 @@ Vue.use(BootstrapVue)
 								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-option-report" v-model="optionReport">
 									<label class="form-check-label" for="chk-option-report">optionReport</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-sm-4">
+							<div class="form-group">
+								<div class="form-check form-check-inline prop">
+									<input class="form-check-input" type="checkbox" id="chk-option-remove" v-model="optionRemove">
+									<label class="form-check-label" for="chk-option-remove">optionRemove</label>
 								</div>
 							</div>
 						</div>

@@ -151,12 +151,6 @@
 																	</button>
 																</slot> <!-- end slot optionView -->
 
-																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
-																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
-																		<span class="fas fa-trash-alt"></span>
-																	</button>
-																</slot> <!-- end slo optionRemove -->
-
 																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
 																	<button v-if="optionEdit" type="button" class="btn btn-success option option-icon" @click.prevent.stop="edit(entity, index)">
 																		<span class="fas fa-pencil-alt"></span>
@@ -168,6 +162,12 @@
 																		<span class="icon fas fa-file-alt"></span>
 																	</button>
 																</slot> <!-- end slot optionReport -->
+
+																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
+																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
+																		<span class="fas fa-trash-alt"></span>
+																	</button>
+																</slot> <!-- end slo optionRemove -->
 
 																<slot name="afterDefaultOptions" :entity="entity" :index="index"></slot>
 															</td> <!-- end td opções padrão -->

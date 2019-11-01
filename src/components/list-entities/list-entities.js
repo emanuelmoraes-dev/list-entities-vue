@@ -1038,16 +1038,16 @@ export default {
 			default: true
 		},
 
-		/** true para exibir a opção de remover uma entidade */
-		optionRemove: {
-			type: Boolean,
-			default: false
-		},
-
 		/** true para exibir a opção de visualizar os dados da entidade em um modal */
 		optionView: {
 			type: Boolean,
 			default: true
+		},
+
+		/** true para exibir a opção de editar uma entidade */
+		optionEdit: {
+			type: Boolean,
+			default: false
 		},
 
 		/** true para exibir a opção de gerar e baixar um relatório das informações da entidade */
@@ -1056,8 +1056,8 @@ export default {
 			default: false
 		},
 
-		/** true para exibir a opção de editar uma entidade */
-		optionEdit: {
+		/** true para exibir a opção de remover uma entidade */
+		optionRemove: {
 			type: Boolean,
 			default: false
 		},
