@@ -379,6 +379,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
+								( For more details about this property click <a href="#definitions">here</a> )
 								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="30"></textarea>
 							</div>
 						</div>
@@ -867,6 +868,18 @@ Vue.use(BootstrapVue)
     }
 </span><span class="hljs-keyword">&lt;/script&gt;</span>
 </code></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="definitions" class="card props">
+				<div class="card-header">
+					How does the <span :style="{ color: 'blue' }">definitions</span> property work?
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
 						</div>
 					</div>
 				</div>
@@ -1581,7 +1594,7 @@ this.$lev.dictionaries = [
 ]`
 
 const textRequest = `{
-	/** used by list-entities */
+	/** used by list-entities. Returns all entities with order and pagination */
 	async searchAll (page, pageSize, sort, inputSearch) {
 		this._orderBy(this._products, sort)
 		let products = this._paginate(this._products, page, pageSize)
@@ -1591,7 +1604,7 @@ const textRequest = `{
 		}
 	},
 
-	/** used by list-entities */
+	/** used by list-entities. Returns entities filtered by a specific attribute */
 	async searchAttr (page, pageSize, sort, inputSearch, paramsRequest, params) {
 		params = params.slice()
 		params.push.apply(params, paramsRequest)
@@ -1604,7 +1617,7 @@ const textRequest = `{
 		}
 	},
 
-	/** used by list-entities */
+	/** used by list-entities. Returns filtered entities based on all attributes */
 	async searchDefault (page, pageSize, sort, inputSearch, paramsRequest, params) {
 		let products = this._filter(this._products, paramsRequest)
 		products = this._filterOr(products, params)
@@ -1616,7 +1629,7 @@ const textRequest = `{
 		}
 	},
 
-	/** used by list-entities */
+	/** used by list-entities. Remove a specific entity */
 	async delete (id, entity, index, entities) {
 		this._products.splice(index, 1)
 	},
