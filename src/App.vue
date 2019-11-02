@@ -1778,7 +1778,7 @@ export default {
 			isShowSuccessModalRemove: false,
 			pageSize: 10,
 			limitPagination: 5,
-			joinSep: '/',
+			joinSep: ' / ',
 			defaultPattern: 'dd/MM/yyyy',
 			alignPagination: 'left',
 			sizePagination: 'md',

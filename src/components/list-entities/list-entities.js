@@ -943,7 +943,7 @@ export default {
 		/** usado para unir valores de um array a ser exibido na tabela */
 		joinSep: {
 			type: String,
-			default: '/'
+			default: ' / '
 		},
 
 		/** string que representa o padrão de exibição de datas */
