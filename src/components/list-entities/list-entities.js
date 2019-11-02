@@ -746,6 +746,19 @@ export default {
 			if (value instanceof Array) {
 				if (descriptor[attr.value].adapter)
 					value = value.map(descriptor[attr.value].adapter)
+				else if (descriptor[attr.value].type === Date)
+					value = value.map(v => {
+						return dateUtility.dateToStr(
+							v,
+							translatePattern(
+								descriptor[attr.value].pattern || defaultPattern
+							)
+						)
+					})
+				else if (descriptor[attr.value].type === Boolean)
+					value = value.map(v => {
+						return v ? trueStr : falseStr
+					})
 				else if (descriptor[attr.value].numberAdapter && typeof descriptor[attr.value].fixed === 'number')
 					value = value.map(v => parseFloat(v).toFixed(descriptor[attr.value].fixed))
 				else if (descriptor[attr.value].numberAdapter)

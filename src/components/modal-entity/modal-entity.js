@@ -96,8 +96,6 @@ export default {
 					descriptorValue = { type: Boolean }
 				else if (descriptorValue === Date)
 					descriptorValue = { type: Date }
-				else if (descriptorValue === Array)
-					descriptorValue = { type: Array }
 				else
 					descriptorValue = { ...descriptorValue }
 
@@ -169,8 +167,30 @@ export default {
 		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (value === undefined || value === null) {
 				return ''
-			}
-			if (descriptorValue.type === Boolean) {
+			} else if (value instanceof Array) {
+				if (descriptorValue.adapter) {
+					return value
+						.map(descriptorValue.adapter)
+						.join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
+				} else {
+					return value.map(v => {
+						if (descriptorValue.type === Date)
+							return dateUtility.dateToStr(
+								v,
+								translatePattern(
+									descriptorValue.pattern || defaultPattern
+								)
+							)
+						else if (descriptorValue.type === Boolean)
+							return v ? trueStr : falseStr
+						else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
+							return parseFloat(v).toFixed(descriptorValue.fixed)
+						else if (descriptorValue.numberAdapter)
+							return (parseFloat(v) && parseFloat(v).toString()) || v
+						return v
+					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
+				}
+			} else if (descriptorValue.type === Boolean) {
 				return value ? trueStr : falseStr
 			} else if (descriptorValue.type === Date) {
 				return dateUtility.dateToStr(
@@ -179,20 +199,6 @@ export default {
 						descriptorValue.pattern || defaultPattern
 					)
 				)
-			} else if (descriptorValue.type === Array) {
-				if (descriptorValue.adapter) {
-					return value
-						.map(descriptorValue.adapter)
-						.join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
-				} else {
-					return value.map(v => {
-						if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
-							return parseFloat(v).toFixed(descriptorValue.fixed)
-						else if (descriptorValue.numberAdapter)
-							return (parseFloat(v) && parseFloat(v).toString()) || v
-						return v
-					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
-				}
 			} else if (descriptorValue.type === Number) {
 				if (typeof descriptorValue.fixed === 'number')
 					return parseFloat(value).toFixed(descriptorValue.fixed)
@@ -209,14 +215,23 @@ export default {
 		 * @param {Object} descriptorValue - 'descriptor' para os valores do array desta propriedade
 		 * @returns {any}
 		 */
-		parseItem (value, descriptorValue) {
+		parseItem (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (value === undefined || value === null) {
 				return ''
 			}
 			if (typeof descriptorValue.adapter === 'function') {
 				return descriptorValue.adapter(value)
 			} else {
-				if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
+				if (descriptorValue.type === Date)
+					return dateUtility.dateToStr(
+						value,
+						translatePattern(
+							descriptorValue.pattern || defaultPattern
+						)
+					)
+				else if (descriptorValue.type === Boolean)
+					return value ? trueStr : falseStr
+				else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
 					return parseFloat(value).toFixed(descriptorValue.fixed)
 				else if (descriptorValue.numberAdapter)
 					return (parseFloat(value) && parseFloat(value).toString()) || value

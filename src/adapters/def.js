@@ -21,20 +21,16 @@ export default function definitionAdapter (def) {
 			defValue = { type: defValue, displayModal: true, displayAttr: true }
 
 		descriptor[attr] = { type: defValue.type }
-		descriptorModal[attr] = {}
+		descriptorModal[attr] = { type: defValue.type }
 
-		if (defValue.array) {
+		if ('array' in defValue)
 			descriptor[attr].array = defValue.array
-			descriptorModal[attr].type = Array
-		} else {
-			descriptorModal[attr].type = defValue.type
-		}
 
 		if ('adapter' in defValue)
 			descriptor[attr].adapter = descriptorModal[attr].adapter = defValue.adapter
 
 		if ('numberAdapter' in defValue)
-			descriptor[attr].numberAdapter = descriptorModal[attr].numberAdapter = true
+			descriptor[attr].numberAdapter = descriptorModal[attr].numberAdapter = defValue.numberAdapter
 
 		if (typeof defValue.fixed === 'number')
 			descriptor[attr].fixed = descriptorModal[attr].fixed = defValue.fixed

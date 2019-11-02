@@ -20,31 +20,29 @@
             :key="property + '_' + index"
           > <!-- percorre as propriedades do 'descriptorEntity' a serem exibidas no modal -->
             <slot :name="`${property}_before`" :property="property" :index="index" :descriptorValue="descriptorEntity[property]"> <!-- slot a ser passado antes de exibir a propriedade --></slot> <!-- end slot `${property}_before` -->
-            <div v-if="$scopedSlots[`${property}_slot`]"> <!-- se o usuário informar o que deverá ser exibid para esta propriedade -->
-              <slot :name="property" :property="property" :index="index" :descriptorValue="descriptorEntity[property]">
-              </slot> <!-- chama slot `${property}_slot` -->
-            </div> <!-- end v-if -->
-            <div v-else class="line-modal-property"> <!-- se o usuário não informar o que deverá ser exibido para esta propriedade -->
-              <div class="property-name">{{ descriptorEntity[property].display | translate(dictionary) }}</div> <!-- o nome da propriedade a ser exibida está presente em display no 'descriptor' desta propriedade -->
-              <div class="property-value">
-                <span v-if="descriptorEntity[property].joinSep === '\n'">
-                  <!--
-                    se o valor a ser exibido na propriedade for um array e o 'joinSep' presente no 'descriptor' for uma
-                    quebra de linha ('\n'), os valores presentes neste array devem ser exibidos um abaixo do outro
-                  -->
-                  <span
-                    v-for="(item, index) of getPropertyValue(entity, property)"
-                    :key="index"
-                  > <!-- percorre cada valor do array a ser exibido como valor desta propriedade -->
-                    {{ item | parseItem(descriptorEntity[property]) }} <!-- exibe cada valor presente no array -->
-                    <br v-if="(index+1) < getPropertyValue(entity, property).length"> <!-- se o valor não for o último do array coloca-se uma quebra de linha -->
-                  </span> <!-- end v-for -->
-                </span> <!-- end v-if -->
-                <span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
-                  {{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
-                </span> <!-- end v-else -->
-              </div> <!-- end class property-value -->
-            </div> <!-- end class line-modal-property && end v-else -->
+						<slot :name="`${property}_slot`" :property="property" :index="index" :descriptorValue="descriptorEntity[property]">
+							<div class="line-modal-property"> <!-- se o usuário não informar o que deverá ser exibido para esta propriedade -->
+								<div class="property-name">{{ descriptorEntity[property].display | translate(dictionary) }}</div> <!-- o nome da propriedade a ser exibida está presente em display no 'descriptor' desta propriedade -->
+								<div class="property-value">
+									<span v-if="descriptorEntity[property].joinSep === '\n'">
+										<!--
+											se o valor a ser exibido na propriedade for um array e o 'joinSep' presente no 'descriptor' for uma
+											quebra de linha ('\n'), os valores presentes neste array devem ser exibidos um abaixo do outro
+										-->
+										<span
+											v-for="(item, index) of getPropertyValue(entity, property)"
+											:key="index"
+										> <!-- percorre cada valor do array a ser exibido como valor desta propriedade -->
+											{{ item | parseItem(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }} <!-- exibe cada valor presente no array -->
+											<br v-if="(index+1) < getPropertyValue(entity, property).length"> <!-- se o valor não for o último do array coloca-se uma quebra de linha -->
+										</span> <!-- end v-for -->
+									</span> <!-- end v-if -->
+									<span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
+										{{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+									</span> <!-- end v-else -->
+								</div> <!-- end class property-value -->
+							</div> <!-- end class line-modal-property -->
+						</slot> <!-- chama slot `${property}_slot` -->
             <slot :name="`${property}_after`" :property="property" :index="index" :descriptorValue="descriptorEntity[property]"> <!-- slot a ser passado depois de exibir a propriedade -->
             </slot> <!-- end slot `${property}_before` -->
           </div> <!-- end v-for -->
