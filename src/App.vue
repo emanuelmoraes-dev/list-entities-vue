@@ -365,7 +365,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="32"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="24"></textarea>
 							</div>
 						</div>
 					</div>
