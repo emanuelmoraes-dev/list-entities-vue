@@ -248,22 +248,22 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>input</td>
 										<td>(entities)</td>
-										<td>This event issues the list of entities when there are changes to the entities. (Note: When there are more attributes to search than attributes to display, the last attribute changes when selecting to search for an attribute not displayed. The value of this attribute is stored in the property "__lastAttrValue")</td>
+										<td>this event issues the list of entities when there are changes to the entities. (Note: When there are more attributes to search than attributes to display, the last attribute changes when selecting to search for an attribute not displayed. The value of this attribute is stored in the property "__lastAttrValue")</td>
 									</tr>
 									<tr>
 										<td>on_change_sort</td>
 										<td>(sort)</td>
-										<td>This event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending), if the sorting is changed</td>
+										<td>this event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending), if the sorting is changed</td>
 									</tr>
 									<tr>
 										<td>on_edit</td>
 										<td>(entity, index)</td>
-										<td>This event issues the entity and its position in the listing when the EDIT option is clicked</td>
+										<td>this event issues the entity and its position in the listing when the EDIT option is clicked</td>
 									</tr>
 									<tr>
 										<td>on_remove</td>
 										<td>(entity, index)</td>
-										<td>This event issues the entity and its position in the listing when the DELETE option is clicked</td>
+										<td>this event issues the entity and its position in the listing when the DELETE option is clicked</td>
 									</tr>
 									<tr>
 										<td>on_search</td>
@@ -278,7 +278,7 @@ Vue.use(BootstrapVue)
 											)
 										</td>
 										<td>
-											This event is started before a new search is performed with the following parameters:<br /> <br />
+											this event is started before a new search is performed with the following parameters:<br /> <br />
 
 											inputSearch: Text entered in the search field with spaces taken from the beginning and end of the sequence (trim). <br /><br />
 
@@ -288,7 +288,7 @@ Vue.use(BootstrapVue)
 
 											attr: name of the attribute selected for the search. If all attributes are selected, the value is '__#$all$#__'.<br /><br />
 
-											isAttrAll: This happens if "attr" equals '__#$all$#__'.<br /><br />
+											isAttrAll: this happens if "attr" equals '__#$all$#__'.<br /><br />
 
 											type: type of the attribute. If the attribute is '__#$all$#__' then the type is null.<br /><br />
 
@@ -306,7 +306,7 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>inputSearch<br />
 											)
 										</td>
-										<td>This event emit the list of entities, the total number of entities, and the search field text when any search is successful</td>
+										<td>this event emit the list of entities, the total number of entities, and the search field text when any search is successful</td>
 									</tr>
 									<tr>
 										<td>on_search_default_success</td>
@@ -318,7 +318,7 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>paramsRequest,<br />
 												<span class="tab-1"></span>params<br />
 											)</td>
-										<td>This event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for all attributes is successful</td>
+										<td>this event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for all attributes is successful</td>
 									</tr>
 									<tr>
 										<td>on_search_all_success</td>
@@ -329,7 +329,7 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>inputSearch<br />
 											)
 										</td>
-										<td>This event emit the list of entities, the total number of entities, and the search field text when the search for all (unfiltered) entities completes successfully</td>
+										<td>this event emit the list of entities, the total number of entities, and the search field text when the search for all (unfiltered) entities completes successfully</td>
 									</tr>
 									<tr>
 										<td>on_search_attr_success</td>
@@ -341,37 +341,37 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>paramsRequest,<br />
 												<span class="tab-1"></span>params<br />
 											)</td>
-										<td>This event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for a specific attribute completes successfully</td>
+										<td>this event emit the list of entities, total number of entities, search field text, "paramsRequest" and "params" when the search for a specific attribute completes successfully</td>
 									</tr>
 									<tr>
 										<td>on_error</td>
 										<td>(err)</td>
-										<td>This event throws an error thrown within the component</td>
+										<td>this event throws an error thrown within the component</td>
 									</tr>
 									<tr>
 										<td>on_error_remove</td>
 										<td>(err)</td>
-										<td>This event throws an error thrown when trying to remove an entity</td>
+										<td>this event throws an error thrown when trying to remove an entity</td>
 									</tr>
 									<tr>
 										<td>on_error_search</td>
 										<td>(err)</td>
-										<td>This event throws an error when trying to perform a search</td>
+										<td>this event throws an error when trying to perform a search</td>
 									</tr>
 									<tr>
 										<td>on_error_search_default</td>
 										<td>(err)</td>
-										<td>This event throws an error while trying to perform a search for all attributes</td>
+										<td>this event throws an error while trying to perform a search for all attributes</td>
 									</tr>
 									<tr>
 										<td>on_error_search_all</td>
 										<td>(err)</td>
-										<td>This event throws an error when trying to perform a search for all entities (no filtering)</td>
+										<td>this event throws an error when trying to perform a search for all entities (no filtering)</td>
 									</tr>
 									<tr>
 										<td>on_error_search_attr</td>
 										<td>(err)</td>
-										<td>This event throws an error when trying to perform a search for a specific attribute</td>
+										<td>this event throws an error when trying to perform a search for a specific attribute</td>
 									</tr>
 								</tbody>
 							</table>
@@ -382,7 +382,7 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
-					all list-entity slots
+					all <span :style="{ color: 'red' }">list-entities</span> slots
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -590,7 +590,71 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>descriptorValue<br />
 											}
 										</td>
-										<td>slot to switch to "modal-entity" (responsible for displaying a modal with entity details). "slotName" is the name of the slot that "modal-entity" will receive. The types of slots that the modal-entity receives will be described later. Thus, if "modal-entity" receives, for example, the slot "name_slot", then you should switch to "list-entitites" the slot "modal_name_slot". For "slotName" can be used, you must add "slotName" in "modalSlots" property</td>
+										<td>slot to send to <span :style="{ color: 'red' }">modal-entity</span> (responsible for displaying a modal with entity details). "slotName" is the name of the slot that <span :style="{ color: 'red' }">modal-entity</span> will receive. The slots that the <span :style="{ color: 'red' }">modal-entity</span> receives will be described later. Thus, if <span :style="{ color: 'red' }">modal-entity</span> receives, for example, the slot "name_slot", then you should send to <span :style="{ color: 'red' }">list-entitites</span> the slot "modal_name_slot". For "slotName" can be used, you must add "slotName" in "modalSlots" property</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
+					all <span :style="{ color: 'red' }">modal-entity</span> slots (component used to view the details of an entity)
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">slot</th>
+										<th scope="col">scoped?</th>
+										<th>dynamic?</th>
+										<th scope="col">parameters</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${property}_before</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>property,<br />
+												<span class="tab-1"></span>index,<br />
+												<span class="tab-1"></span>descriptorValue<br />
+											}
+										</td>
+										<td>content to be displayed before displaying the content of a given attribute, with "property" being the name of that attribute</td>
+									</tr>
+									<tr>
+										<td>${property}_slot</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>property,<br />
+												<span class="tab-1"></span>index,<br />
+												<span class="tab-1"></span>descriptorValue<br />
+											}
+										</td>
+										<td>content to override the display of the value of a given attribute, with "property" being the name of that attribute</td>
+									</tr>
+									<tr>
+										<td>${property}_after</td>
+										<td>YES</td>
+										<td>YES</td>
+										<td>
+											{<br />
+												<span class="tab-1"></span>property,<br />
+												<span class="tab-1"></span>index,<br />
+												<span class="tab-1"></span>descriptorValue<br />
+											}
+										</td>
+										<td>content to be displayed after displaying the content of a given attribute, with "property" being the name of that attribute</td>
 									</tr>
 								</tbody>
 							</table>
@@ -1918,6 +1982,15 @@ export default {
 
 #app .props .form-group .element-form label, #app .props .form-group .element-form input {
 	display: inline;
+}
+
+#app .card-header {
+	font-weight: bold;
+	color: darkslategray;
+}
+
+#app .card-header::first-letter {
+	text-transform: uppercase;
 }
 
 #app .lang-js .hljs-keyword {
