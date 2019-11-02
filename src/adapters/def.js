@@ -18,7 +18,7 @@ export default function definitionAdapter (def) {
 		let defValue = def[attr]
 
 		if (typeof defValue === 'function')
-			defValue = { type: defValue, displayModal: true, displayAttr: true }
+			defValue = { type: defValue }
 
 		descriptor[attr] = { type: defValue.type }
 		descriptorModal[attr] = { type: defValue.type }
@@ -94,11 +94,9 @@ export default function definitionAdapter (def) {
 		else if ('modalJoinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.modalJoinSep
 
-		const displayModal = defValue.displayModal
-
-		if (typeof displayModal === 'string' && displayModal)
-			descriptorModal[attr].display = displayModal
-		else if (displayModal)
+		if (typeof defValue.displayModal === 'string' && defValue.displayModal)
+			descriptorModal[attr].display = defValue.displayModal
+		else if (!('displayModal' in defValue) || defValue.displayModal)
 			descriptorModal[attr].display = `${attr}:`
 		else
 			delete descriptorModal[attr]
@@ -114,8 +112,10 @@ export default function definitionAdapter (def) {
 			optionsSearch.push(optS)
 		}
 
+		let disA = null
+
 		if ('displayAttr' in defValue && defValue.displayAttr !== false) {
-			let disA = { display: attr, value: attr }
+			disA = { display: attr, value: attr }
 
 			if (typeof defValue.displayAttr === 'string')
 				disA.display = defValue.displayAttr
@@ -123,9 +123,18 @@ export default function definitionAdapter (def) {
 			disA.order = defValue.displayAttrOrder || (index + 1)
 
 			displayAttrs.push(disA)
+		} else if (!('displayAttr' in defValue)) {
+			disA = { display: attr, value: attr }
+			disA.order = defValue.displayAttrOrder || (index + 1)
+			displayAttrs.push(disA)
 		}
 
 		if ('defaultLastAttr' in defValue && defValue.defaultLastAttr !== false) {
+			if (disA) {
+				let index = displayAttrs.indexOf(disA)
+				if (index >= 0) displayAttrs.splice(index, 1)
+			}
+
 			if (!defaultLastAttr) defaultLastAttr = {}
 
 			defaultLastAttr.display = attr

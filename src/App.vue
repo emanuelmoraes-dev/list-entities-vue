@@ -3,7 +3,7 @@
 		<div class="container-fluid">
 			<div class="d-flex justify-content-between align-items-baseline">
 				<h1>list-entities-vue</h1>
-				<h2>Demo</h2>
+				<h2 id="demo">Demo</h2>
 			</div>
 
 			<div class="row">
@@ -631,7 +631,7 @@
 			</div>
 
 			<div class="d-flex justify-content-end">
-				<h2>Quick Start</h2>
+				<h2 id="quick-start">Quick Start</h2>
 			</div>
 
 			<div class="card props">
@@ -645,8 +645,8 @@
 								<li>fontawesome 5.x</li>
 								<li>jQuery</li>
 								<li>bootstrap-vue</li>
-								<li>custom CSS (style.css)</li>
-								<li>Vuestic Admin version 1.x custom CSS (vuestic.css)</li>
+								<li>custom CSS (list-entities-vue/assets/css/style.css)</li>
+								<li>Vuestic Admin version 1.x custom CSS (list-entities-vue/lib/vuestic/css/vuestic.css)</li>
 							</ul>
 						</div>
 					</div>
@@ -1422,33 +1422,25 @@ const textClassInput = `(existsOptionsSearch, existsOperators) => ({
 const textDefinitions = `this.$lev.def({
 	name: {
 		type: String,
-		sort: 1,
-		displayModal: true,
 		optionSearch: true,
-		displayAttr: true
 	},
 	brand: {
 		type: String,
-		displayModal: true,
-		optionSearch: true,
-		displayAttr: true
+		optionSearch: true
 	},
 	price: {
 		type: Number,
-		displayModal: true,
-		optionSearch: true,
-		displayAttr: true
+		optionSearch: true
 	},
 	perishable: {
 		type: Boolean,
-		displayModal: true,
 		optionSearch: true,
 		defaultLastAttr: true
 	},
 	expiration: {
 		type: Date,
-		displayModal: true,
-		optionSearch: true
+		optionSearch: true,
+		displayAttr: false
 	}
 })`
 
