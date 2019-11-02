@@ -164,14 +164,14 @@ export default {
 		 * @param {string} falseStr - valor textual que representa o valor booleano false
 		 * @returns {any}
 		 */
-		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
+		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern, joinSep) {
 			if (value === undefined || value === null) {
 				return ''
-			} else if (value instanceof Array) {
+			} else if (descriptorValue.array) {
 				if (descriptorValue.adapter) {
 					return value
 						.map(descriptorValue.adapter)
-						.join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
+						.join(descriptorValue.joinSep ? descriptorValue.joinSep : joinSep)
 				} else {
 					return value.map(v => {
 						if (descriptorValue.type === Date)
@@ -188,7 +188,7 @@ export default {
 						else if (descriptorValue.numberAdapter)
 							return (parseFloat(v) && parseFloat(v).toString()) || v
 						return v
-					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : ' ')
+					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : joinSep)
 				}
 			} else if (descriptorValue.type === Boolean) {
 				return value ? trueStr : falseStr
@@ -270,6 +270,12 @@ export default {
 		defaultPattern: {
 			type: String,
 			default: 'yyyy/MM/dd'
+		},
+
+		/** string usada para unir os valores de um array */
+		joinSep: {
+			type: String,
+			default: '\n'
 		},
 
 		/** classe a ser atribuído no bitão de fechar o modal */

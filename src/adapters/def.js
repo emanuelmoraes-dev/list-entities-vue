@@ -23,8 +23,10 @@ export default function definitionAdapter (def) {
 		descriptor[attr] = { type: defValue.type }
 		descriptorModal[attr] = { type: defValue.type }
 
-		if ('array' in defValue)
+		if ('array' in defValue) {
 			descriptor[attr].array = defValue.array
+			descriptorModal[attr].array = defValue.array
+		}
 
 		if ('adapter' in defValue)
 			descriptor[attr].adapter = descriptorModal[attr].adapter = defValue.adapter

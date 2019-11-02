@@ -15,6 +15,7 @@
 						:hideSearch="hideSearch"
 						:hideLastAttr="hideLastAttr"
 						:joinSep="joinSep"
+						:modalJoinSep="modalJoinSep"
 						:defaultPattern="defaultPattern"
 						:showSearchOperators="showSearchOperators"
 						:idAttrName="idAttrName"
@@ -241,6 +242,19 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="element-form thin">
+									<label for="txt-modal-join-sep">modalJoinSep:</label>
+									<input
+										v-model="textModalJoinSep"
+										type="text"
+										class="form-control"
+										id="txt-modal-join-sep"
+									/>
+								</div>
+							</div>
+						</div>
 
 						<div class="col-md-4">
 							<div class="form-group">
@@ -365,7 +379,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="24"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="30"></textarea>
 							</div>
 						</div>
 					</div>
@@ -520,7 +534,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-request">request:</label>
-								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="187"></textarea>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="188"></textarea>
 							</div>
 						</div>
 					</div>
@@ -1219,7 +1233,7 @@ Vue.use(BootstrapVue)
 												<span class="tab-1"></span>descriptorValue<br />
 											}
 										</td>
-										<td>slot to send to <span :style="{ color: 'red' }">modal-entity</span> (responsible for displaying a modal with entity details). "slotName" is the name of the slot that <span :style="{ color: 'red' }">modal-entity</span> will receive. The slots that the <span :style="{ color: 'red' }">modal-entity</span> receives will be described later. Thus, if <span :style="{ color: 'red' }">modal-entity</span> receives, for example, the slot "name_slot", then you should send to <span :style="{ color: 'red' }">list-entitites</span> the slot "modal_name_slot". For "slotName" can be used, you must add "slotName" in "modalSlots" property</td>
+										<td>slot to send to <span :style="{ color: 'red' }">modal-entity</span> (responsible for displaying a modal with entity details). "slotName" is the name of the slot that <span :style="{ color: 'red' }">modal-entity</span> will receive. The slots that the <span :style="{ color: 'red' }">modal-entity</span> receives will be described later. Thus, if <span :style="{ color: 'red' }">modal-entity</span> receives, for example, the slot "name_slot", then you should send to <span :style="{ color: 'red' }">list-entities</span> the slot "modal_name_slot". For "slotName" can be used, you must add "slotName" in "modalSlots" property</td>
 									</tr>
 								</tbody>
 							</table>
@@ -1441,6 +1455,12 @@ const textDefinitions = `this.$lev.def({
 		type: Date,
 		optionSearch: true,
 		displayAttr: false
+	},
+	categories: {
+		type: String,
+		array: true,
+		optionSearch: true,
+		displayAttr: false
 	}
 })`
 
@@ -1609,7 +1629,8 @@ const textRequest = `{
 			brand: 'The Coca-Cola Company',
 			price: 4,
 			perishable: false,
-			expiration: new Date(2019, 10, 18)
+			expiration: new Date(2019, 10, 18),
+			categories: ['foods', 'drinks']
 		}
 	],
 
@@ -1779,6 +1800,8 @@ export default {
 			pageSize: 10,
 			limitPagination: 5,
 			joinSep: ' | ',
+			textModalJoinSep: '\\n',
+			modalJoinSep: '\n',
 			defaultPattern: 'dd/MM/yyyy',
 			alignPagination: 'left',
 			sizePagination: 'md',
@@ -1827,6 +1850,10 @@ export default {
 		textGlobalDictionaries (textGlobalDictionaries) {
 			this.textLocalDictionary = '{}'
 			eval(`(() => {${textGlobalDictionaries}})()`)
+		},
+
+		textModalJoinSep () {
+			this.modalJoinSep = this.textModalJoinSep.replace(/\\n/g, '\n')
 		}
 	},
 

@@ -743,7 +743,7 @@ export default {
 		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (!attr) return value
 
-			if (value instanceof Array) {
+			if (descriptor[attr.value].array) {
 				if (descriptor[attr.value].adapter)
 					value = value.map(descriptor[attr.value].adapter)
 				else if (descriptor[attr.value].type === Date)
@@ -944,6 +944,12 @@ export default {
 		joinSep: {
 			type: String,
 			default: ' | '
+		},
+
+		/** usado para unir valores de um array a ser exibido em modal-entity */
+		modalJoinSep: {
+			type: String,
+			default: '\n'
 		},
 
 		/** string que representa o padrão de exibição de datas */

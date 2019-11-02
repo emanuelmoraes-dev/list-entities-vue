@@ -217,6 +217,7 @@
 					:descriptor="definitions.descriptorModal || descriptorEntity"
 					:force="forceModalEntity"
 					:defaultPattern="defaultPattern"
+					:joinSep="modalJoinSep"
 					:i18nArgs="i18nArgsModal"
 					:localDictionary="localDictionaryModal || dictionary"
 				>

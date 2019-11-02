@@ -24,7 +24,7 @@
 							<div class="line-modal-property"> <!-- se o usuário não informar o que deverá ser exibido para esta propriedade -->
 								<div class="property-name">{{ descriptorEntity[property].display | translate(dictionary) }}</div> <!-- o nome da propriedade a ser exibida está presente em display no 'descriptor' desta propriedade -->
 								<div class="property-value">
-									<span v-if="descriptorEntity[property].joinSep === '\n'">
+									<span v-if="descriptorEntity[property].array && ('joinSep' in descriptorEntity[property] ? descriptorEntity[property].joinSep === '\n' : joinSep === '\n')">
 										<!--
 											se o valor a ser exibido na propriedade for um array e o 'joinSep' presente no 'descriptor' for uma
 											quebra de linha ('\n'), os valores presentes neste array devem ser exibidos um abaixo do outro
@@ -38,7 +38,7 @@
 										</span> <!-- end v-for -->
 									</span> <!-- end v-if -->
 									<span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
-										{{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+										{{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern, joinSep) }}
 									</span> <!-- end v-else -->
 								</div> <!-- end class property-value -->
 							</div> <!-- end class line-modal-property -->
