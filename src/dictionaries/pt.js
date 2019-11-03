@@ -21,7 +21,7 @@ export default () => ({
 		attrAll: 'Todos',
 		titleSearch: 'Buscar',
 		titleTable: 'Entidades',
-		tdOptionName: 'OPÇÕES:',
+		tdOptionName: 'opções:',
 		titleSuccessModal: 'Sucesso!',
 		titleConfirmModal: 'Atenção!',
 		titleModalEntity: 'Dados da Entidade',
