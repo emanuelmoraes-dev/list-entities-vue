@@ -227,8 +227,10 @@ export default {
 				this.$set(this.descriptorEntity, key, descriptorValue)
 			}
 
-			if (!this.definitions.sort)
-				this.definitions.sort = `+${Object.keys(this.descriptorEntity)[0]}`
+			if (!this.definitions.sort) {
+				let sort = Object.keys(this.descriptorEntity).find(attr => !this.descriptorEntity[attr].disableSort)
+				this.definitions.sort = `+${sort}`
+			}
 		},
 
 		search (startList) {
