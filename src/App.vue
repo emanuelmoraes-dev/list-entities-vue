@@ -381,7 +381,7 @@
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
 								( For more details about this property click <a href="#definitions">here</a> )
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="30"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="31"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('definitions')">Compile</button>
 								</a>
@@ -569,7 +569,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-request">request:</label>
-								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="191"></textarea>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="200"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('request')">Compile</button>
 								</a>
@@ -1510,7 +1510,8 @@ const textDefinitions = `this.$lev.def({
 		type: String,
 		array: true,
 		optionSearch: true,
-		displayAttr: false
+		displayAttr: false,
+		searchSepOr: /\\s*\\|\\s*/
 	}
 })`
 
@@ -1734,14 +1735,19 @@ const textRequest = `{
 			if (!valid)
 				return false
 
-			if (param.operator === '$' && param.descriptor.type === String && !param.descriptor.array)
+			if (param.operator === '$' && param.descriptor.type === String)
 				param.operator = '$in'
 
-			if (param.descriptor.searchSep) {
-				let values = param.value.split(param.descriptor.searchSep)
+			if (param.descriptor.searchSepAnd) {
+				let values = param.value.split(param.descriptor.searchSepAnd)
 					.map(value => this._verify(product[param.attr], param.operator, value))
 
 				return values.reduce((p, valid) => p && valid, true)
+			} else if (param.descriptor.searchSepOr) {
+				let values = param.value.split(param.descriptor.searchSepOr)
+					.map(value => this._verify(product[param.attr], param.operator, value))
+
+				return values.reduce((p, valid) => p || valid, false)
 			}
 
 			return this._verify(product[param.attr], param.operator, param.value)
@@ -1750,6 +1756,10 @@ const textRequest = `{
 
 	/** NOT used by list-entities */
 	_verify (value, operator, inputSearch) {
+		if (value instanceof Array)
+			return value.map(v => this._verify(v, operator, inputSearch))
+				.reduce((p, n) => p || n, false)
+
 		if (value instanceof Date)
 			value = value.getTime()
 
@@ -1989,6 +1999,12 @@ export default {
 #app .props {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
+}
+
+#app .props .form-group .element-form .btn-compile {
+	margin-top: 0px;
+	margin-bottom: .3rem;
+	margin-left: .3rem;
 }
 
 #app .props .form-group .element-form.fill {
