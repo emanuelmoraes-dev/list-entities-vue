@@ -519,8 +519,8 @@ export default {
 			this.loadDictionary()
 		},
 
-		'dictionary.attrAll' (attrAll) {
-			if (!attrAll && this.sync.attrSearch && this.sync.attrSearch.value === VALUE_ATTR_ALL)
+		'dictionary.attrAll' (attrAll, oldAttrAll) {
+			if (attrAll !== oldAttrAll && this.sync.attrSearch && this.sync.attrSearch.value === VALUE_ATTR_ALL)
 				this.sync.attrSearch = null
 
 			if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
