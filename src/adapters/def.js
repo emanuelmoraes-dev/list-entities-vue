@@ -152,7 +152,7 @@ export default function definitionAdapter (def) {
 		if ('args' in defValue)
 			descriptor[attr].args = defValue.args
 
-		if (typeof defValue.sort === 'number' && defValue < 0)
+		if (typeof defValue.sort === 'number' && defValue.sort < 0)
 			sort = '-' + attr
 		else if (typeof defValue.sort === 'number')
 			sort = '+' + attr
