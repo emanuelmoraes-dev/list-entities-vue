@@ -613,6 +613,18 @@ export default {
 		/** quando o usuário mudar o 'descriptor', recria-se no 'descriptorEntity' */
 		'definitions.descriptor' (descriptor) {
 			this.prepareDescriptor(descriptor)
+
+			if (this.sync.attrSearch && this.sync.attrSearch.value !== VALUE_ATTR_ALL) {
+				if (
+					!Object.keys(this.descriptorEntity).find(attr => attr === this.sync.attrSearch.value)
+				)
+					this.sync.attrSearch = null
+			}
+
+			if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
+				this.sync.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+			else if (this.sync.attrSearch === null)
+				this.sync.attrSearch = { display: '', value: '' }
 		}
 	},
 

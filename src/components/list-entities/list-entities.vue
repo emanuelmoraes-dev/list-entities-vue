@@ -3,7 +3,6 @@
     <div class="wrapper-list-entities"> <!-- classe que encapsula o componente list-entities -->
       <div class="row">
         <div class="col-xs-12 col-md-12">
-					{{ definitions }}
           <component
 						:is="rootComponent"
             :hidePrimary="hideSearch"
