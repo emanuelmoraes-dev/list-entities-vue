@@ -41,9 +41,6 @@ export default {
 		this.entities = this.value
 		this.prepareDescriptor()
 
-		if (!this.definitions.sort)
-			this.definitions.sort = `+${Object.keys(this.descriptorEntity)[0]}`
-
 		if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
 			this.sync.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
 		else if (this.sync.attrSearch === null)
@@ -229,6 +226,9 @@ export default {
 
 				this.$set(this.descriptorEntity, key, descriptorValue)
 			}
+
+			if (!this.definitions.sort)
+				this.definitions.sort = `+${Object.keys(this.descriptorEntity)[0]}`
 		},
 
 		search (startList) {
@@ -636,7 +636,8 @@ export default {
 
 			if (
 				v === VALUE_ATTR_ALL ||
-				this.definitions.displayAttrs.find(attr => attr.value === v)
+				this.definitions.displayAttrs.find(attr => attr.value === v) ||
+				this.descriptorEntity[v].hidden
 			) return this.definitions.defaultLastAttr
 
 			return this.sync.attrSearch
