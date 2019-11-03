@@ -1672,7 +1672,7 @@ const textRequest = `{
 		this._products.splice(index, 1)
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Product list */
 	_products: [
 		{
 			id: 1,
@@ -1685,7 +1685,7 @@ const textRequest = `{
 		}
 	],
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Sort a product list by an attribute (+\${attr} or -\${attr}) */
 	_orderBy (products, sort) {
 		let signal
 		let attr
@@ -1706,22 +1706,22 @@ const textRequest = `{
 		products.sort((a, b) => (a[attr] < b[attr]) ? -1 * signal : 1 * signal)
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Returns a list of products on the correct page */
 	_paginate (products, page, pageSize) {
 		return products.slice((page - 1) * pageSize, (page - 1) * pageSize + (pageSize-1))
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Search for products that match user filters */
 	_filter (products, params) {
 		return products.filter(product => this._productVerify(product, params))
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Search for products that match any of the filters */
 	_filterOr (products, params) {
 		return products.filter(product => this._productVerifyOr(product, params))
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Returns true if the product matches any of the filters */
 	_productVerifyOr (product, params) {
 		return params.reduce((valid, and) => {
 			if (valid) return true
@@ -1729,7 +1729,7 @@ const textRequest = `{
 		}, false)
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Returns true if the product matches the filters provided */
 	_productVerify (product, params) {
 		return params.reduce((valid, param) => {
 			if (!valid)
@@ -1754,79 +1754,79 @@ const textRequest = `{
 		}, true)
 	},
 
-	/** NOT used by list-entities */
-	_verify (value, operator, inputSearch) {
-		if (value instanceof Array)
-			return value.map(v => this._verify(v, operator, inputSearch))
+	/** NOT used by list-entities. Performs a logical comparison between two values through an operator */
+	_verify (value1, operator, value2) {
+		if (value1 instanceof Array)
+			return value1.map(v => this._verify(v, operator, value2))
 				.reduce((p, n) => p || n, false)
 
-		if (value instanceof Date)
-			value = value.getTime()
+		if (value1 instanceof Date)
+			value1 = value1.getTime()
 
-		if (inputSearch instanceof Date)
-			inputSearch = inputSearch.getTime()
+		if (value2 instanceof Date)
+			value2 = value2.getTime()
 
 		if (operator === '$') // if an operator has not been selected
 			operator = '$eq'
 
 		switch (operator) {
-			case '$in': return value.match(new RegExp(this._scape(inputSearch)))
-			case '$nin': return !value.match(new RegExp(this._scape(inputSearch)))
-			case '$eq': return \`\${value}\` === \`\${inputSearch}\`
-			case '$neq': return \`\${value}\` !== \`\${inputSearch}\`
-			case '$sw': return value.startsWith(inputSearch)
-			case '$nsw': return !value.startsWith(inputSearch)
-			case '$ew': return value.endsWith(inputSearch)
-			case '$new': return !value.endsWith(inputSearch)
+			case '$in': return value1.match(new RegExp(this._scape(value2)))
+			case '$nin': return !value1.match(new RegExp(this._scape(value2)))
+			case '$eq': return \`\${value1}\` === \`\${value2}\`
+			case '$neq': return \`\${value1}\` !== \`\${value2}\`
+			case '$sw': return value1.startsWith(value2)
+			case '$nsw': return !value1.startsWith(value2)
+			case '$ew': return value1.endsWith(value2)
+			case '$new': return !value1.endsWith(value2)
 			case '$gt': {
-				if (typeof value === 'number' || typeof inputSearch === 'number') {
-					value = parseFloat(value)
-					inputSearch = parseFloat(inputSearch)
+				if (typeof value1 === 'number' || typeof value2 === 'number') {
+					value1 = parseFloat(value1)
+					value2 = parseFloat(value2)
 				}
 
-				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
+				if (Object.is(value1, NaN) || Object.is(value2, NaN))
 					return false
 
-				return value > inputSearch
+				return value1 > value2
 			}
 			case '$gte': {
-				if (typeof value === 'number' || typeof inputSearch === 'number') {
-					value = parseFloat(value)
-					inputSearch = parseFloat(inputSearch)
+				if (typeof value1 === 'number' || typeof value2 === 'number') {
+					value1 = parseFloat(value1)
+					value2 = parseFloat(value2)
 				}
 
-				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
+				if (Object.is(value1, NaN) || Object.is(value2, NaN))
 					return falseW
 
-				return value >= inputSearch
+				return value1 >= value2
 			}
 			case '$lt': {
-				if (typeof value === 'number' || typeof inputSearch === 'number') {
-					value = parseFloat(value)
-					inputSearch = parseFloat(inputSearch)
+				if (typeof value1 === 'number' || typeof value2 === 'number') {
+					value1 = parseFloat(value1)
+					value2 = parseFloat(value2)
 				}
 
-				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
+				if (Object.is(value1, NaN) || Object.is(value2, NaN))
 					return false
 
-				return value < inputSearch
+				return value1 < value2
 			}
 			case '$lte': {
-				if (typeof value === 'number' || typeof inputSearch === 'number') {
-					value = parseFloat(value)
-					inputSearch = parseFloat(inputSearch)
+				if (typeof value1 === 'number' || typeof value2 === 'number') {
+					value1 = parseFloat(value1)
+					value2 = parseFloat(value2)
 				}
 
-				if (Object.is(value, NaN) || Object.is(inputSearch, NaN))
+				if (Object.is(value1, NaN) || Object.is(value2, NaN))
 					return false
 
-				return value <= inputSearch
+				return value1 <= value2
 			}
 			default: return false
 		}
 	},
 
-	/** NOT used by list-entities */
+	/** NOT used by list-entities. Returns string with special regular expression characters with escape */
 	_scape(str) {
 		return str.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&')
 	}
