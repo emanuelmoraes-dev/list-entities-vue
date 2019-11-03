@@ -9,6 +9,7 @@
 			<div class="row">
 				<div class="col">
 					<list-entities
+						id="list-entities"
 						:autoSearch="true"
 						:isCompact="isCompact"
 						:useWidget="useWidget"
@@ -381,6 +382,9 @@
 								<label for="txt-text-definitions">definitions:</label>
 								( For more details about this property click <a href="#definitions">here</a> )
 								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="30"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('definitions')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -397,6 +401,9 @@
 							<div class="form-group">
 								<label for="txt-text-class-input">classInput:</label>
 								<textarea v-model="textClassInput" class="form-control" id="txt-text-class-input" rows="5"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('classInput')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -419,6 +426,9 @@
 										class="form-control"
 										id="txt-text-string-operators"
 									/>
+									<a href="#list-entities">
+										<button type="button" class="btn btn-primary btn-compile" @click="compile('stringOperators')">Compile</button>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -435,6 +445,9 @@
 										class="form-control"
 										id="txt-text-number-operators"
 									/>
+									<a href="#list-entities">
+										<button type="button" class="btn btn-primary btn-compile" @click="compile('numberOperators')">Compile</button>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -451,6 +464,9 @@
 										class="form-control"
 										id="txt-text-date-operators"
 									/>
+									<a href="#list-entities">
+										<button type="button" class="btn btn-primary btn-compile" @click="compile('dateOperators')">Compile</button>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -461,6 +477,9 @@
 							<div class="form-group">
 								<label for="txt-text-params-request">paramsRequest:</label>
 								<textarea v-model="textParamsRequest" class="form-control" id="txt-text-params-request" rows="1"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('paramsRequest')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -477,6 +496,9 @@
 							<div class="form-group">
 								<label for="txt-text-i18n-args">i18nArgs:</label>
 								<textarea v-model="textI18nArgs" class="form-control" id="txt-text-i18n-args" rows="1"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('i18nArgs')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -486,6 +508,9 @@
 							<div class="form-group">
 								<label for="txt-text-i18n-args-modal">i18nArgsModal:</label>
 								<textarea v-model="textI18nArgsModal" class="form-control" id="txt-text-i18n-args-modal" rows="1"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('i18nArgsModal')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -495,6 +520,9 @@
 							<div class="form-group">
 								<label for="txt-text-local-dictionary">localDictionary:</label>
 								<textarea v-model="textLocalDictionary" class="form-control" id="txt-text-local-dictionary" rows="35"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('localDictionary')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -504,6 +532,9 @@
 							<div class="form-group">
 								<label for="txt-text-local-dictionary-modal">localDictionaryModal:</label>
 								<textarea v-model="textLocalDictionaryModal" class="form-control" id="txt-text-local-dictionary-modal" rows="1"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('localDictionaryModal')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -520,6 +551,9 @@
 							<div class="form-group">
 								<label for="txt-text-global-dictionaries">defining global dictionary:</label>
 								<textarea v-model="textGlobalDictionaries" class="form-control" id="txt-text-global-dictionaries" rows="79"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compileGlobalDictionaries">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -535,7 +569,10 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-request">request:</label>
-								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="188"></textarea>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="191"></textarea>
+								<a href="#list-entities">
+									<button type="button" class="btn btn-primary btn-compile" @click="compile('request')">Compile</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -1697,6 +1734,9 @@ const textRequest = `{
 			if (!valid)
 				return false
 
+			if (param.operator === '$' && param.descriptor.type === String && !param.descriptor.array)
+				param.operator = '$in'
+
 			if (param.descriptor.searchSep) {
 				let values = param.value.split(param.descriptor.searchSep)
 					.map(value => this._verify(product[param.attr], param.operator, value))
@@ -1837,6 +1877,19 @@ export default {
 			textGlobalDictionaries,
 			textRequest,
 
+			classInput: null,
+			stringOperators: null,
+			numberOperators: null,
+			dateOperators: null,
+			paramsRequest: null,
+			definitions: null,
+			localDictionary: null,
+			localDictionaryModal: null,
+			i18nArgs: null,
+			i18nArgsModal: null,
+			globalDictionaries: null,
+			request: null,
+
 			parseEditParams: (entity, index, idAttrName) => ({ [idAttrName]: entity[idAttrName] }),
 			options: {},
 			autoSearch: false,
@@ -1859,60 +1912,13 @@ export default {
 		}
 	},
 
-	watch: {
-		textGlobalDictionaries (textGlobalDictionaries) {
-			this.textLocalDictionary = '{}'
-			eval(`(() => {${textGlobalDictionaries}})()`)
-		},
-
-		textModalJoinSep () {
-			this.modalJoinSep = this.textModalJoinSep.replace(/\\n/g, '\n')
-		}
+	created () {
+		this.complieAll()
 	},
 
-	computed: {
-		classInput () {
-			return eval(`(${this.textClassInput})`)
-		},
-
-		definitions () {
-			return eval(`(${this.textDefinitions})`)
-		},
-
-		stringOperators () {
-			return eval(`(${this.textStringOperators})`)
-		},
-
-		numberOperators () {
-			return eval(`(${this.textNumberOperators})`)
-		},
-
-		dateOperators () {
-			return eval(`(${this.textDateOperators})`)
-		},
-
-		paramsRequest () {
-			return eval(`(${this.textParamsRequest})`)
-		},
-
-		localDictionary () {
-			return eval(`(${this.textLocalDictionary})`)
-		},
-
-		localDictionaryModal () {
-			return eval(`(${this.textLocalDictionaryModal})`)
-		},
-
-		i18nArgs () {
-			return eval(`(${this.textI18nArgs})`)
-		},
-
-		i18nArgsModal () {
-			return eval(`(${this.textI18nArgsModal})`)
-		},
-
-		request () {
-			return eval(`(${this.textRequest})`)
+	watch: {
+		textModalJoinSep () {
+			this.modalJoinSep = this.textModalJoinSep.replace(/\\n/g, '\n')
 		}
 	},
 
@@ -1923,6 +1929,36 @@ export default {
 
 		onError (err) {
 			console.error(err)
+		},
+
+		compile (prop, code = null) {
+			if (!code) {
+				const Prop = prop[0].toUpperCase() + prop.substring(1)
+				code = this[`text${Prop}`]
+			}
+
+			this[prop] = eval(`(${code})`)
+		},
+
+		compileGlobalDictionaries () {
+			this.textLocalDictionary = '{}'
+			eval(`(() => {${this.textGlobalDictionaries}})()`)
+		},
+
+		complieAll () {
+			[
+				'classInput',
+				'definitions',
+				'stringOperators',
+				'numberOperators',
+				'dateOperators',
+				'paramsRequest',
+				'localDictionary',
+				'localDictionaryModal',
+				'i18nArgs',
+				'i18nArgsModal',
+				'request'
+			].forEach(prop => this.compile(prop))
 		}
 	}
 }
@@ -1944,6 +1980,10 @@ export default {
 
 #app .tab-1 {
 	margin-left: 4ch;
+}
+
+#app .btn-compile {
+	margin-top: 1rem;
 }
 
 #app .props {
