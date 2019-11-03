@@ -46,8 +46,11 @@ export default function definitionAdapter (def) {
 		if ('disableSort' in defValue)
 			descriptor[attr].disableSort = defValue.disableSort
 
-		if ('searchSep' in defValue)
-			descriptor[attr].searchSep = defValue.searchSep
+		if ('searchSepOr' in defValue)
+			descriptor[attr].searchSepOr = defValue.searchSepOr
+
+		if ('searchSepAnd' in defValue)
+			descriptor[attr].searchSepAnd = defValue.searchSepAnd
 
 		if ('joinSep' in defValue)
 			descriptor[attr].joinSep = defValue.joinSep
@@ -145,6 +148,9 @@ export default function definitionAdapter (def) {
 			if (typeof defValue.defaultLastAttr === 'string')
 				defaultLastAttr.display = defValue.defaultLastAttr
 		}
+
+		if ('args' in defValue)
+			descriptor[attr].args = defValue.args
 
 		if (typeof defValue.sort === 'number' && defValue < 0)
 			sort = '-' + attr
