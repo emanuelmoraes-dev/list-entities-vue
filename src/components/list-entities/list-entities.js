@@ -519,6 +519,16 @@ export default {
 			this.loadDictionary()
 		},
 
+		'dictionary.attrAll' (attrAll) {
+			if (!attrAll && this.sync.attrSearch && this.sync.attrSearch.value === VALUE_ATTR_ALL)
+				this.sync.attrSearch = null
+
+			if (this.sync.attrSearch === null && this.optionsSearch && this.optionsSearch.length)
+				this.sync.attrSearch = this.optionsSearch[0].value // inicialmente busca-se por todos os atributos
+			else if (this.sync.attrSearch === null)
+				this.sync.attrSearch = { display: '', value: '' }
+		},
+
 		/**
 		 * ao atualizar a lista de entidades atualiza-se o atributo '__lastAttrValue' de todas as entidades
 		 * @param {Object[]} value - entidades sendo exibidas na tabela
