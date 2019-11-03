@@ -8,18 +8,8 @@ export default {
 	data () {
 		return {
 			ctxLev: {},
-
 			dictionary: null, // dicionário mesclado com as definições globais e locais
 			descriptorEntity: {}, // descriptor adaptado para a utilização interna deste componente
-
-			optimizer: { // otimização de funções
-				getPropertyValue: { // otimização da função getPropertyValue
-					dymanicProgramming: { // otimização por programação dinâmica
-						memo: new Map() // mapeia o resultada da função pelos seus parâmetros
-					}
-				}
-			},
-
 			show: false // Usado para descobrir se o modal está aberto
 		}
 	},
@@ -61,18 +51,7 @@ export default {
 		 * @returns {any}
 		 */
 		getPropertyValue (entity, property) {
-			const memo = this.optimizer.getPropertyValue.dymanicProgramming.memo // mapeia o resultada da função pelos seus parâmetros
-
-			if (memo.has(entity) && memo.get(entity).hasOwnProperty(property)) // se essa função já foi chamada antes com estes mesmo parâmetros
-				return memo.get(entity)[property] // retorna o valor que esta função retorou anteriormente
-
-			if (!memo.has(entity))
-				memo.set(entity, {})
-
-			// registra o resultado do filtro 'getAttr'
-			let rt = (memo.get(entity)[property] = this.$options.filters.getAttr(entity, property))
-
-			return rt // retorna o resultado do filtro 'getAttr'
+			return this.$options.filters.getAttr(entity, property) // retorna o resultado do filtro 'getAttr'
 		},
 
 		/**
