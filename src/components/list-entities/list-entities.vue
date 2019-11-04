@@ -13,7 +13,7 @@
 							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
 						</div> <!-- end v-if -->
 
-						<div v-show="!hideSearch" class="primary">
+						<div v-show="!hideSearch">
 							<div class="row">
 								<div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
 									<div class="form-group form-group-select">
@@ -70,7 +70,7 @@
 
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
-									<component :is="componentShowTable" :headerText="dictionary.titleTable">
+									<component :is="componentShowTable" :headerText="dictionary.titleTable" class="secundary">
 										<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
 											<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
 										</div> <!-- end v-if -->

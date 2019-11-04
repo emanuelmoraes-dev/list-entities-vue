@@ -1,6 +1,6 @@
 <template>
   <div class="custom-component-vuestic-widget">
-    <div v-if="compactSecundary || !$slots.secundary" class="vuestic-widget" :class="{'no-header': !headerText}">
+    <div v-if="compactSecundary || !$slots.secundary" class="vuestic-widget primary" :class="{'no-header': !headerText}">
       <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
         {{headerText}}
       </div>
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-show="!hidePrimary" class="vuestic-widget" :class="{'no-header': !headerText}">
+      <div v-show="!hidePrimary" class="vuestic-widget primary" :class="{'no-header': !headerText}">
         <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
           {{headerText}}
         </div>
