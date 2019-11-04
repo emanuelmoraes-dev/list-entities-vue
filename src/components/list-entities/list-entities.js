@@ -768,6 +768,10 @@ export default {
 		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (!attr) return value
 
+			if (!descriptor[attr.value].array && descriptor[attr.value].adapter) {
+				value = descriptor[attr.value].adapter(value)
+			}
+
 			if (descriptor[attr.value].array) {
 				if (descriptor[attr.value].adapter)
 					value = value.map(descriptor[attr.value].adapter)
@@ -851,7 +855,7 @@ export default {
 				}
 
 				if (typeof value.descriptor !== 'object' || !value.descriptor) {
-					console.error('definitions.descroptor not is object')
+					console.error('definitions.descriptor not is object')
 					return false
 				}
 
@@ -867,15 +871,15 @@ export default {
 
 				if (value.defaultLastAttr && (
 					typeof value.defaultLastAttr !== 'object' ||
-					typeof value.defaultLastAttr.display !== 'string' ||
+					typeof value.defaultLastAttr.headerText !== 'string' ||
 					typeof value.defaultLastAttr.value !== 'string'
 				)) {
-					console.error('definitions.defaultLastAttr not is object with string props display and value')
+					console.error('definitions.defaultLastAttr not is object with string props headerText and value')
 					return false
 				}
 
 				if (!(value.optionsSearch instanceof Array)) {
-					console.error('definitions.optionsSearch not is array<{ display: string, value: string }>')
+					console.error('definitions.optionsSearch not is array<{ display: string, value: string, headerText: string }>')
 					return false
 				}
 

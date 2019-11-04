@@ -99,10 +99,6 @@ export default {
 
 		descriptor (descriptor) {
 			this.adapterDescriptor(descriptor)
-		},
-
-		entity (entity) {
-			this.optimizer.getPropertyValue.dymanicProgramming.memo = new Map()
 		}
 	},
 
@@ -146,7 +142,13 @@ export default {
 		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern, joinSep) {
 			if (value === undefined || value === null) {
 				return ''
-			} else if (descriptorValue.array) {
+			}
+
+			if (!descriptorValue.array && descriptorValue.adapter) {
+				value = descriptorValue.adapter(value)
+			}
+
+			if (descriptorValue.array) {
 				if (descriptorValue.adapter) {
 					return value
 						.map(descriptorValue.adapter)

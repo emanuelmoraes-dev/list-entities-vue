@@ -20,6 +20,9 @@ export default function definitionAdapter (def) {
 		if (typeof defValue === 'function')
 			defValue = { type: defValue }
 
+		if (!('headerText' in defValue))
+			defValue.headerText = attr
+
 		descriptor[attr] = { type: defValue.type }
 		descriptorModal[attr] = { type: defValue.type }
 
@@ -105,7 +108,7 @@ export default function definitionAdapter (def) {
 			delete descriptorModal[attr]
 
 		if (defValue.optionSearch) {
-			let optS = { display: attr, value: attr }
+			let optS = { display: attr, value: attr, headerText: defValue.headerText }
 
 			if (typeof defValue.optionSearch === 'string')
 				optS.display = defValue.optionSearch
@@ -118,16 +121,11 @@ export default function definitionAdapter (def) {
 		let disA = null
 
 		if ('displayAttr' in defValue && defValue.displayAttr !== false) {
-			disA = { display: attr, value: attr }
-
-			if (typeof defValue.displayAttr === 'string')
-				disA.display = defValue.displayAttr
-
+			disA = { display: defValue.headerText, value: attr }
 			disA.order = defValue.displayAttrOrder || (index + 1)
-
 			displayAttrs.push(disA)
 		} else if (!('displayAttr' in defValue)) {
-			disA = { display: attr, value: attr }
+			disA = { display: defValue.headerText, value: attr }
 			disA.order = defValue.displayAttrOrder || (index + 1)
 			displayAttrs.push(disA)
 		}
@@ -140,11 +138,8 @@ export default function definitionAdapter (def) {
 
 			if (!defaultLastAttr) defaultLastAttr = {}
 
-			defaultLastAttr.display = attr
+			defaultLastAttr.headerText = defValue.headerText
 			defaultLastAttr.value = attr
-
-			if (typeof defValue.defaultLastAttr === 'string')
-				defaultLastAttr.display = defValue.defaultLastAttr
 		}
 
 		if ('args' in defValue)
