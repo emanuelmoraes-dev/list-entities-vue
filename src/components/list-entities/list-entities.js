@@ -774,6 +774,10 @@ export default {
 
 			if (!descriptor[attr.value].array && descriptor[attr.value].adapter) {
 				value = descriptor[attr.value].adapter(value)
+			} else if (!descriptor[attr.value].array && descriptor[attr.value].numberAdapter && typeof descriptor[attr.value].fixed === 'number') {
+				value = parseFloat(value) && parseFloat(value).toFixed(descriptor[attr.value].fixed) || value
+			} else if (!descriptor[attr.value].array && descriptor[attr.value].numberAdapter) {
+				value = parseFloat(value) && parseFloat(value).toString() || value
 			}
 
 			if (descriptor[attr.value].array) {
@@ -793,9 +797,9 @@ export default {
 						return v ? trueStr : falseStr
 					})
 				else if (descriptor[attr.value].numberAdapter && typeof descriptor[attr.value].fixed === 'number')
-					value = value.map(v => parseFloat(v).toFixed(descriptor[attr.value].fixed))
+					value = value.map(v => parseFloat(v) && parseFloat(v).toFixed(descriptor[attr.value].fixed) || v)
 				else if (descriptor[attr.value].numberAdapter)
-					value = value.map(v => (parseFloat(v) && parseFloat(v).toString()) || v)
+					value = value.map(v => parseFloat(v) && parseFloat(v).toString() || v)
 				return value.join(descriptor && descriptor[attr.value].joinSep || joinSep)
 				// eslint-disable-next-line brace-style
 			}

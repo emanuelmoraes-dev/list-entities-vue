@@ -146,6 +146,10 @@ export default {
 
 			if (!descriptorValue.array && descriptorValue.adapter) {
 				value = descriptorValue.adapter(value)
+			} else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number') {
+				value = parseFloat(value) && parseFloat(value).toFixed(descriptorValue.fixed) || value
+			} else if (descriptorValue.numberAdapter) {
+				value = parseFloat(value) && parseFloat(value).toString() || value
 			}
 
 			if (descriptorValue.array) {
@@ -165,9 +169,9 @@ export default {
 						else if (descriptorValue.type === Boolean)
 							return v ? trueStr : falseStr
 						else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
-							return parseFloat(v).toFixed(descriptorValue.fixed)
+							return parseFloat(v) && parseFloat(v).toFixed(descriptorValue.fixed) || v
 						else if (descriptorValue.numberAdapter)
-							return (parseFloat(v) && parseFloat(v).toString()) || v
+							return parseFloat(v) && parseFloat(v).toString() || v
 						return v
 					}).join(descriptorValue.joinSep ? descriptorValue.joinSep : joinSep)
 				}
@@ -213,9 +217,9 @@ export default {
 				else if (descriptorValue.type === Boolean)
 					return value ? trueStr : falseStr
 				else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number')
-					return parseFloat(value).toFixed(descriptorValue.fixed)
+					return parseFloat(value) && parseFloat(value).toFixed(descriptorValue.fixed) || value
 				else if (descriptorValue.numberAdapter)
-					return (parseFloat(value) && parseFloat(value).toString()) || value
+					return parseFloat(value) && parseFloat(value).toString() || value
 				return value
 			}
 		}
