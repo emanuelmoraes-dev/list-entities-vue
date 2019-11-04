@@ -381,7 +381,7 @@
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
 								( For more details about this property click <a href="#definitions">here</a> )
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="31"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="40"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('definitions')">Compile</button>
 								</a>
@@ -990,9 +990,16 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>displayAttr</td>
 										<td>NO</td>
-										<td>String | Boolean</td>
+										<td>Boolean</td>
 										<td><span :style="{ color: 'blue' }">true</span></td>
-										<td>attribute name to display in table header (if true, same attribute name will be displayed)</td>
+										<td>if <span :style="{ color: 'blue' }">false</span>, the attribute by default will NOT be displayed in the table</td>
+									</tr>
+									<tr>
+										<td>headerText</td>
+										<td>NO</td>
+										<td>String</td>
+										<td>(same attribute name will be displayed)</td>
+										<td>attribute name to be shown in table header</td>
 									</tr>
 									<tr>
 										<td>displayAttrOrder</td>
@@ -1004,7 +1011,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>defaultLastAttr</td>
 										<td>NO</td>
-										<td>String | Boolean</td>
+										<td>Boolean</td>
 										<td><span :style="{ color: 'blue' }">false</span></td>
 										<td>
 											<p>
@@ -1018,9 +1025,6 @@ Vue.use(BootstrapVue)
 											</p>
 											<p>
 												To solve this problem, you can set, for example, the property "brand" to "defaultLastAttr". In this case, the "brand" would reach the end of the table row, and if the user clicked to filter by "categories", the last attribute would no longer be the "brand" and would be "categories". If the user clicks on any other type of filtering, then the last attribute would be the "brand" again.
-											</p>
-											<p>
-												The value of "defaultLastAttr" is the name of the attribute to be displayed in the table header (if <span :style="{ color: 'blue' }">true</span>, the same attribute name will be displayed)
 											</p>
 										</td>
 									</tr>
@@ -1064,7 +1068,14 @@ Vue.use(BootstrapVue)
 										<td>NO</td>
 										<td>Function</td>
 										<td></td>
-										<td>if the attribute is an array and the "adapter" option is set, this function is used to override what will be displayed at each array position</td>
+										<td>
+											<p>
+												if the attribute is an array and the "adapter" option is set, this function is used to override what will be displayed at each array position.
+											</p>
+											<p>
+												If the attribute is not an array, its value will be replaced by the return of this function
+											</p>
+										</td>
 									</tr>
 									<tr>
 										<td>numberAdapter</td>
@@ -1158,7 +1169,7 @@ Vue.use(BootstrapVue)
 										<td>NO</td>
 										<td>String</td>
 										<td></td>
-										<td>if the property is an array, "modalJoinSep" will contain the text that will be used to merge the values of that array into <span :style="{ color: 'blue' }">&lt;modal-entity&gt;</span> (modal responsible for displaying entity details). If this option is not entered, the array is joined using the value contained in the "joinSep" option or the "modalJoinSep" property present in the component</td>
+										<td>if the property is an array, "modalJoinSep" will contain the text that will be used to merge the values of that array into <span :style="{ color: 'blue' }">&lt;modal-entity&gt;</span> (modal responsible for displaying entity details). If this option is not entered, the array is joined using the value contained in the "modalJoinSep" property present in the component</td>
 									</tr>
 									<tr>
 										<td>disableOperators</td>
@@ -1773,34 +1784,41 @@ const textClassInput = `(existsOptionsSearch, existsOperators) => ({
 })`
 
 const textDefinitions = `this.$lev.def({
-	name: {
-		type: String,
-		optionSearch: true,
-	},
-	brand: {
+	title: {
 		type: String,
 		optionSearch: true
 	},
-	price: {
-		type: Number,
-		optionSearch: true
+	'genres.name': {
+		type: String,
+		array: true,
+		searchSepOr: /\\s*\\|\\s*/,
+		optionSearch: 'genres',
+		displayModal: 'genres',
+		headerText: 'genres'
 	},
-	perishable: {
+	adult: {
 		type: Boolean,
 		optionSearch: true,
 		defaultLastAttr: true
 	},
-	expiration: {
-		type: Date,
-		optionSearch: true,
+	original_language: {
+		type: String,
+		optionSearch: 'language',
+		displayModal: 'original language',
+		headerText: 'original language',
 		displayAttr: false
 	},
-	categories: {
+	release_date: {
+		type: Date,
+		optionSearch: 'release date',
+		displayModal: 'release date',
+		headerText: 'release date',
+		displayAttr: false
+	},
+	overview: {
 		type: String,
-		array: true,
 		optionSearch: true,
-		displayAttr: false,
-		searchSepOr: /\\s*\\|\\s*/
+		displayAttr: false
 	}
 })`
 
@@ -1923,11 +1941,11 @@ this.$lev.dictionaries = [
 const textRequest = `{
 	/** used by list-entities. Returns all entities with order and pagination */
 	async searchAll (page, pageSize, sort, inputSearch) {
-		this._orderBy(this._products, sort)
-		let products = this._paginate(this._products, page, pageSize)
+		this._orderBy(this._movies, sort)
+		let movies = this._paginate(this._movies, page, pageSize)
 		return {
-			count: products.length,
-			entities: products
+			count: this._movies.length,
+			entities: movies
 		}
 	},
 
@@ -1935,47 +1953,34 @@ const textRequest = `{
 	async searchAttr (page, pageSize, sort, inputSearch, paramsRequest, params) {
 		params = params.slice()
 		params.push.apply(params, paramsRequest)
-		let products = this._filter(this._products, params)
-		this._orderBy(products, sort)
-		products = this._paginate(products, page, pageSize)
+		let movies = this._filter(this._movies, params)
+		this._orderBy(movies, sort)
+		movies = this._paginate(movies, page, pageSize)
 		return {
-			count: products.length,
-			entities: products
+			count: movies.length,
+			entities: movies
 		}
 	},
 
 	/** used by list-entities. Returns filtered entities based on all attributes */
 	async searchDefault (page, pageSize, sort, inputSearch, paramsRequest, params) {
-		let products = this._filter(this._products, paramsRequest)
-		products = this._filterOr(products, params)
-		this._orderBy(products, sort)
-		products = this._paginate(products, page, pageSize)
+		let movies = this._filter(this._movies, paramsRequest)
+		movies = this._filterOr(movies, params)
+		this._orderBy(movies, sort)
+		movies = this._paginate(movies, page, pageSize)
 		return {
-			count: products.length,
-			entities: products
+			count: movies.length,
+			entities: movies
 		}
 	},
 
 	/** used by list-entities. Remove a specific entity */
 	async delete (id, entity, index, entities) {
-		this._products.splice(index, 1)
+		this._movies.splice(index, 1)
 	},
 
-	/** NOT used by list-entities. Product list */
-	_products: [
-		{
-			id: 1,
-			name: 'Coca Cola',
-			brand: 'The Coca-Cola Company',
-			price: 4,
-			perishable: false,
-			expiration: new Date(2019, 10, 18),
-			categories: ['foods', 'drinks']
-		}
-	],
-
-	/** NOT used by list-entities. Sort a product list by an attribute (+\${attr} or -\${attr}) */
-	_orderBy (products, sort) {
+	/** NOT used by list-entities. Sort a movie list by an attribute (+\${attr} or -\${attr}) */
+	_orderBy (movies, sort) {
 		let signal
 		let attr
 
@@ -1992,34 +1997,34 @@ const textRequest = `{
 		else
 			signal = -1
 
-		products.sort((a, b) => (a[attr] < b[attr]) ? -1 * signal : 1 * signal)
+		movies.sort((a, b) => (a[attr] < b[attr]) ? -1 * signal : 1 * signal)
 	},
 
-	/** NOT used by list-entities. Returns a list of products on the correct page */
-	_paginate (products, page, pageSize) {
-		return products.slice((page - 1) * pageSize, (page - 1) * pageSize + (pageSize-1))
+	/** NOT used by list-entities. Returns a list of movies on the correct page */
+	_paginate (movies, page, pageSize) {
+		return movies.slice((page - 1) * pageSize, (page - 1) * pageSize + (pageSize-1))
 	},
 
-	/** NOT used by list-entities. Search for products that match user filters */
-	_filter (products, params) {
-		return products.filter(product => this._productVerify(product, params))
+	/** NOT used by list-entities. Search for movies that match user filters */
+	_filter (movies, params) {
+		return movies.filter(movie => this._movieVerify(movie, params))
 	},
 
-	/** NOT used by list-entities. Search for products that match any of the filters */
-	_filterOr (products, params) {
-		return products.filter(product => this._productVerifyOr(product, params))
+	/** NOT used by list-entities. Search for movies that match any of the filters */
+	_filterOr (movies, params) {
+		return movies.filter(movie => this._movieVerifyOr(movie, params))
 	},
 
-	/** NOT used by list-entities. Returns true if the product matches any of the filters */
-	_productVerifyOr (product, params) {
+	/** NOT used by list-entities. Returns true if the movie matches any of the filters */
+	_movieVerifyOr (movie, params) {
 		return params.reduce((valid, and) => {
 			if (valid) return true
-			return this._productVerify(product, and)
+			return this._movieVerify(movie, and)
 		}, false)
 	},
 
-	/** NOT used by list-entities. Returns true if the product matches the filters provided */
-	_productVerify (product, params) {
+	/** NOT used by list-entities. Returns true if the movie matches the filters provided */
+	_movieVerify (movie, params) {
 		return params.reduce((valid, param) => {
 			if (!valid)
 				return false
@@ -2027,19 +2032,26 @@ const textRequest = `{
 			if (param.operator === '$' && param.descriptor.type === String)
 				param.operator = '$in'
 
+			let attrValue
+
+			if (param.attr === 'genres.name')
+				attrValue = movie.genres.map(g => g.name)
+			else
+				attrValue = movie[param.attr]
+
 			if (param.descriptor.searchSepAnd) {
 				let values = param.value.split(param.descriptor.searchSepAnd)
-					.map(value => this._verify(product[param.attr], param.operator, value))
+					.map(value => this._verify(attrValue, param.operator, value))
 
 				return values.reduce((p, valid) => p && valid, true)
 			} else if (param.descriptor.searchSepOr) {
 				let values = param.value.split(param.descriptor.searchSepOr)
-					.map(value => this._verify(product[param.attr], param.operator, value))
+					.map(value => this._verify(attrValue, param.operator, value))
 
 				return values.reduce((p, valid) => p || valid, false)
 			}
 
-			return this._verify(product[param.attr], param.operator, param.value)
+			return this._verify(attrValue, param.operator, param.value)
 		}, true)
 	},
 
@@ -2059,8 +2071,8 @@ const textRequest = `{
 			operator = '$eq'
 
 		switch (operator) {
-			case '$in': return value1.match(new RegExp(this._scape(value2)))
-			case '$nin': return !value1.match(new RegExp(this._scape(value2)))
+			case '$in': return value1.match(new RegExp(this._scape(value2), 'i'))
+			case '$nin': return !value1.match(new RegExp(this._scape(value2), 'i'))
 			case '$eq': return \`\${value1}\` === \`\${value2}\`
 			case '$neq': return \`\${value1}\` !== \`\${value2}\`
 			case '$sw': return value1.startsWith(value2)
@@ -2118,7 +2130,317 @@ const textRequest = `{
 	/** NOT used by list-entities. Returns string with special regular expression characters with escape */
 	_scape(str) {
 		return str.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&')
-	}
+	},
+
+	/** NOT used by list-entities. Movie list */
+	_movies: [
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 80,
+							"name": "Crime"
+					},
+					{
+							"id": 53,
+							"name": "Thriller"
+					},
+					{
+							"id": 18,
+							"name": "Drama"
+					}
+			],
+			"id": 475557,
+			"original_language": "en",
+			"title": "Joker",
+			"overview": "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
+			"release_date": new Date(2019, 9, 2)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 28,
+							"name": "Action"
+					},
+					{
+							"id": 878,
+							"name": "Science Fiction"
+					}
+			],
+			"id": 290859,
+			"original_language": "en",
+			"title": "Terminator: Dark Fate",
+			"overview": "More than two decades have passed since Sarah Connor prevented Judgment Day, changed the future, and re-wrote the fate of the human race. Dani Ramos is living a simple life in Mexico City with her brother and father when a highly advanced and deadly new Terminator – a Rev-9 – travels back through time to hunt and kill her. Dani's survival depends on her joining forces with two warriors: Grace, an enhanced super-soldier from the future, and a battle-hardened Sarah Connor. As the Rev-9 ruthlessly destroys everything and everyone in its path on the hunt for Dani, the three are led to a T-800 from Sarah’s past that may be their last best hope.",
+			"release_date": new Date(2019, 9, 23)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 14,
+							"name": "Fantasy"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 10751,
+							"name": "Family"
+					}
+			],
+			"id": 420809,
+			"original_language": "en",
+			"title": "Maleficent: Mistress of Evil",
+			"overview": "Maleficent and her goddaughter Aurora begin to question the complex family ties that bind them as they are pulled in different directions by impending nuptials, unexpected allies, and dark new forces at play.",
+			"release_date": new Date(2019, 9, 16)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 16,
+							"name": "Animation"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 35,
+							"name": "Comedy"
+					},
+					{
+							"id": 10751,
+							"name": "Family"
+					}
+			],
+			"id": 920,
+			"original_language": "en",
+			"title": "Cars",
+			"overview": "Lightning McQueen, a hotshot rookie race car driven to succeed, discovers that life is about the journey, not the finish line, when he finds himself unexpectedly detoured in the sleepy Route 66 town of Radiator Springs. On route across the country to the big Piston Cup Championship in California to compete against two seasoned pros, McQueen gets to know the town's offbeat characters.",
+			"release_date": new Date(2006, 5, 8)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 80,
+							"name": "Crime"
+					},
+					{
+							"id": 18,
+							"name": "Drama"
+					},
+					{
+							"id": 53,
+							"name": "Thriller"
+					}
+			],
+			"id": 559969,
+			"original_language": "en",
+			"title": "El Camino: A Breaking Bad Movie",
+			"overview": "In the wake of his dramatic escape from captivity, Jesse Pinkman must come to terms with his past in order to forge some kind of future.",
+			"release_date": new Date(2019, 9, 11)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 27,
+							"name": "Horror"
+					},
+					{
+							"id": 28,
+							"name": "Action"
+					},
+					{
+							"id": 35,
+							"name": "Comedy"
+					}
+			],
+			"id": 338967,
+			"original_language": "en",
+			"title": "Zombieland: Double Tap",
+			"overview": "Columbus, Tallahassee, Wichita, and Little Rock move to the American heartland as they face off against evolved zombies, fellow survivors, and the growing pains of the snarky makeshift family.",
+			"release_date": new Date(2019, 9, 9)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 35,
+							"name": "Comedy"
+					}
+			],
+			"id": 521777,
+			"original_language": "en",
+			"title": "Good Boys",
+			"overview": "A group of young boys on the cusp of becoming teenagers embark on an epic quest to fix their broken drone before their parents get home.",
+			"release_date": new Date(2019, 7, 14)
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 53,
+							"name": "Thriller"
+					},
+					{
+							"id": 27,
+							"name": "Horror"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 18,
+							"name": "Drama"
+					}
+			],
+			"id": 480105,
+			"original_language": "en",
+			"title": "47 Meters Down: Uncaged",
+			"overview": "A group of backpackers diving in a ruined underwater city discover that they have stumbled into the territory of the ocean's deadliest shark species.",
+			"release_date": new Date(2019, 7, 15),
+			"tagline": "The Next Chapter",
+			"title": "47 Meters Down: Uncaged",
+			"video": false,
+			"vote_average": 5.1,
+			"vote_count": 144
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 16,
+							"name": "Animation"
+					},
+					{
+							"id": 18,
+							"name": "Drama"
+					}
+			],
+			"id": 420818,
+			"original_language": "en",
+			"title": "The Lion King",
+			"overview": "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
+			"release_date": new Date(2019, 6, 12)
+		},
+		{
+			"adult": false,
+			"genres": [
+				{
+						"id": 28,
+						"name": "Action"
+				},
+				{
+						"id": 18,
+						"name": "Drama"
+				},
+        {
+            "id": 36,
+            "name": "History"
+        }
+			],
+			"id": 449924,
+			"original_language": "cn",
+			"overview": "Ip Man 4 is an upcoming Hong Kong biographical martial arts film directed by Wilson Yip and produced by Raymond Wong. It is the fourth in the Ip Man film series based on the life of the Wing Chun grandmaster of the same name and features Donnie Yen reprising the role. The film began production in April 2018 and ended in July the same year.",
+			"release_date": new Date(2019, 11, 20),
+			"title": "Ip Man 4: The Finale",
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 16,
+							"name": "Animation"
+					},
+					{
+							"id": 28,
+							"name": "Action"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					}
+			],
+			"id": 568012,
+			"original_language": "ja",
+			"overview": \`One Piece: Stampede is a stand-alone film that celebrates the anime's 20th Anniversary and takes place outside the canon of the "One Piece" TV series. Monkey D. Luffy and his Straw Hat pirate crew are invited to a massive Pirate Festival that brings many of the most iconic characters from throughout the franchise to participate in competition with the Straw Hats to find Roger's treasure. It also pits the Straw Hats against a new enemy named Bullet, a former member of Roger's crew.\`,
+			"release_date": new Date(2019, 7, 9),
+			"title": "One Piece: Stampede"
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 28,
+							"name": "Action"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 878,
+							"name": "Science Fiction"
+					}
+			],
+			"id": 429617,
+			"original_language": "en",
+			"original_title": "Spider-Man: Far from Home",
+			"overview": "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
+			"release_date": new Date(2019, 5, 28),
+			"title": "Spider-Man: Far from Home"
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 27,
+							"name": "Horror"
+					}
+			],
+			"id": 501170,
+			"original_language": "en",
+			"overview": \`A traumatized, alcoholic Dan Torrance meets Abra, a kid who also has the ability to "shine." He tries to protect her from the True Knot, a cult whose goal is to feed off people like them in order to remain immortal.\`,
+			"release_date": new Date(2019, 10, 30),
+			"title": "Doctor Sleep"
+		},
+		{
+			"adult": false,
+			"genres": [
+					{
+							"id": 28,
+							"name": "Action"
+					},
+					{
+							"id": 12,
+							"name": "Adventure"
+					},
+					{
+							"id": 878,
+							"name": "Science Fiction"
+					},
+					{
+							"id": 80,
+							"name": "Crime"
+					}
+			],
+			"id": 566057,
+			"original_language": "ja",
+			"overview": \`"Lupinranger VS Patranger VS Kyuranger" is an upcoming V-Cinext film between Kaitou Sentai Lupinranger VS Keisatsu Sentai Patranger and Uchu Sentai Kyuranger. The story begins when the Lupinrangers, Kairi, Touma, and Umika, are kidnapped by someone mysterious. The Patrangers are then tasked with an Abduction Case to find the missing thieves, where they run into the Kyuranger team as they pass through space. Just who exactly kidnapped them? And why did the 12 Kyurangers return to space?\`,
+			"release_date": new Date(2019, 4, 3),
+			"title": "Lupinranger VS Patranger VS Kyuranger"
+		}
+	]
 }`
 
 const textLocalDictionaryModal = 'null'
