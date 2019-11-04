@@ -119,15 +119,6 @@
 							</div>
 						</div>
 
-						<div class="col-md-4 col-sm-4">
-							<div class="form-group">
-								<div class="form-check form-check-inline prop">
-									<input class="form-check-input" type="checkbox" id="chk-show-confirm-modal-on-remove" v-model="showConfirmModalOnRemove">
-									<label class="form-check-label" for="chk-show-confirm-modal-on-remove">showConfirmModalOnRemove</label>
-								</div>
-							</div>
-						</div>
-
 						<div class="col-md-3 col-sm-4">
 							<div class="form-group">
 								<div class="form-check form-check-inline prop">
@@ -187,6 +178,15 @@
 								<div class="form-check form-check-inline prop">
 									<input class="form-check-input" type="checkbox" id="chk-is-show-success-modal-remove" v-model="isShowSuccessModalRemove">
 									<label class="form-check-label" for="chk-is-show-success-modal-remove">isShowSuccessModalRemove</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-9 col-sm-9">
+							<div class="form-group">
+								<div class="form-check form-check-inline prop">
+									<input class="form-check-input" type="checkbox" id="chk-show-confirm-modal-on-remove" v-model="showConfirmModalOnRemove">
+									<label class="form-check-label" for="chk-show-confirm-modal-on-remove">showConfirmModalOnRemove</label>
 								</div>
 							</div>
 						</div>
@@ -585,7 +585,7 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -754,7 +754,7 @@ Vue.use(BootstrapVue)
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -808,7 +808,7 @@ Vue.use(BootstrapVue)
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -917,6 +917,280 @@ Vue.use(BootstrapVue)
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
+							<p>
+								The "definitions" property is responsible for defining the modeling of the entity being listed.
+								This modeling tells the component how the entity is structured, which attributes can be
+								individually filtered, and how the component will assemble the filters that will be used to
+								perform searches. In addition, there are several functions that can be applied individually to a
+								specific property by simply entering the correct options for each property.
+							</p>
+							<p>
+								The property "definitions" is of type Object with unfriendly syntax. To resolve this issue, we
+								recommend that you use a helper function to assemble this object. The helper function takes a
+								friendlier syntax object and returns an object that the component can understand. There is
+								already a default helper function that can be accessed through an instance of Vue (by default,
+								this.$lev.def) or the "def" variable exported by "list-entity-vue".
+							</p>
+							<p>
+								The following is an explanation of how the object syntax that this helper function receives
+								works.
+							</p>
+							<p>
+								The key of this object represents a property that the entity owns. The value associated with
+								this key is also an object whose keys are a set of options with their respective values. If
+								an entity attribute is bound to a function (String, Number, Boolean, or Date) instead of an
+								object, it is the same as creating an object that has only the "type" option, having the
+								given function as its value. The options available for a specific attribute will be shown
+								below:
+							</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">option</th>
+										<th scope="col">required?</th>
+										<th scope="col">type</th>
+										<th scope="col">default value</th>
+										<th scope="col">description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>type</td>
+										<td>YES</td>
+										<td>String | Number | Boolean | Date</td>
+										<td></td>
+										<td>data type stored by this property</td>
+									</tr>
+									<tr>
+										<td>array</td>
+										<td>NO</td>
+										<td>Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td><span :style="{ color: 'blue' }">true</span> if the property is an array</td>
+									</tr>
+									<tr>
+										<td>displayAttr</td>
+										<td>NO</td>
+										<td>String | Boolean</td>
+										<td><span :style="{ color: 'blue' }">true</span></td>
+										<td>attribute name to display in table header (if true, same attribute name will be displayed)</td>
+									</tr>
+									<tr>
+										<td>displayAttrOrder</td>
+										<td>NO</td>
+										<td>Number</td>
+										<td></td>
+										<td>changes the default order of attributes that will be displayed in the table (of 1)</td>
+									</tr>
+									<tr>
+										<td>defaultLastAttr</td>
+										<td>NO</td>
+										<td>String | Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td>
+											<p>
+												it is very common for the number of properties the entity has to be greater than the number of properties that can be displayed in a table. For this reason, it makes sense to have properties with the "displayAttr" option set to <span :style="{ color: 'blue' }">false</span> so that this property is not displayed by default in the table, but imagine the following situation:
+											</p>
+											<p>
+												Let's say you want to list products by "name", "brand", "price", and "category" list, but only three of these attributes should be shown in the table. To solve this situation, imagine that only the "categories" property has the "displayAttr" option equal to <span :style="{ color: 'blue' }">false</span>. In this case, only the "categories" attribute would not be displayed by default.
+											</p>
+											<p>
+												In this scenario, what would happen if the user clicked to filter products by category? Products would be searched based on their categories, but the user could not see each product's categories without having to display the details mode.
+											</p>
+											<p>
+												To solve this problem, you can set, for example, the property "brand" to "defaultLastAttr". In this case, the "brand" would reach the end of the table row, and if the user clicked to filter by "categories", the last attribute would no longer be the "brand" and would be "categories". If the user clicks on any other type of filtering, then the last attribute would be the "brand" again.
+											</p>
+											<p>
+												The value of "defaultLastAttr" is the name of the attribute to be displayed in the table header (if <span :style="{ color: 'blue' }">true</span>, the same attribute name will be displayed)
+											</p>
+										</td>
+									</tr>
+									<tr>
+										<td>displayModal</td>
+										<td>NO</td>
+										<td>String | Boolean</td>
+										<td><span :style="{ color: 'blue' }">true</span></td>
+										<td>attribute name to display in <span :style="{ color: 'blue' }">&lt;modal-entity&gt;</span> (if true, same attribute name will be displayed)</td>
+									</tr>
+									<tr>
+										<td>optionSearch</td>
+										<td>NO</td>
+										<td>String | Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td>attribute name to display in <span :style="{ color: 'blue' }">&lt;select&gt;</span> attributes in search widget (if true, same attribute name will be displayed)</td>
+									</tr>
+									<tr>
+										<td>optionSearchOrder</td>
+										<td>NO</td>
+										<td>Number</td>
+										<td></td>
+										<td>changes the default order of attributes that will be displayed for filtering (from 1)</td>
+									</tr>
+									<tr>
+										<td>disableSort</td>
+										<td>NO</td>
+										<td>Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td>if <span :style="{ color: 'blue' }">true</span>, the property cannot be used to order</td>
+									</tr>
+									<tr>
+										<td>sort</td>
+										<td>NO</td>
+										<td>Number</td>
+										<td></td>
+										<td>if it is a negative number, entities are initially sorted by this attribute in descending order. Otherwise, it will be sorted in ascending order. If no property has this option, the first property that does not have the "disableSort" option (or that has the value <span :style="{ color: 'blue' }">false</span>) will be used to sort in ascending order</td>
+									</tr>
+									<tr>
+										<td>adapter</td>
+										<td>NO</td>
+										<td>Function</td>
+										<td></td>
+										<td>if the attribute is an array and the "adapter" option is set, this function is used to override what will be displayed at each array position</td>
+									</tr>
+									<tr>
+										<td>numberAdapter</td>
+										<td>NO</td>
+										<td>Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td>if <span :style="{ color: 'blue' }">true</span> and the property is an array, each element will try to be converted to number (via parseFloat) and if the "fixed" option is set, each number will be overridden by calling the method "Number.prototype.toFixed"</td>
+									</tr>
+									<tr>
+										<td>fixed</td>
+										<td>NO</td>
+										<td>Number</td>
+										<td></td>
+										<td>option to be used in conjunction with the "numberAdapter" option to replace each array element with the "Number.prototype.toFixed" method call</td>
+									</tr>
+									<tr>
+										<td>pattern</td>
+										<td>NO</td>
+										<td>String</td>
+										<td></td>
+										<td>if the attribute is of type "Date", "pattern" sets the default to be displayed for this date. This default is the same as that provided by the <a target="_blank" href="https://www.npmjs.com/package/datetime-utility">datetime-utility</a> package.</td>
+									</tr>
+									<tr>
+										<td>hidden</td>
+										<td>NO</td>
+										<td>Boolean</td>
+										<td><span :style="{ color: 'blue' }">false</span></td>
+										<td>if the property does not have the "defaultLastAttr" option and has the "hidden" option equal to true, this property will not be displayed in the table</td>
+									</tr>
+									<tr>
+										<td>searchSepOr</td>
+										<td>NO</td>
+										<td>String | Regexp</td>
+										<td></td>
+										<td>
+											<p>
+												if the property is an array, the content of "searchSepOr" tells how the search field text will be divided (using String.prototype.split) into several parts; therefore, filtering for this attribute requires comparison with only one of these parts.
+											</p>
+											<p>
+												Example: Let's say the attribute has the following values: ['food', 'drinks'].
+											</p>
+											<p>
+												Let's say the value of "searchSepOr" is: '|'
+											</p>
+											<p>
+												Let's also say that the user entered in the search field the following value: 'foods|cleanliness'.
+											</p>
+											<p>
+												In this scenario, the filtering for this attribute would be true because 'food' is one of the values present in this matrix.
+											</p>
+											<p>
+												<span :style="{ color: 'red' }">IMPORTANT:</span> The implementation of this functionality must be done externally, through the functions present in the "request" property or through the capture of search events.
+											</p>
+										</td>
+									</tr>
+									<tr>
+										<td>searchSepAnd</td>
+										<td>NO</td>
+										<td>String | Regexp</td>
+										<td></td>
+										<td>
+											<p>
+												if the property is an array, the content of "searchSepAnd" tells how the search field text will be divided (using String.prototype.split) into several parts; therefore, filtering for this attribute requires comparison with ALL these parts.
+											</p>
+											<p>
+												Example: Let's say the attribute has the following values: ['food', 'drinks'].
+											</p>
+											<p>
+												Let's say the value of "searchSepAnd" is: '|'
+											</p>
+											<p>
+												Let's also say that the user entered in the search field the following value: 'foods|cleaning'.
+											</p>
+											<p>
+												In this scenario, the filtering for this attribute would be false because 'cleaning' is not one of the values present in this array.
+											</p>
+											<p>
+												<span :style="{ color: 'red' }">IMPORTANT:</span> The implementation of this functionality must be done externally, through the functions present in the "request" property or through the capture of search events.
+											</p>
+										</td>
+									</tr>
+									<tr>
+										<td>joinSep</td>
+										<td>NO</td>
+										<td>String</td>
+										<td></td>
+										<td>if the property is an array, "joinSep" will contain the text that will be used to join the values of that array. If this option is not entered, the array is joined using the value contained in the "joinSep" property present in the component</td>
+									</tr>
+									<tr>
+										<td>modalJoinSep</td>
+										<td>NO</td>
+										<td>String</td>
+										<td></td>
+										<td>if the property is an array, "modalJoinSep" will contain the text that will be used to merge the values of that array into <span :style="{ color: 'blue' }">&lt;modal-entity&gt;</span> (modal responsible for displaying entity details). If this option is not entered, the array is joined using the value contained in the "joinSep" option or the "modalJoinSep" property present in the component</td>
+									</tr>
+									<tr>
+										<td>disableOperators</td>
+										<td>NO</td>
+										<td>Array</td>
+										<td>
+											<p>[]</p>
+											<p>or</p>
+											<p>
+												[<br />
+													<span class="tab-1"></span>'$gt',<br />
+													<span class="tab-1"></span>'$gte',<br />
+													<span class="tab-1"></span>'$lt',<br />
+													<span class="tab-1"></span>'$lte'<br />
+												]
+											</p>
+										</td>
+										<td>contains a list of operators that will be ignored for this property. If the property is an array, by default the ignored operators will be ['$gt', '$gte', '$lt', '$lte']. If the property is not an array, by default no operation is ignored.</td>
+									</tr>
+									<tr>
+										<td>args</td>
+										<td>NO</td>
+										<td><span :style="{ color: 'blue' }">any</span></td>
+										<td></td>
+										<td>auxiliary value that is NOT used internally by <span :style="{ color: 'blue' }">&lt;list-entities&gt;</span>. This value is intended to pass extra information to the functions that will implement the search functions</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="definitions" class="card props">
+				<div class="card-header">
+					<span :style="{ color: 'blue' }">Definitions</span> property <span :style="{ color: 'red' }">reactivity</span>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<p>
+								The object sent to the "definitions" property can have any of its properties or subproperties
+								reactively changed except the "descriptor" property. If you want to create a reactivity in
+								the "descriptor" property, create a new object for "descriptor" with a new reference with the
+								values you want to reactively change.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -928,7 +1202,7 @@ Vue.use(BootstrapVue)
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -1079,7 +1353,7 @@ Vue.use(BootstrapVue)
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -1298,7 +1572,7 @@ Vue.use(BootstrapVue)
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -1355,14 +1629,14 @@ Vue.use(BootstrapVue)
 					</div>
 				</div>
 			</div>
-
+<!--
 			<div class="card props">
 				<div class="card-header">
 					all <span :style="{ color: 'blue' }">properties</span>
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col">
+						<div class="col table-responsive">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -1469,7 +1743,8 @@ Vue.use(BootstrapVue)
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
+
 		</div>
   </div>
 </template>
