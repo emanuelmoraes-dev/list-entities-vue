@@ -93,7 +93,7 @@ export default function definitionAdapter (def) {
 		// 	descriptor[attr].lessOrEqualThan = false
 
 		if ('disableOperators' in defValue)
-			descriptor[attr].disableOperators = def.disableOperators
+			descriptor[attr].disableOperators = defValue.disableOperators
 		else if (defValue.array)
 			descriptor[attr].disableOperators = ['$gt', '$gte', '$lt', '$lte']
 
