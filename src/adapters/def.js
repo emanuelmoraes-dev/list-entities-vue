@@ -94,9 +94,7 @@ export default function definitionAdapter (def) {
 		else if (defValue.array)
 			descriptor[attr].disableOperators = ['$gt', '$gte', '$lt', '$lte']
 
-		if (!('modalJoinSep' in defValue) && 'joinSep' in defValue)
-			descriptorModal[attr].joinSep = defValue.joinSep
-		else if ('modalJoinSep' in defValue)
+		if ('modalJoinSep' in defValue)
 			descriptorModal[attr].joinSep = defValue.modalJoinSep
 
 		if (typeof defValue.displayModal === 'string' && defValue.displayModal)
