@@ -119,6 +119,10 @@ export default {
 				this.definitions.sort = `${order === '-' ? '+' : '-'}${atribute}` // ordena-se pelo mesmo atributo invertendo a ordem
 			else
 				this.definitions.sort = `+${atribute}` // ordena-se o atributo informado em ordem crescente
+
+			this.$set(this.definitions, 'sort', this.definitions.sort)
+			this.$forceUpdate()
+			this.search(false)
 		},
 
 		/**
