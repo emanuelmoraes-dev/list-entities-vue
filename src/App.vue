@@ -722,6 +722,20 @@
 
 			<div class="card props">
 				<div class="card-header">
+					<span :style="{ color: 'blue' }">Install</span>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+<pre><code class="lang-sh"><span class="hljs-program">npm</span> install <span class="hljs-named_args">--save</span> <span class="hljs-built_in">list-entities-vue</span>
+</code></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
 					importing component (sample code)
 				</div>
 				<div class="card-body">
@@ -2408,5 +2422,17 @@ export default {
 
 #app .lang-html .hljs-number {
 	color: crimson;
+}
+
+#app .lang-sh .hljs-program {
+	color: rgb(179, 156, 28);
+}
+
+#app .lang-sh .hljs-named_args {
+	color: rgb(75, 71, 71);
+}
+
+#app .lang-sh .hljs-built_in {
+	color: blue;
 }
 </style>
