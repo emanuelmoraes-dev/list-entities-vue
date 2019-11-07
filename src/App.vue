@@ -381,7 +381,7 @@
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
 								( For more details about this property click <a href="#definitions">here</a> )
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="41"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="39"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('definitions')">Compile</button>
 								</a>
