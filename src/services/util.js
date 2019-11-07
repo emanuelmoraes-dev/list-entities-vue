@@ -100,18 +100,20 @@ export function patchUpdate (target, source, ...args) {
 	if (!target) return source
 	if (source instanceof Array) return source
 
-	if (source && typeof source === 'object' && !(source instanceof Date)) {
+	if (source && typeof source === 'object' && typeof target === 'object' && !(source instanceof Date) && !(target instanceof Date)) {
 		for (let key in source) {
 			let value = source[key]
 			if (typeof value === 'function')
 				value = value(...args)
+			if (typeof target[key] === 'function')
+				target[key] = target[key](...args)
 			target[key] = patchUpdate(target[key], value, ...args)
 		}
-	} else {
-		return source
+
+		return target
 	}
 
-	return target
+	return source
 }
 
 /**

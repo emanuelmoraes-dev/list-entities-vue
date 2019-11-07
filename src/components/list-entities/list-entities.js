@@ -1,4 +1,3 @@
-import isISODate from 'is-iso-date'
 import * as dateUtility from 'datetime-utility'
 import VuesticWidget from '../../../lib/vuestic/components/vuestic-widget/VuesticWidget'
 import VuesticModal from '../../../lib/vuestic/components/vuestic-modal/VuesticModal'
@@ -75,7 +74,7 @@ export default {
 
 			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
 			globalDictionary = globalDictionary.translate
-			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
+			this.dictionary = util.patchUpdate(globalDictionary, { translate: localDictionary }, this.i18nArgs, this)
 		},
 
 		translatePattern (pattern) {
@@ -806,7 +805,7 @@ export default {
 
 			else if (typeof value === 'boolean') return (value && trueStr) || falseStr
 			else if (value instanceof Date) return dateUtility.dateToStr(value, translatePattern(descriptor[attr.value].pattern || defaultPattern))
-			else if (isISODate(value)) return dateUtility.dateToStr(new Date(value), translatePattern(descriptor[attr.value].pattern || defaultPattern))
+			else if (dateUtility.isISODate(value)) return dateUtility.dateToStr(new Date(value), translatePattern(descriptor[attr.value].pattern || defaultPattern))
 			return value
 		}
 	},
