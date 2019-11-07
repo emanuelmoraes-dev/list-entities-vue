@@ -13,6 +13,8 @@
 							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
 						</div> <!-- end v-if -->
 
+						<slot name="beforeSearch"></slot>
+
 						<div v-show="!hideSearch">
 							<div class="row">
 								<div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
@@ -61,6 +63,8 @@
 								</div> <!-- end col -->
 							</div> <!-- end class row -->
 						</div> <!-- end class primary -->
+
+						<slot name="afterSearch"></slot>
 
 						<div slot="secundary">
 							<!--

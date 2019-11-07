@@ -1398,6 +1398,20 @@ Vue.use(BootstrapVue)
 										<td>content to display in search widget title</td>
 									</tr>
 									<tr>
+										<td>beforeSearch</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to be shown before search fields</td>
+									</tr>
+									<tr>
+										<td>afterSearch</td>
+										<td>NO</td>
+										<td>NO</td>
+										<td></td>
+										<td>content to show after search fields</td>
+									</tr>
+									<tr>
 										<td>titleTable</td>
 										<td>NO</td>
 										<td>NO</td>
