@@ -73,8 +73,7 @@ export default {
 			this.ctxLev = ctx
 
 			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
-			globalDictionary = globalDictionary.translate
-			this.dictionary = util.patchUpdate(globalDictionary, { translate: localDictionary }, this.i18nArgs, this)
+			this.dictionary = util.patchUpdate(globalDictionary, { translate: localDictionary }, this.i18nArgs, this).translate
 		},
 
 		translatePattern (pattern) {
@@ -718,9 +717,10 @@ export default {
 		 * @return {string|number} valor traduzido
 		 */
 		translate (value, dictionary) {
-			if (!dictionary || !dictionary.attrs || !(value in dictionary.attrs))
-				return value
-			return dictionary.attrs[value]
+			if (!value) return value
+			if (typeof value !== 'string') return value
+			if (!dictionary || !dictionary.attrs || !dictionary.attrs[value.toLowerCase()]) return value
+			return dictionary.attrs[value.toLowerCase()]
 		},
 
 		/**

@@ -1855,7 +1855,7 @@ const textLocalDictionary = `{
 		cancelTextModal: 'NO',
 		trueStr: 'YES',
 		falseStr: 'NO',
-		attrs: { /* name: 'fullname' */ },
+		attrs: { /* 'release date': 'date' */ },
 		patterns: { /* 'dd/MM/yyyy': 'yyyy/dd/MM' */ }
 }`
 

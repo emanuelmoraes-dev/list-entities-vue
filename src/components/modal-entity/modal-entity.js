@@ -110,9 +110,10 @@ export default {
 		 * @return {string|number} valor traduzido
 		 */
 		translate (value, dictionary) {
-			if (!dictionary || !dictionary.attrs || !(value in dictionary.attrs))
-				return value
-			return dictionary.attrs[value]
+			if (!value) return value
+			if (typeof value !== 'string') return value
+			if (!dictionary || !dictionary.attrs || !dictionary.attrs[value.toLowerCase()]) return value
+			return dictionary.attrs[value.toLowerCase()]
 		},
 
 		/**
