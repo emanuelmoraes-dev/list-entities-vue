@@ -1863,7 +1863,7 @@ const textGlobalDictionaries = `this.$lev.lang = 'en'
 
 this.$lev.dictionaries = [
 	{
-		use: () => true,
+		use: (i18nArgs, ctx) => true,
 		lang: 'en',
 		translate: {
 			operators: {
@@ -1901,7 +1901,7 @@ this.$lev.dictionaries = [
 	},
 
 	{
-		use: () => true,
+		use: (i18nArgs, ctx) => true,
 		lang: 'pt',
 		translate: {
 			operators: {
