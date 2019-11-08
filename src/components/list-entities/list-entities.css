@@ -1,3 +1,11 @@
+.wrapper-list-entities .first-content .form-group {
+  margin-bottom: 0.3rem;
+}
+
+.wrapper-list-entities .secundary .table-responsive {
+  margin-bottom: 0.3rem;
+}
+
 .wrapper-list-entities .vuestic-widget {
   box-shadow: 0 4px 50px -18px hsla(0,0%,43.9%,.565);
   margin-bottom: 1.5rem;
