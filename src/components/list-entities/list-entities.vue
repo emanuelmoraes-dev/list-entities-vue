@@ -8,6 +8,7 @@
             :hidePrimary="hideSearch"
             :compactSecundary="!hideSearch && isCompact"
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
+						class="primary"
           >
 						<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
 							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
@@ -62,7 +63,7 @@
 									</div> <!-- end class form-group -->
 								</div> <!-- end col -->
 							</div> <!-- end class row -->
-						</div> <!-- end class primary -->
+						</div>
 
 						<slot name="afterSearch"></slot>
 
