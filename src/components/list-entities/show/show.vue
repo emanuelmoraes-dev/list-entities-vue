@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<slot></slot>
+		<div :class="{ 'first-content': $slots.secundary }">
+			<slot></slot>
+		</div>
 		<slot name="secundary"></slot>
 	</div>
 </template>

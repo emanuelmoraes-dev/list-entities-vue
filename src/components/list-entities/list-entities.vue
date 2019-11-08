@@ -10,62 +10,64 @@
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
 						class="primary"
           >
-						<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
-							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
-						</div> <!-- end v-if -->
+						<div class="search-content">
+							<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+								<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
+							</div> <!-- end v-if -->
 
-						<slot name="beforeSearch"></slot>
+							<slot name="beforeSearch"></slot>
 
-						<div v-show="!hideSearch">
-							<div class="row">
-								<div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
-									<div class="form-group form-group-select">
-										<!-- <label class="before-select">Pesquisar: </label> -->
-										<b-form-select
-											v-model="sync.attrSearch"
-											:options="optionsSearch"
-										/> <!-- select dos tributos a serem filtrados -->
-									</div> <!-- end class form-group -->
-								</div> <!-- end col -->
+							<div v-show="!hideSearch">
+								<div class="row">
+									<div v-if="existsOptionsSearch" :class="classOptionsSearch"> <!-- select de atributos a serem buscados -->
+										<div class="form-group form-group-select">
+											<!-- <label class="before-select">Pesquisar: </label> -->
+											<b-form-select
+												v-model="sync.attrSearch"
+												:options="optionsSearch"
+											/> <!-- select dos tributos a serem filtrados -->
+										</div> <!-- end class form-group -->
+									</div> <!-- end col -->
 
-								<div v-if="existsOptionsSearch && existsOperators" :class="classOperators">
+									<div v-if="existsOptionsSearch && existsOperators" :class="classOperators">
 
-									<!-- select com as operações a serem usadas para filtrar a busca -->
+										<!-- select com as operações a serem usadas para filtrar a busca -->
 
-									<div class="form-group form-group-select">
-										<!-- <label class="before-select">Operador: </label> -->
-										<b-form-select
-											v-model="searchOperator"
-											:options="operators"
-										/> <!-- select de operações -->
-									</div> <!-- end class form-group -->
-								</div> <!-- end col -->
+										<div class="form-group form-group-select">
+											<!-- <label class="before-select">Operador: </label> -->
+											<b-form-select
+												v-model="searchOperator"
+												:options="operators"
+											/> <!-- select de operações -->
+										</div> <!-- end class form-group -->
+									</div> <!-- end col -->
 
-								<div :class="[] | getClassInput(existsOptionsSearch, existsOperators, classInput)"> <!-- campo de pesquisa -->
-									<div class="form-group">
-										<div class="input-group d-flex">
-											<div class="flex-1">
-												<input
-													id="txtsearch"
-													name="search"
-													v-model="sync.inputSearch"
-													@keypress="keyHandler($event)"
-													ref="txtSearch"
-												/> <!-- campo de pesquisa -->
-												<label class="control-label" for="txtsearch">{{ dictionary.labelSearch }}:</label>
-												<i class="bar"></i>
-											</div>
-											<button
-												@click.prevent.stop="search(true)"
-												:class="btnSearchClass"
-											>{{ dictionary.btnSearch }}</button>
-										</div> <!-- end class input-group -->
-									</div> <!-- end class form-group -->
-								</div> <!-- end col -->
-							</div> <!-- end class row -->
-						</div>
+									<div :class="[] | getClassInput(existsOptionsSearch, existsOperators, classInput)"> <!-- campo de pesquisa -->
+										<div class="form-group">
+											<div class="input-group d-flex">
+												<div class="flex-1">
+													<input
+														id="txtsearch"
+														name="search"
+														v-model="sync.inputSearch"
+														@keypress="keyHandler($event)"
+														ref="txtSearch"
+													/> <!-- campo de pesquisa -->
+													<label class="control-label" for="txtsearch">{{ dictionary.labelSearch }}:</label>
+													<i class="bar"></i>
+												</div>
+												<button
+													@click.prevent.stop="search(true)"
+													:class="btnSearchClass"
+												>{{ dictionary.btnSearch }}</button>
+											</div> <!-- end class input-group -->
+										</div> <!-- end class form-group -->
+									</div> <!-- end col -->
+								</div> <!-- end class row -->
+							</div>
 
-						<slot name="afterSearch"></slot>
+							<slot name="afterSearch"></slot>
+						</div> <!-- end class search-content -->
 
 						<div slot="secundary">
 							<!--
@@ -76,113 +78,115 @@
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
 									<component :is="componentShowTable" :headerText="dictionary.titleTable" class="secundary">
-										<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
-											<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
-										</div> <!-- end v-if -->
+										<div class="entities-content">
+											<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
+												<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
+											</div> <!-- end v-if -->
 
-										<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
+											<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
 
-										<div class="table-responsive">
-											<table class="table table-striped first-td-padding">
-												<thead>
-													<tr>
-														<td v-if="$scopedSlots.check">{{tdCheckName}}</td>
-														<td
-															class="header-attr display-attr"
-															:class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
-															v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
-															@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
-															v-for="attr of definitions.displayAttrs" :key="attr.value"
-														> <!-- td atributos -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-up"></span>
-															{{ attr.display | translate(dictionary) }}:
-														</td> <!-- end v-for td atributos -->
-
-														<td
-															class="header-attr last-attr"
-															v-if="!hideLastAttr && lastAttr"
-															:class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
-															@click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
-														> <!-- td lastAttr -->
-															<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-down"></span>
-															<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-up"></span>
-															{{ lastAttr.headerText | translate(dictionary) }}:
-														</td> <!-- end td lastAttr -->
-
-														<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
-														<td class="text-center" v-if="showOptions && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ dictionary.tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
-													</tr> <!-- end tr -->
-												</thead> <!-- end thead -->
-
-												<tbody>
-													<slot name="tblpre"></slot> <!-- slot a ser chamado antes da exibição do conteúdo da tabela e depois do header -->
-
-													<tr v-for="(entity, index) of entities" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
-														@click="$emit('on_click', entity, index)"
-													> <!-- percorre cada entidade transmitida pelo v-model -->
-														<td v-if="$scopedSlots.check"> <!-- se o usuário passou o slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
-															<slot name="check" :entity="entity" :index="index"></slot> <!-- slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
-														</td> <!-- end td slot check -->
-
-														<slot name="entity_line" :entity="entity" :index="index"> <!-- slot slot do conteúdo da linha da tabela -->
+											<div class="table-responsive">
+												<table class="table table-striped first-td-padding">
+													<thead>
+														<tr>
+															<td v-if="$scopedSlots.check">{{tdCheckName}}</td>
 															<td
-																v-for="attr of definitions.displayAttrs" :key="attr.value"
+																class="header-attr display-attr"
+																:class="{'pointer': !descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort}"
 																v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
-															> <!-- percorre os atributos que sempre serão exibidos -->
-																<slot :name="`${attr.value}_slot`" :entity="entity" :index="index">
-																	{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
-																</slot>
-															</td> <!-- end v-for displayAttrs -->
+																@click="(!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort) && onClickHeader(attr.value)"
+																v-for="attr of definitions.displayAttrs" :key="attr.value"
+															> <!-- td atributos -->
+																<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-down"></span>
+																<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == attr.value || definitions.sort.substring(1) == attr.value) && (!descriptorEntity[attr.value] || !descriptorEntity[attr.value].disableSort)" class="fas fa-angle-up"></span>
+																{{ attr.display | translate(dictionary) }}:
+															</td> <!-- end v-for td atributos -->
 
-															<td v-if="!hideLastAttr && definitions.defaultLastAttr">
-																<slot :name="`${lastAttr.value}_slot`" :entity="entity" :index="index">
-																	{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
-																</slot>
-															</td>
-														</slot> <!-- end slot 'entity_line' -->
+															<td
+																class="header-attr last-attr"
+																v-if="!hideLastAttr && lastAttr"
+																:class="{'pointer': !descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort}"
+																@click="(!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort) && onClickHeader(lastAttr.value)"
+															> <!-- td lastAttr -->
+																<span v-show="definitions.sort && definitions.sort[0] !== '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-down"></span>
+																<span v-show="definitions.sort && definitions.sort[0] === '-' && (definitions.sort == lastAttr.value || definitions.sort.substring(1) == lastAttr.value) && (!descriptorEntity[lastAttr.value] || !descriptorEntity[lastAttr.value].disableSort)" class="fas fa-angle-up"></span>
+																{{ lastAttr.headerText | translate(dictionary) }}:
+															</td> <!-- end td lastAttr -->
 
-														<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
-															<slot :name="opt" :entity="entity" :index="index"></slot>
-														</td> <!-- end v-for options -->
+															<td v-for="opt of Object.keys(options)" :key="opt">{{ options[opt] || '' }}</td> <!-- headers das opções a serem exibidas após os atributos -->
+															<td class="text-center" v-if="showOptions && ($scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView)">{{ dictionary.tdOptionName }}</td> <!-- nome do header a aparecer acima das opções padrão na tabela -->
+														</tr> <!-- end tr -->
+													</thead> <!-- end thead -->
 
-														<slot v-if="showOptions" name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
-															<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
-																<slot name="beforeDefaultOptions" :entity="entity" :index="index"></slot>
+													<tbody>
+														<slot name="tblpre"></slot> <!-- slot a ser chamado antes da exibição do conteúdo da tabela e depois do header -->
 
-																<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
-																	<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
-																		<span class="far fa-eye"></span>
-																	</button>
-																</slot> <!-- end slot optionView -->
+														<tr v-for="(entity, index) of entities" :key="entity[idAttrName]" :class="[...classLine, entity.__classLine]"
+															@click="$emit('on_click', entity, index)"
+														> <!-- percorre cada entidade transmitida pelo v-model -->
+															<td v-if="$scopedSlots.check"> <!-- se o usuário passou o slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
+																<slot name="check" :entity="entity" :index="index"></slot> <!-- slot contendo o conteúdo a ser apresentao como primeiro 'td' de uma linha da abela -->
+															</td> <!-- end td slot check -->
 
-																<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
-																	<button v-if="optionEdit" type="button" class="btn btn-success option option-icon" @click.prevent.stop="edit(entity, index)">
-																		<span class="fas fa-pencil-alt"></span>
-																	</button>
-																</slot> <!-- end slot optionEdit -->
+															<slot name="entity_line" :entity="entity" :index="index"> <!-- slot slot do conteúdo da linha da tabela -->
+																<td
+																	v-for="attr of definitions.displayAttrs" :key="attr.value"
+																	v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
+																> <!-- percorre os atributos que sempre serão exibidos -->
+																	<slot :name="`${attr.value}_slot`" :entity="entity" :index="index">
+																		{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+																	</slot>
+																</td> <!-- end v-for displayAttrs -->
 
-																<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
-																	<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="$emit('on_report', entity, index)">
-																		<span class="icon fas fa-file-alt"></span>
-																	</button>
-																</slot> <!-- end slot optionReport -->
+																<td v-if="!hideLastAttr && definitions.defaultLastAttr">
+																	<slot :name="`${lastAttr.value}_slot`" :entity="entity" :index="index">
+																		{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+																	</slot>
+																</td>
+															</slot> <!-- end slot 'entity_line' -->
 
-																<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
-																	<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
-																		<span class="fas fa-trash-alt"></span>
-																	</button>
-																</slot> <!-- end slo optionRemove -->
+															<td v-for="opt of Object.keys(options)" :key="opt"> <!-- opções a serem exibidas ao final da linha depois de exibir os atributos e antes de exibir as opções padrão -->
+																<slot :name="opt" :entity="entity" :index="index"></slot>
+															</td> <!-- end v-for options -->
 
-																<slot name="afterDefaultOptions" :entity="entity" :index="index"></slot>
-															</td> <!-- end td opções padrão -->
-														</slot> <!-- end slot opções padrão -->
-													</tr> <!-- end tr v-for entities -->
+															<slot v-if="showOptions" name="td_option" :entity="entity" :index="index"> <!-- slot as opções padrão a serem exibidas ao final de cada linha -->
+																<td class="text-center" v-if="$scopedSlots.td_option || optionRemove || optionEdit || optionReport || optionView"> <!-- td com as ações padrão a serem realizadas em uma entidade -->
+																	<slot name="beforeDefaultOptions" :entity="entity" :index="index"></slot>
 
-													<slot name="tblpos"></slot> <!-- slot a ser chamado depois da exibição do conteúdo da tabela -->
-												</tbody> <!-- end tbody -->
-											</table> <!-- end table -->
-										</div> <!-- end class table-responsive -->
+																	<slot name="optionView" :entity="entity" :index="index"> <!-- slot da opção de visualização da entidade em um modal -->
+																		<button v-if="optionView" type="button" class="btn btn-warning option option-icon" @click.prevent.stop="entityView(entity, index)">
+																			<span class="far fa-eye"></span>
+																		</button>
+																	</slot> <!-- end slot optionView -->
+
+																	<slot name="optionEdit" :entity="entity" :index="index"> <!-- slot da opção de editar uma entidade -->
+																		<button v-if="optionEdit" type="button" class="btn btn-success option option-icon" @click.prevent.stop="edit(entity, index)">
+																			<span class="fas fa-pencil-alt"></span>
+																		</button>
+																	</slot> <!-- end slot optionEdit -->
+
+																	<slot name="optionReport" :entity="entity" :index="index"> <!-- slot da opção gerar e baixar um relatório  com as informações desta entidade -->
+																		<button v-if="optionReport" type="button" class="btn btn-info option option-icon" @click.prevent.stop="$emit('on_report', entity, index)">
+																			<span class="icon fas fa-file-alt"></span>
+																		</button>
+																	</slot> <!-- end slot optionReport -->
+
+																	<slot name="optionRemove" :entity="entity" :index="index"> <!-- slot da opção de remoção da entidade -->
+																		<button v-if="optionRemove" type="button" class="btn btn-danger option option-icon" @click.prevent.stop="remove(entity, index)">
+																			<span class="fas fa-trash-alt"></span>
+																		</button>
+																	</slot> <!-- end slo optionRemove -->
+
+																	<slot name="afterDefaultOptions" :entity="entity" :index="index"></slot>
+																</td> <!-- end td opções padrão -->
+															</slot> <!-- end slot opções padrão -->
+														</tr> <!-- end tr v-for entities -->
+
+														<slot name="tblpos"></slot> <!-- slot a ser chamado depois da exibição do conteúdo da tabela -->
+													</tbody> <!-- end tbody -->
+												</table> <!-- end table -->
+											</div> <!-- end class table-responsive -->
+										</div> <!-- end class entities-content -->
 									</component> <!-- end show or vuestic-widget -->
 
 									<slot name="pagination"> <!-- slot do paginador de resultados da tabela -->

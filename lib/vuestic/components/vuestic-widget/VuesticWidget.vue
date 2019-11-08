@@ -13,7 +13,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-show="!hidePrimary" class="vuestic-widget" :class="{'no-header': !headerText}">
+      <div v-show="!hidePrimary" class="vuestic-widget first-content" :class="{'no-header': !headerText}">
         <div v-if="!$slots.headerText && headerText" class="vuestic-widget-header">
           {{headerText}}
         </div>
