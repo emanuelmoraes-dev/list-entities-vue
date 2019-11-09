@@ -31,7 +31,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "datetime-utility": "^3.0.0"
+    "datetime-utility": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

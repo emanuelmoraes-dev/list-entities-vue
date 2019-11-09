@@ -381,7 +381,7 @@ export default {
 				return []
 
 			let descriptorValue = this.descriptorEntity[attr]
-			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern || this.defaultPattern))
+			let date = dateUtility.toDate(inputSearch, this.translatePattern(descriptorValue.pattern || this.defaultPattern), false)
 
 			if (!date)
 				throw new InvalidDateFormatError(inputSearch)
@@ -391,7 +391,8 @@ export default {
 			let cmpDate1 = new Date(2019, 7, 7, 7, 7, 7, 7)
 			let cmpDate2 = dateUtility.toDate(
 				dateUtility.dateToStr(cmpDate1, pattern),
-				pattern
+				pattern,
+				false
 			)
 
 			let utilPeriod
