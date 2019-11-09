@@ -2112,7 +2112,7 @@ const textRequest = `{
 				}
 
 				if (Object.is(value1, NaN) || Object.is(value2, NaN))
-					return falseW
+					return false
 
 				return value1 >= value2
 			}
