@@ -3,10 +3,10 @@ trim_trailing_whitespace = true
 end_of_line=lf
 insert_final_newline = true
 
-[*.{vue}]
-indent_style = tab
-indent_size = 2
-
 [*.{js,jsx,ts,tsx}]
 indent_style = tab
 indent_size = 4
+
+[*.{vue}]
+indent_style = tab
+indent_size = 2

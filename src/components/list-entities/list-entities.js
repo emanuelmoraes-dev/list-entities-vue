@@ -73,7 +73,7 @@ export default {
 			this.ctxLev = ctx
 
 			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
-			this.dictionary = util.patchUpdate(globalDictionary, { translate: localDictionary }, this.i18nArgs, this).translate
+			this.dictionary = util.patchUpdate(globalDictionary.translate, localDictionary, this.i18nArgs, this)
 		},
 
 		translatePattern (pattern) {

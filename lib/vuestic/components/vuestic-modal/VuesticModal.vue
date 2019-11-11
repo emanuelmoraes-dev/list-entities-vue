@@ -7,10 +7,14 @@
             <div class="modal-dialog" :class="modalClass">
               <div class="modal-content">
                 <!--Header-->
-                <div class="modal-header">
+                <div v-if="headerText || $slots.title" class="modal-header">
                   <slot name="header">
                     <div class="modal-title">
-                      <slot name="title"></slot>
+                      <slot name="title">
+                        <span v-if="headerText">
+                          {{ headerText }}
+                        </span>
+                      </slot>
                     </div>
 
                     <i
@@ -52,6 +56,10 @@
 export default {
   name: 'vuestic-modal',
   props: {
+    headerText: {
+      type: String,
+      default: ''
+    },
     transition: {
       type: String,
       default: 'modal',

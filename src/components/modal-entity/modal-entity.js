@@ -40,8 +40,7 @@ export default {
 			this.ctxLev = ctx
 
 			let globalDictionary = util.getResultDictionary(this.i18nArgs, this, ctx.lang, ctx.dictionaries)
-			globalDictionary = globalDictionary.translate
-			this.dictionary = util.patchUpdate(globalDictionary, localDictionary, this.i18nArgs, this)
+			this.dictionary = util.patchUpdate(globalDictionary.translate, localDictionary, this.i18nArgs, this)
 		},
 
 		/**
@@ -94,6 +93,10 @@ export default {
 
 	watch: {
 		'ctxLev.lang' () {
+			this.loadDictionary()
+		},
+
+		localDictionary () {
 			this.loadDictionary()
 		},
 

@@ -5,6 +5,7 @@
         ref="modal"
 				cancelClass="none"
 
+				:headerText="dictionary.titleModalEntity"
         :show.sync="show"
 				:small="small"
 				:force="force"
@@ -13,7 +14,6 @@
 
 				@ok="() => $emit('ok')"
 			> <!-- componente de modal do vuestic  -->
-				<div slot="title">{{ dictionary.titleModalEntity }}</div> <!-- título do modal -->
         <div class="content">
           <div
             v-for="(property, index) of Object.keys(descriptorEntity)"
