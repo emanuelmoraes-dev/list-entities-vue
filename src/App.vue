@@ -2017,7 +2017,7 @@ const textRequest = `{
 
 	/** NOT used by list-entities. Returns a list of movies on the correct page */
 	_paginate (movies, page, pageSize) {
-		return movies.slice((page - 1) * pageSize, (page - 1) * pageSize + (pageSize-1))
+		return movies.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize)
 	},
 
 	/** NOT used by list-entities. Search for movies that match user filters */
