@@ -1006,7 +1006,7 @@ Vue.use(BootstrapVue)
 										<td>NO</td>
 										<td>Number</td>
 										<td></td>
-										<td>changes the default order of attributes that will be displayed in the table (of 1)</td>
+										<td>changes the default order of attributes that will be displayed in the table (if not set, "displayAttrOrder" is the position on the object plus 1) </td>
 									</tr>
 									<tr>
 										<td>defaultLastAttr</td>
@@ -1047,7 +1047,7 @@ Vue.use(BootstrapVue)
 										<td>NO</td>
 										<td>Number</td>
 										<td></td>
-										<td>changes the default order of attributes that will be displayed for filtering (from 1)</td>
+										<td>changes the default order of attributes that will be displayed for filtering (if not set, "optionSearchOrder" is the position in the object plus 1)</td>
 									</tr>
 									<tr>
 										<td>disableSort</td>
