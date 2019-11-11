@@ -18,7 +18,7 @@ export function getResultDictionary (i18nArgs, ctx, lang, dictionaries, index = 
 	if (dict.use && !dict.use(i18nArgs, ctx))
 		return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index + 1, dictionary)
 
-	patchUpdate(dictionary, dict, i18nArgs, ctx)
+	patchUpdate(dictionary.translate, dict.translate, i18nArgs, ctx)
 
 	return getResultDictionary(i18nArgs, ctx, lang, dictionaries, index + 1, dictionary)
 }

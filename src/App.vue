@@ -2578,6 +2578,7 @@ export default {
 
 		compileGlobalDictionaries () {
 			this.textLocalDictionary = '{}'
+			this.compile('localDictionary')
 			eval(`(() => {${this.textGlobalDictionaries}})()`)
 		},
 
