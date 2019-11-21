@@ -381,7 +381,7 @@
 							<div class="form-group">
 								<label for="txt-text-definitions">definitions:</label>
 								( For more details about this property click <a href="#definitions">here</a> )
-								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="39"></textarea>
+								<textarea v-model="textDefinitions" class="form-control" id="txt-text-definitions" rows="40"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('definitions')">Compile</button>
 								</a>
@@ -569,7 +569,7 @@
 						<div class="col">
 							<div class="form-group">
 								<label for="txt-text-request">request:</label>
-								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="200"></textarea>
+								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="212"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('request')">Compile</button>
 								</a>
@@ -1806,6 +1806,7 @@ const textDefinitions = `this.$lev.def({
 		type: String,
 		array: true,
 		searchSepOr: /\\s*\\|\\s*/,
+		searchSepAnd: /\\s*&\\s*/,
 		optionSearch: 'genres',
 		displayModal: 'genres',
 		headerText: 'genres',
@@ -1968,7 +1969,7 @@ const textRequest = `{
 	async searchAttr (page, pageSize, sort, inputSearch, paramsRequest, params) {
 		params = params.slice()
 		params.push.apply(params, paramsRequest)
-		let movies = this._filter(this._movies, params)
+		let movies = this._filter(this._movies, params, inputSearch)
 		this._orderBy(movies, sort)
 		movies = this._paginate(movies, page, pageSize)
 		return {
@@ -1979,8 +1980,8 @@ const textRequest = `{
 
 	/** used by list-entities. Returns filtered entities based on all attributes */
 	async searchDefault (page, pageSize, sort, inputSearch, paramsRequest, params) {
-		let movies = this._filter(this._movies, paramsRequest)
-		movies = this._filterOr(movies, params)
+		let movies = this._filter(this._movies, paramsRequest, inputSearch)
+		movies = this._filterOr(movies, params, inputSearch)
 		this._orderBy(movies, sort)
 		movies = this._paginate(movies, page, pageSize)
 		return {
@@ -2021,25 +2022,25 @@ const textRequest = `{
 	},
 
 	/** NOT used by list-entities. Search for movies that match user filters */
-	_filter (movies, params) {
-		return movies.filter(movie => this._movieVerify(movie, params))
+	_filter (movies, params, inputSearch) {
+		return movies.filter(movie => this._movieVerify(movie, params, inputSearch))
 	},
 
 	/** NOT used by list-entities. Search for movies that match any of the filters */
-	_filterOr (movies, params) {
-		return movies.filter(movie => this._movieVerifyOr(movie, params))
+	_filterOr (movies, params, inputSearch) {
+		return movies.filter(movie => this._movieVerifyOr(movie, params, inputSearch))
 	},
 
 	/** NOT used by list-entities. Returns true if the movie matches any of the filters */
-	_movieVerifyOr (movie, params) {
+	_movieVerifyOr (movie, params, inputSearch) {
 		return params.reduce((valid, and) => {
 			if (valid) return true
-			return this._movieVerify(movie, and)
+			return this._movieVerify(movie, and, inputSearch)
 		}, false)
 	},
 
 	/** NOT used by list-entities. Returns true if the movie matches the filters provided */
-	_movieVerify (movie, params) {
+	_movieVerify (movie, params, inputSearch) {
 		return params.reduce((valid, param) => {
 			if (!valid)
 				return false
@@ -2054,12 +2055,12 @@ const textRequest = `{
 			else
 				attrValue = movie[param.attr]
 
-			if (param.descriptor.searchSepAnd) {
+			if (param.descriptor.searchSepAnd && inputSearch.match(param.descriptor.searchSepAnd)) {
 				let values = param.value.split(param.descriptor.searchSepAnd)
 					.map(value => this._verify(attrValue, param.operator, value))
 
 				return values.reduce((p, valid) => p && valid, true)
-			} else if (param.descriptor.searchSepOr) {
+			} else if (param.descriptor.searchSepOr && inputSearch.match(param.descriptor.searchSepOr)) {
 				let values = param.value.split(param.descriptor.searchSepOr)
 					.map(value => this._verify(attrValue, param.operator, value))
 
@@ -2072,9 +2073,18 @@ const textRequest = `{
 
 	/** NOT used by list-entities. Performs a logical comparison between two values through an operator */
 	_verify (value1, operator, value2) {
-		if (value1 instanceof Array)
+		if (value1 instanceof Array) {
+			let cmp = (p, n) => p || n
+			let initc = false
+
+			if (operator.startsWith('$n')) {
+				cmp = (p, n) => p && n
+				initc = true
+			}
+
 			return value1.map(v => this._verify(v, operator, value2))
-				.reduce((p, n) => p || n, false)
+				.reduce((p, n) => cmp(p, n), initc)
+		}
 
 		if (value1 instanceof Date)
 			value1 = value1.getTime()
