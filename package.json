@@ -13,7 +13,7 @@
     "component",
     "API"
   ],
-  "version": "2.0.12",
+  "version": "2.0.13",
   "main": "index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
