@@ -1243,6 +1243,11 @@ Vue.use(BootstrapVue)
 										<td>this event issues the list of entities when there are changes to the entities. (Note: When there are more attributes to search than attributes to display, the last attribute changes when selecting to search for an attribute not displayed. The value of this attribute is stored in the property "__lastAttrValue")</td>
 									</tr>
 									<tr>
+										<td>on_click</td>
+										<td>(entity, index)</td>
+										<td>this event issues the entity and its position in the listing when the user clicks a table row.</td>
+									</tr>
+									<tr>
 										<td>on_change_sort</td>
 										<td>(sort)</td>
 										<td>this event issues the attribute in which the listing will be sorted, preceded by '+' (ascending) or '-' (descending), if the sorting is changed</td>
@@ -1256,6 +1261,11 @@ Vue.use(BootstrapVue)
 										<td>on_remove</td>
 										<td>(entity, index)</td>
 										<td>this event issues the entity and its position in the listing when the DELETE option is clicked</td>
+									</tr>
+									<tr>
+										<td>on_report</td>
+										<td>(entity, index)</td>
+										<td>this event issues the entity and its position in the listing when the REPORT option is clicked</td>
 									</tr>
 									<tr>
 										<td>on_search</td>
