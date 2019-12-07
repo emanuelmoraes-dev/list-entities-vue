@@ -10,11 +10,11 @@
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
 						class="primary"
           >
-						<div class="search-content">
-							<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
-								<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
-							</div> <!-- end v-if -->
+						<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
+						</div> <!-- end v-if -->
 
+						<div class="search-content">
 							<slot name="beforeSearch"></slot>
 
 							<div v-show="!hideSearch">
@@ -78,11 +78,10 @@
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
 									<component :is="componentShowTable" :headerText="dictionary.titleTable" class="secundary">
+										<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
+											<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
+										</div> <!-- end v-if -->
 										<div class="entities-content">
-											<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
-												<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
-											</div> <!-- end v-if -->
-
 											<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
 
 											<div class="table-responsive">
@@ -230,8 +229,8 @@
 					:i18nArgs="i18nArgsModal"
 					:localDictionary="localDictionaryModal || dictionary"
 				>
-					<template v-for="slotName of modalSlots">
-						<div :key="slotName" :slot="slotName" slot-scope="{ property, index, descriptorValue }">
+					<template v-for="slotName of modalSlots" :slot="slotName" slot-scope="{ property, index, descriptorValue }">
+						<div :key="slotName">
 							<slot :name="`modal_${slotName}`" :property="property" :index="index" :descriptorValue="descriptorValue"></slot>
 						</div>
 					</template>
