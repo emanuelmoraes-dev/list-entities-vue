@@ -10,9 +10,9 @@
             :headerText="isCompact ? dictionary.titleTable : dictionary.titleSearch"
 						class="primary"
           >
-						<div v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
+						<template v-if="(isCompact ? $slots.titleTable : $slots.titleSearch) && !hideSearch" slot="headerText"> <!-- se o usuário passar o primeiro título em forma de slot -->
 							<slot :name="isCompact ? 'titleTable' : 'titleSearch'"></slot> <!-- exibe o slot responsável por exibir o primeiro título -->
-						</div> <!-- end v-if -->
+						</template> <!-- end v-if -->
 
 						<div class="search-content">
 							<slot name="beforeSearch"></slot>
@@ -69,7 +69,7 @@
 							<slot name="afterSearch"></slot>
 						</div> <!-- end class search-content -->
 
-						<div slot="secundary">
+						<template slot="secundary">
 							<!--
 								slot usado para passar um html a ser exibido abaixo deste widget se 'isCompact'
 								for igual a false ou dentro deste widget se 'isCompact' for true
@@ -78,9 +78,9 @@
 							<div :class="{'row': !isCompact}">
 								<div :class="{'col-xs-12 col-md-12': !isCompact}">
 									<component :is="componentShowTable" :headerText="dictionary.titleTable" class="secundary">
-										<div v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
+										<template v-if="$slots.titleTable" slot="headerText"> <!-- se o usuário passar o segundo título em forma de slot -->
 											<slot name="titleTable"></slot> <!-- exibe o slot responsável por exibir o segundo título -->
-										</div> <!-- end v-if -->
+										</template> <!-- end v-if -->
 										<div class="entities-content">
 											<slot name="beforeTable"></slot> <!-- slot chamado antes de mostrar a tabela de resultados -->
 
@@ -195,7 +195,7 @@
 									<slot name="afterTable"></slot>
 								</div> <!-- end col ? -->
 							</div> <!-- end row ? -->
-						</div> <!-- end slot secundary -->
+						</template> <!-- end slot secundary -->
           </component> <!-- end root component -->
         </div> <!-- end col -->
       </div> <!-- end row -->
@@ -203,7 +203,7 @@
 			<div class="modals">
         <vuestic-modal v-if="isShowSuccessModalRemove" :show.sync="showSuccess" :small="true" :force="false" ref="successModal" :cancelClass="'none'"
             :okText="dictionary.okTextModal">
-          <div slot="title">{{dictionary.titleSuccessModal}}</div>
+          <template slot="title">{{dictionary.titleSuccessModal}}</template>
           <div>
             {{ dictionary.removeSuccessMessage }}
           </div>
@@ -211,7 +211,7 @@
 
         <vuestic-modal :show.sync="showConfirm" :small="true" :force="false" ref="confirmModal" cancelClass="btn btn-secondary"
             :okText="dictionary.confirmTextModal" :cancelText="dictionary.cancelTextModal" @ok="onRemove">
-          <div slot="title">{{dictionary.titleConfirmModal}}</div>
+          <template slot="title">{{dictionary.titleConfirmModal}}</template>
           <div>
             {{ dictionary.removeConfirmMessage }}
           </div>
