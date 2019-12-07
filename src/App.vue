@@ -894,7 +894,7 @@ Vue.use(BootstrapVue)
         :definitions=<span class="hljs-comment">"$lev.def</span>({
             <span class="hljs-built_in">name</span>: String,
             <span class="hljs-built_in">brand</span>: String,
-            <span class="hljs-built_in">price</span>: String,
+            <span class="hljs-built_in">price</span>: Number,
             <span class="hljs-built_in">perishable</span>: Boolean,
             <span class="hljs-built_in">expiration</span>: Date
         })<span class="hljs-comment">"</span>
