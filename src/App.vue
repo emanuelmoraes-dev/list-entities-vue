@@ -568,7 +568,7 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group">
-								<label for="txt-text-request">request:</label>
+								<label for="txt-text-request">request: (This implementation is available in the "local-request-list-entities-vue" package)</label>
 								<textarea v-model="textRequest" class="form-control" id="txt-text-request" rows="212"></textarea>
 								<a href="#list-entities">
 									<button type="button" class="btn btn-primary btn-compile" @click="compile('request')">Compile</button>
@@ -1245,7 +1245,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>on_click</td>
 										<td>(entity, index)</td>
-										<td>this event issues the entity and its position in the listing when the user clicks a table row.</td>
+										<td>this event issues the entity and its position in the listing when the user clicks a table row</td>
 									</tr>
 									<tr>
 										<td>on_change_sort</td>
