@@ -198,8 +198,6 @@ export default {
 				if (entity.__lastAttrValue instanceof Array)
 					entity.__lastAttrValue = util.extractValuesByArray(entity.__lastAttrValue)
 			}
-
-			this.$emit('input', entities)
 		},
 
 		/** transcreve em 'descriptorEntity' o 'definitions.descriptor' para estar pronto para o uso */
