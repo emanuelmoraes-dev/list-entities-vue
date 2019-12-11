@@ -143,13 +143,13 @@ export default {
 		 * @param {string} falseStr - valor textual que representa o valor booleano false
 		 * @returns {any}
 		 */
-		parseValue (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern, joinSep) {
+		parseValue (value, entity, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern, joinSep) {
 			if (value === undefined || value === null) {
 				return ''
 			}
 
 			if (!descriptorValue.array && descriptorValue.adapter) {
-				value = descriptorValue.adapter(value)
+				value = descriptorValue.adapter(value, entity)
 			} else if (descriptorValue.numberAdapter && typeof descriptorValue.fixed === 'number') {
 				value = parseFloat(value) && parseFloat(value).toFixed(descriptorValue.fixed) || value
 			} else if (descriptorValue.numberAdapter) {
@@ -159,7 +159,7 @@ export default {
 			if (descriptorValue.array) {
 				if (descriptorValue.adapter) {
 					return value
-						.map(descriptorValue.adapter)
+						.map(v => descriptorValue.adapter(v, entity))
 						.join(descriptorValue.joinSep ? descriptorValue.joinSep : joinSep)
 				} else {
 					return value.map(v => {
@@ -204,12 +204,12 @@ export default {
 		 * @param {Object} descriptorValue - 'descriptor' para os valores do array desta propriedade
 		 * @returns {any}
 		 */
-		parseItem (value, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
+		parseItem (value, entity, descriptorValue, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (value === undefined || value === null) {
 				return ''
 			}
 			if (typeof descriptorValue.adapter === 'function') {
-				return descriptorValue.adapter(value)
+				return descriptorValue.adapter(value, entity)
 			} else {
 				if (descriptorValue.type === Date)
 					return dateUtility.dateToStr(

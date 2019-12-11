@@ -762,16 +762,17 @@ export default {
 		/**
 		 * prepara valor para ser exibido em uma célula da tabela
 		 * @param {any} value - valor para ser exibido em uma célula da tabela
+		 * @param {object} entity - entidade na qual seu valor está sendo exibido
 		 * @param {string} attr - atributo usado para acessar essa propriedade na entidade
 		 * @param {Object} descriptor - objeto contendo a descrição dos atributos da entidade
 		 * @param {string} joinSep - string usada para unir os  valores de um array (se for o caso)
 		 * @returns {any}
 		 */
-		parseAttr (value, attr, descriptor, joinSep, trueStr, falseStr, translatePattern, defaultPattern) {
+		parseAttr (value, entity, attr, descriptor, joinSep, trueStr, falseStr, translatePattern, defaultPattern) {
 			if (!attr) return value
 
 			if (!descriptor[attr.value].array && descriptor[attr.value].adapter) {
-				value = descriptor[attr.value].adapter(value)
+				value = descriptor[attr.value].adapter(value, entity)
 			} else if (!descriptor[attr.value].array && descriptor[attr.value].numberAdapter && typeof descriptor[attr.value].fixed === 'number') {
 				value = parseFloat(value) && parseFloat(value).toFixed(descriptor[attr.value].fixed) || value
 			} else if (!descriptor[attr.value].array && descriptor[attr.value].numberAdapter) {
@@ -780,7 +781,7 @@ export default {
 
 			if (descriptor[attr.value].array) {
 				if (descriptor[attr.value].adapter)
-					value = value.map(descriptor[attr.value].adapter)
+					value = value.map(v => descriptor[attr.value].adapter(v, entity))
 				else if (descriptor[attr.value].type === Date)
 					value = value.map(v => {
 						return dateUtility.dateToStr(

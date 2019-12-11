@@ -33,12 +33,12 @@
 											v-for="(item, index) of getPropertyValue(entity, property)"
 											:key="index"
 										> <!-- percorre cada valor do array a ser exibido como valor desta propriedade -->
-											{{ item | parseItem(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }} <!-- exibe cada valor presente no array -->
+											{{ item | parseItem(entity, descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }} <!-- exibe cada valor presente no array -->
 											<br v-if="(index+1) < getPropertyValue(entity, property).length"> <!-- se o valor não for o último do array coloca-se uma quebra de linha -->
 										</span> <!-- end v-for -->
 									</span> <!-- end v-if -->
 									<span v-else> <!-- exibe de maneira genérica o valor da propriedade -->
-										{{ entity | getAttr(property) | parseValue(descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern, joinSep) }}
+										{{ entity | getAttr(property) | parseValue(entity, descriptorEntity[property], dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern, joinSep) }}
 									</span> <!-- end v-else -->
 								</div> <!-- end class property-value -->
 							</div> <!-- end class line-modal-property -->

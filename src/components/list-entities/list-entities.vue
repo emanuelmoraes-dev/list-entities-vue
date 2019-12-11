@@ -133,13 +133,13 @@
 																	v-show="!descriptorEntity[attr.value] || !descriptorEntity[attr.value].hidden"
 																> <!-- percorre os atributos que sempre serão exibidos -->
 																	<slot :name="`${attr.value}_slot`" :entity="entity" :index="index">
-																		{{ entity | getValue(attr) | parseAttr(attr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+																		{{ entity | getValue(attr) | parseAttr(entity, attr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
 																	</slot>
 																</td> <!-- end v-for displayAttrs -->
 
 																<td v-if="!hideLastAttr && definitions.defaultLastAttr">
 																	<slot :name="`${lastAttr.value}_slot`" :entity="entity" :index="index">
-																		{{ entity.__lastAttrValue | parseAttr(lastAttr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
+																		{{ entity.__lastAttrValue | parseAttr(entity, lastAttr, descriptorEntity, joinSep, dictionary.trueStr, dictionary.falseStr, (...args) => translatePattern(...args), defaultPattern) }}
 																	</slot>
 																</td>
 															</slot> <!-- end slot 'entity_line' -->

@@ -1066,7 +1066,7 @@ Vue.use(BootstrapVue)
 									<tr>
 										<td>adapter</td>
 										<td>NO</td>
-										<td>Function</td>
+										<td>Function (value, entity)</td>
 										<td></td>
 										<td>
 											<p>
