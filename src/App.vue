@@ -682,7 +682,8 @@
 				</div>
 			</div>
 
-			<div class="d-flex justify-content-end">
+			<div class="d-flex justify-content-between align-items-baseline">
+				<h1>list-entities-vue</h1>
 				<h2 id="quick-start">Quick Start</h2>
 			</div>
 
@@ -905,16 +906,18 @@ Vue.use(BootstrapVue)
 <span class="hljs-keyword">&lt;script&gt;</span>
     <span class="lang-js"><span class="hljs-title">export</span> <span class="hljs-keyword">default</span> {
         <span class="hljs-class"><span class="hljs-keyword">data</span> () {
-            <span class="hljs-title">products</span>: [
-                {
-                    <span class="hljs-title">id</span>: <span class="hljs-number">1</span>,
-                    <span class="hljs-title">name</span>: <span class="hljs-string">'Coca Cola'</span>,
-                    <span class="hljs-title">brand</span>: <span class="hljs-string">'The Coca-Cola Company'</span>,
-                    <span class="hljs-title">price</span>: <span class="hljs-number">4</span>,
-                    <span class="hljs-title">perishable</span>: <span class="hljs-keyword">false</span>,
-                    <span class="hljs-title">expiration</span>: <span class="hljs-keyword">new</span> Date(2019, 10, 18)
-                }</span>
-            ]
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-title">products</span>: [
+                    {
+                        <span class="hljs-title">id</span>: <span class="hljs-number">1</span>,
+                        <span class="hljs-title">name</span>: <span class="hljs-string">'Coca Cola'</span>,
+                        <span class="hljs-title">brand</span>: <span class="hljs-string">'The Coca-Cola Company'</span>,
+                        <span class="hljs-title">price</span>: <span class="hljs-number">4</span>,
+                        <span class="hljs-title">perishable</span>: <span class="hljs-keyword">false</span>,
+                        <span class="hljs-title">expiration</span>: <span class="hljs-keyword">new</span> Date(2019, 10, 18)
+                    }</span>
+                ]
+            }
         }
     }
 </span><span class="hljs-keyword">&lt;/script&gt;</span>
@@ -956,6 +959,10 @@ Vue.use(BootstrapVue)
 								object, it is the same as creating an object that has only the "type" option, having the
 								given function as its value. The options available for a specific attribute will be shown
 								below:
+							</p>
+							<p>
+								note: if there is an '__classLine' attribute on the entity, this attribute will be defined as
+								the CSS class that will wrap the table's entity row
 							</p>
 						</div>
 					</div>

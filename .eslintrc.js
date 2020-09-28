@@ -8,7 +8,8 @@ module.exports = {
 		'@vue/standard'
 	],
 	rules: {
-		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+		'no-console': 'off',
+		// 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'strict': process.env.NODE_ENV === 'production' ? 'off' : 'error', // com strict mode
 		'quotes': process.env.NODE_ENV === 'production' ? 'off' : ['error', 'single', { avoidEscape: true }], // com aspas simples
@@ -25,7 +26,9 @@ module.exports = {
 		'no-mixed-spaces-and-tabs': 'off', // permite que espaços e tabulações sejam misturados
 		'no-irregular-whitespace': 'off', // permite que qualquer tipo de espaço em branco ocorra em conjunto com outros
 		'no-eval': 'off', // permite a utilização do eval
-		'no-useless-escape': 'off'
+		'no-useless-escape': 'off',
+
+		'vue/custom-event-name-casing': 'off' // permite a emição de eventos sem o padrão kebab-case
 	},
 	parserOptions: {
 		parser: 'babel-eslint'
