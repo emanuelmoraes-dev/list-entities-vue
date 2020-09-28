@@ -608,6 +608,11 @@ export default {
 			this.search(false) // busca-se na página atual
 		},
 
+		// ao mudar o tamanho da página, busca-se novamente
+		pageSize () {
+			this.search(false) // busca-se na página atual
+		},
+
 		/** Ao mudar paramsRequest busca-se novamente */
 		paramsRequest () {
 			this.search(false) // busca-se na página atual
