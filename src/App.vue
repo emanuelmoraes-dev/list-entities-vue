@@ -810,6 +810,14 @@ Vue.use(BootstrapVue)
 										<td>pt</td>
 										<td>Portuguese language dictionary used by DEFAULT to define the global Portuguese language dictionary</td>
 									</tr>
+									<tr>
+										<td>VuesticModal</td>
+										<td>Modal component of Vuestic Admin version 1.x</td>
+									</tr>
+									<tr>
+										<td>VuesticWidget</td>
+										<td>Widget component of Vuestic Admin version 1.x</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
