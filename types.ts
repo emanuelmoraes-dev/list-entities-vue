@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { ExtendedVue } from 'vue/types/vue'
-import { PluginFunction } from 'vue'
 
 declare type VueComponent = ExtendedVue<Vue, any, any, any, any>
 
@@ -122,16 +121,10 @@ declare interface LEVPluginOptions {
 	lang?: string;
 }
 
-declare class LEVPlugin {
-	static install: PluginFunction<LEVPluginOptions>;
+declare class LEVInvalidDateFormatError extends Error {
+	constructor (inputSearch: string, message: string);
+	inputSearch: string;
 }
-
-declare class InvalidDateFormatError extends Error { }
-
-declare type ListEntities = VueComponent
-declare type ModalEntity = VueComponent
-declare type VuesticModal = VueComponent
-declare type VuesticWidget = VueComponent
 
 declare interface LEVCtx {
 	def: LEVDef;
@@ -139,15 +132,12 @@ declare interface LEVCtx {
 	lang: string;
 }
 
-export default LEVPlugin
 export {
-	ListEntities,
-	ModalEntity,
+	LEVPluginOptions,
+	VueComponent,
 	LEVDef,
 	LEVDictionaries,
-	InvalidDateFormatError,
+	LEVInvalidDateFormatError,
 	LEVDictionary,
-	VuesticModal,
-	VuesticWidget,
 	LEVCtx
 }

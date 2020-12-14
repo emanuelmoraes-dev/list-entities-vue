@@ -1,12 +1,11 @@
-import LEVPlugin, {
-	ListEntities,
-	ModalEntity,
+import { PluginFunction } from 'vue'
+import {
+	LEVPluginOptions,
+	VueComponent,
 	LEVDef,
 	LEVDictionaries,
-	InvalidDateFormatError,
-	LEVDictionary,
-	VuesticModal,
-	VuesticWidget
+	LEVInvalidDateFormatError,
+	LEVDictionary
 } from './types'
 
 declare module 'vue/types/vue' {
@@ -15,15 +14,20 @@ declare module 'vue/types/vue' {
 	}
 }
 
+declare class LEVPlugin {
+	static install: PluginFunction<LEVPluginOptions>;
+}
+
+export let ListEntities: VueComponent
+export let ModalEntity: VueComponent
+export let VuesticModal: VueComponent
+export let VuesticWidget: VueComponent
+export let def: LEVDef
+export let dictionaries: LEVDictionaries
+export let en: LEVDictionary
+export let pt: LEVDictionary
+
 export default LEVPlugin
 export {
-	ListEntities,
-	ModalEntity,
-	LEVDef as def,
-	LEVDictionaries as dictionaries,
-	InvalidDateFormatError,
-	LEVDictionary as en,
-	LEVDictionary as pt,
-	VuesticModal,
-	VuesticWidget
+	LEVInvalidDateFormatError as InvalidDateFormatError,
 }
