@@ -121,7 +121,7 @@ declare interface LEVPluginOptions {
 	lang?: string;
 }
 
-declare class LEVInvalidDateFormatError extends Error {
+declare class InvalidDateFormatError extends Error {
 	constructor (inputSearch: string, message: string);
 	inputSearch: string;
 }
@@ -137,7 +137,7 @@ export {
 	VueComponent,
 	LEVDef,
 	LEVDictionaries,
-	LEVInvalidDateFormatError,
+	InvalidDateFormatError,
 	LEVDictionary,
 	LEVCtx
 }

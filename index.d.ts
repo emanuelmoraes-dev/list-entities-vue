@@ -4,7 +4,7 @@ import {
 	VueComponent,
 	LEVDef,
 	LEVDictionaries,
-	LEVInvalidDateFormatError,
+	InvalidDateFormatError,
 	LEVDictionary
 } from './types'
 
@@ -26,8 +26,6 @@ export let def: LEVDef
 export let dictionaries: LEVDictionaries
 export let en: LEVDictionary
 export let pt: LEVDictionary
+export { InvalidDateFormatError }
 
 export default LEVPlugin
-export {
-	LEVInvalidDateFormatError as InvalidDateFormatError,
-}
