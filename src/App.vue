@@ -765,6 +765,30 @@ Vue.use(BootstrapVue)
 
 			<div class="card props">
 				<div class="card-header">
+					Defining
+					<span :style="{ color: 'blue' }"> $lev </span>
+					in the Vue instance for TypeScript (
+						<span :style="{ color: 'red' }">.d.ts</span>
+					)
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+<pre><code class="lang-js"><div><span class="hljs-keyword">import</span> { LEVCtx } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;list-entities-vue/types&#x27;</span>
+
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">module</span> &#x27;vue/types/vue&#x27; {
+	<span class="hljs-keyword">interface</span> Vue {
+		$lev: LEVCtx;
+	}
+}
+</div></code></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card props">
+				<div class="card-header">
 					<span :style="{ color: 'blue' }">exported</span> by list-entities-vue
 				</div>
 				<div class="card-body">
@@ -912,7 +936,7 @@ Vue.use(BootstrapVue)
 <span class="hljs-keyword">&lt;/template&gt;</span>
 
 <span class="hljs-keyword">&lt;script&gt;</span>
-    <span class="lang-js"><span class="hljs-title">export</span> <span class="hljs-keyword">default</span> {
+    <span class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
         <span class="hljs-class"><span class="hljs-keyword">data</span> () {
             <span class="hljs-keyword">return</span> {
                 <span class="hljs-title">products</span>: [
@@ -2798,11 +2822,11 @@ export default {
 }
 
 #app .lang-sh .hljs-program {
-	color: rgb(179, 156, 28);
+	color: rgb(93, 28, 153);
 }
 
 #app .lang-sh .hljs-named_args {
-	color: rgb(75, 71, 71);
+	color: rgb(57, 134, 57);
 }
 
 #app .lang-sh .hljs-built_in {
