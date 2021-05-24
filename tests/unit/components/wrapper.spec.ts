@@ -119,7 +119,7 @@ describe('components/wrapper', () => {
 		expectClassNotVisible(component, '.lev-echo')
 	})
 
-	it('only render "text content" on div.lev-echo when default slot is "text content" and useCard is false', () => {
+	it('only render "text content" on .lev-echo when default slot is "text content" and useCard is false', () => {
 		let component = mount(Wrapper, {
 			slots: {
 				default: 'text content'
@@ -129,7 +129,7 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expectClassContain(component, 'div.lev-echo', 'text content')
+		expectClassContain(component, '.lev-echo', 'text content')
 		expectClassNotVisible(component, '.wrapper-custom-card')
 		expectClassNotVisible(component, '.lev-card')
 
@@ -143,7 +143,7 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expectClassContain(component, 'div.lev-echo', 'text content')
+		expectClassContain(component, '.lev-echo', 'text content')
 		expectClassNotVisible(component, '.wrapper-custom-card')
 		expectClassNotVisible(component, '.lev-card')
 
@@ -160,24 +160,7 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expectClassContain(component, 'div.lev-echo', 'text content')
-		expectClassNotVisible(component, '.wrapper-custom-card')
-		expectClassNotVisible(component, '.lev-card')
-	})
-
-	it('only render "text content" on span.lev-echo when default slot is "text content" and useCard is false and echoWrapper is "span"', () => {
-		let component = mount(Wrapper, {
-			slots: {
-				default: 'text content'
-			},
-			props: {
-				useCard: false,
-				echoWrapper: 'span'
-			}
-		})
-
-		expectClassContain(component, 'span.lev-echo', 'text content')
-		expectClassNotVisible(component, 'div.lev-echo')
+		expectClassContain(component, '.lev-echo', 'text content')
 		expectClassNotVisible(component, '.wrapper-custom-card')
 		expectClassNotVisible(component, '.lev-card')
 	})

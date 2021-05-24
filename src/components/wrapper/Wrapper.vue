@@ -8,7 +8,7 @@
 			<slot></slot>
 		</card>
 
-		<echo v-else class="wrapper-content" :wrapper="echoWrapper">
+		<echo v-else class="wrapper-content">
 			<slot></slot>
 		</echo>
 	</div>
@@ -30,10 +30,6 @@ export default defineComponent({
 		customCardName: {
 			type: String,
 			default: null
-		},
-		echoWrapper: {
-			type: String,
-			default: 'div'
 		}
 	},
 
