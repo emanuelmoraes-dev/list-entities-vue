@@ -14,9 +14,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-  @import url('../../styles/common');
+@import url('../../styles/common');
 
-  .lev-list-entities {
-    .default-fonts();
-  }
+.lev-list-entities {
+	.default-fonts();
+}
 </style>
