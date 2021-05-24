@@ -7,9 +7,9 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-  @import url('../styles/common');
+@import url('../styles/common');
 
-  #doc {
-    .default-fonts();
-  }
+#doc {
+	.default-fonts();
+}
 </style>
