@@ -1,14 +1,14 @@
 <template>
 	<div class="lev-wrapper">
-		<component v-if="useCard && customCardName !== null" :is="customCardName" class="content custom-card">
+		<component v-if="useCard && customCardName !== null" :is="customCardName" class="wrapper-content wrapper-custom-card">
 			<slot></slot>
 		</component>
 
-		<card v-else-if="useCard" class="content">
+		<card v-else-if="useCard" class="wrapper-content">
 			<slot></slot>
 		</card>
 
-		<echo v-else class="content" :wrapper="echoWrapper">
+		<echo v-else class="wrapper-content" :wrapper="echoWrapper">
 			<slot></slot>
 		</echo>
 	</div>
