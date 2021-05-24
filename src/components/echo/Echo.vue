@@ -1,17 +1,8 @@
 <script lang="ts">
 import { FunctionalComponent, h } from '@vue/runtime-core'
 
-type Props = { wrapper: string }
-
-const Echo: FunctionalComponent<Props> = (props, context) =>
-	h(props.wrapper, { class: 'lev-echo' }, context.slots)
-
-Echo.props = {
-	wrapper: {
-		type: String,
-		default: 'div'
-	}
-}
+const Echo: FunctionalComponent = (props, context) =>
+	h('div', { class: 'lev-echo' }, context.slots)
 
 export default Echo
 </script>
