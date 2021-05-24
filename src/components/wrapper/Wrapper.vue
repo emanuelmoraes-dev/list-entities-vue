@@ -2,15 +2,20 @@
 	<div class="lev-wrapper">
 		<component v-if="useCard && customCardName !== null" :is="customCardName" class="wrapper-content wrapper-custom-card">
 			<slot></slot>
+			<slot name="in"></slot>
 		</component>
 
 		<card v-else-if="useCard" class="wrapper-content">
 			<slot></slot>
+			<slot name="in"></slot>
 		</card>
 
 		<echo v-else class="wrapper-content">
 			<slot></slot>
+			<slot name="in"></slot>
 		</echo>
+
+		<slot name="out"></slot>
 	</div>
 </template>
 
