@@ -1,12 +1,34 @@
 {
   "name": "list-entities-vue",
-  "version": "0.1.0",
-  "private": true,
+  "description": "Generic components in Vue JS to view and list entities",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
+  },
+  "readmeFilename": "README.md",
+  "version": "3.0.0",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "list-entities",
+    "list",
+    "table",
+    "entities",
+    "vue",
+    "vuejs",
+    "modal",
+    "component",
+    "API"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emanuelmoraes-dev/list-entities-vue.git"
+  },
+  "author": {
+    "name": "Emanuel Moraes",
+    "email": "emanuelmoraes297@gmail.com"
   },
   "dependencies": {
     "core-js": "^3.6.5",
