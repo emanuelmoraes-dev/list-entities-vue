@@ -36,7 +36,8 @@ module.exports = {
 		// TypeScript
 		'@typescript-eslint/no-unused-vars': ['error', { args: 'none' }], // variáveis declaradas precisam necessariamente ser usadas, exceto argumentos de funções
 		'@typescript-eslint/no-explicit-any': 'off', // permite o uso do any
-		'@typescript-eslint/interface-name-prefix': 'off' // permite que interfaces comecem com I
+		'@typescript-eslint/interface-name-prefix': 'off', // permite que interfaces comecem com I
+		'@typescript-eslint/explicit-module-boundary-types': 'off' // permite que funções exportadas não tenham retorno explicito declarado
 	},
 	overrides: [
 		{
