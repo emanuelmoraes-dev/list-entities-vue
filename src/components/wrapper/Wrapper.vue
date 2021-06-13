@@ -1,11 +1,11 @@
 <template>
 	<div class="lev-wrapper">
-		<component v-if="useCard && customCardName !== null" :is="customCardName" class="wrapper-content wrapper-custom-card">
+		<component v-bind="bindCardArgs" v-if="useCard && customCardName !== null" :is="customCardName" class="wrapper-content wrapper-custom-card">
 			<slot></slot>
 			<slot name="in"></slot>
 		</component>
 
-		<el-card v-else-if="useCard" class="wrapper-content">
+		<el-card v-bind="bindCardArgs" v-else-if="useCard" class="wrapper-content">
 			<slot></slot>
 			<slot name="in"></slot>
 		</el-card>
@@ -35,6 +35,10 @@ export default defineComponent({
 		customCardName: {
 			type: String,
 			default: null
+		},
+		bindCardArgs: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 
