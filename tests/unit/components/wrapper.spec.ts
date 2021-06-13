@@ -15,19 +15,19 @@ describe('components/wrapper', () => {
 		expect(component.findAll('.lev-wrapper').length).toBe(1)
 	})
 
-	it('only render "text content" on .wrapper-content.lev-card when default slot is "text content" and no property is passed', () => {
+	it('only render "text content" on .wrapper-content.el-card when default slot is "text content" and no property is passed', () => {
 		const component = mount(Wrapper, {
 			slots: {
 				default: 'text content'
 			}
 		})
 
-		expect(component.find('.wrapper-content.lev-card').text()).toContain('text content')
+		expect(component.find('.wrapper-content.el-card').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
 
-	it('only render "text content" on .wrapper-content.lev-card when default slot is "text content" and useCard is true', () => {
+	it('only render "text content" on .wrapper-content.el-card when default slot is "text content" and useCard is true', () => {
 		const component = mount(Wrapper, {
 			slots: {
 				default: 'text content'
@@ -37,12 +37,12 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expect(component.find('.wrapper-content.lev-card').text()).toContain('text content')
+		expect(component.find('.wrapper-content.el-card').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
 
-	it('only render "text content" on .wrapper-content.lev-card when default slot is "text content" and customCardName is null', () => {
+	it('only render "text content" on .wrapper-content.el-card when default slot is "text content" and customCardName is null', () => {
 		const component = mount(Wrapper, {
 			slots: {
 				default: 'text content'
@@ -52,12 +52,12 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expect(component.find('.wrapper-content.lev-card').text()).toContain('text content')
+		expect(component.find('.wrapper-content.el-card').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
 
-	it('only render "text content" on .wrapper-content.lev-card when default slot is "text content" and useCard is true and customCardName is null', () => {
+	it('only render "text content" on .wrapper-content.el-card when default slot is "text content" and useCard is true and customCardName is null', () => {
 		const component = mount(Wrapper, {
 			slots: {
 				default: 'text content'
@@ -68,7 +68,7 @@ describe('components/wrapper', () => {
 			}
 		})
 
-		expect(component.find('.wrapper-content.lev-card').text()).toContain('text content')
+		expect(component.find('.wrapper-content.el-card').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
@@ -87,7 +87,7 @@ describe('components/wrapper', () => {
 		})
 
 		expect(component.find('.wrapper-content.wrapper-custom-card.test-card').text()).toContain('text content')
-		expect(isVisibleClass(component, '.lev-card')).toBe(false)
+		expect(isVisibleClass(component, '.el-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
 
@@ -106,7 +106,7 @@ describe('components/wrapper', () => {
 		})
 
 		expect(component.find('.wrapper-content.wrapper-custom-card.test-card').text()).toContain('text content')
-		expect(isVisibleClass(component, '.lev-card')).toBe(false)
+		expect(isVisibleClass(component, '.el-card')).toBe(false)
 		expect(isVisibleClass(component, '.lev-echo')).toBe(false)
 	})
 
@@ -122,7 +122,7 @@ describe('components/wrapper', () => {
 
 		expect(component.find('.wrapper-content.lev-echo').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
-		expect(isVisibleClass(component, '.lev-card')).toBe(false)
+		expect(isVisibleClass(component, '.el-card')).toBe(false)
 
 		component = mount(Wrapper, {
 			slots: {
@@ -136,7 +136,7 @@ describe('components/wrapper', () => {
 
 		expect(component.find('.wrapper-content.lev-echo').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
-		expect(isVisibleClass(component, '.lev-card')).toBe(false)
+		expect(isVisibleClass(component, '.el-card')).toBe(false)
 
 		component = mount(Wrapper, {
 			slots: {
@@ -153,17 +153,17 @@ describe('components/wrapper', () => {
 
 		expect(component.find('.wrapper-content.lev-echo').text()).toContain('text content')
 		expect(isVisibleClass(component, '.wrapper-custom-card')).toBe(false)
-		expect(isVisibleClass(component, '.lev-card')).toBe(false)
+		expect(isVisibleClass(component, '.el-card')).toBe(false)
 	})
 
-	it('render "text content" on `.wrapper-content.lev-card .test-card` when `in slot` is TestCard which `default slot` equals "text content"', () => {
+	it('render "text content" on `.wrapper-content.el-card .test-card` when `in slot` is TestCard which `default slot` equals "text content"', () => {
 		const component = mount(Wrapper, {
 			slots: {
 				in: () => h(TestCard, {}, () => 'text content')
 			}
 		})
 
-		expect(component.find('.wrapper-content.lev-card .test-card').text()).toContain('text content')
+		expect(component.find('.wrapper-content.el-card .test-card').text()).toContain('text content')
 	})
 
 	it('cannot be have `.lev-wrapper > .test-card` when customCardName is null and `in slot` is TestCard', () => {

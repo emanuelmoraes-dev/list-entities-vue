@@ -1,12 +1,15 @@
 <template>
-  <div class="lev-list-entities">
-  </div>
+	<wrapper class="lev-list-entities">
+	</wrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Wrapper from '@/components/wrapper/Wrapper.vue'
 
 export default defineComponent({
+	components: { Wrapper },
+
 	setup () {
 		return {}
 	}
