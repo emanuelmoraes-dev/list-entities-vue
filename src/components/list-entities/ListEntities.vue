@@ -16,7 +16,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped> // local style
 @import url('../../styles/common');
 
 .lev-list-entities {
