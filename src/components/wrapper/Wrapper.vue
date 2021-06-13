@@ -6,8 +6,6 @@
 			<template v-for="slot of cardSlots" :key="slot" v-slot:[slot]>
 				<slot :name="slot"></slot>
 			</template>
-
-			<slot name="in"></slot>
 		</component>
 
 		<el-card v-bind="bindCardArgs" v-else-if="useCard" class="wrapper-content">
@@ -16,13 +14,10 @@
 			<template v-for="slot of cardSlots" :key="slot" v-slot:[slot]>
 				<slot :name="slot"></slot>
 			</template>
-
-			<slot name="in"></slot>
 		</el-card>
 
 		<echo v-else class="wrapper-content">
 			<slot></slot>
-			<slot name="in"></slot>
 		</echo>
 
 		<slot name="out"></slot>
