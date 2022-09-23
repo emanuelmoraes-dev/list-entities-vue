@@ -1,26 +1,17 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: {
-    /* ... */
+    'src': '/dist',
+    'public': { 'url': '/', static: true, resolve: false }
   },
-  plugins: [
-    /* ... */
-  ],
+  plugins: ['@snowpack/plugin-vue'],
   routes: [
-    /* Enable an SPA Fallback in development: */
-    // {"match": "routes", "src": ".*", "dest": "/index.html"},
+    { 'match': 'routes', 'src': '.*', 'dest': '/index.html' }
   ],
   optimize: {
-    /* Example: Bundle your final build: */
-    // "bundle": true,
+    'bundle': false
   },
-  packageOptions: {
-    /* ... */
-  },
-  devOptions: {
-    /* ... */
-  },
-  buildOptions: {
-    /* ... */
-  },
-};
+  packageOptions: {},
+  devOptions: {},
+  buildOptions: {}
+}
