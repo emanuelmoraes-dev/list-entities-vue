@@ -4,7 +4,7 @@ export default {
     'src': '/dist',
     'public': { 'url': '/', static: true, resolve: false }
   },
-  plugins: ['@snowpack/plugin-vue'],
+  plugins: ['@snowpack/plugin-vue', 'snowpack-plugin-less'],
   routes: [
     { 'match': 'routes', 'src': '.*', 'dest': '/index.html' }
   ],
