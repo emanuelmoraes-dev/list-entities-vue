@@ -1,4 +1,4 @@
-import Site from '@/site/Site.vue'
+import Site from '@site/Site.vue'
 import { mount } from '@vue/test-utils'
 
 describe('site/Site.vue', () => {

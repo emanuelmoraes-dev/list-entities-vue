@@ -1,4 +1,4 @@
-import { Echo } from '@lib'
+import { Echo } from '@lib/components/echo/Echo.vue'
 import { mount } from '@vue/test-utils'
 
 describe('lib/components/Echo', () => {

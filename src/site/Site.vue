@@ -1,5 +1,5 @@
 <script>
-    import { Echo } from '@lib'
+    import { Echo } from '@list-entities-vue'
     export default {
         components: { Echo },
         setup() {

@@ -1,6 +1,11 @@
 /** @type {import("snowpack").SnowpackUserConfig} */
 export default {
   mount: {
+    'src/export': {
+      url: '/dist/export',
+      resolve: true,
+      static: false
+    },
     'src/lib': {
       url: '/dist/lib',
       resolve: false,
@@ -25,6 +30,7 @@ export default {
     out: 'build/npm'
   },
   alias: {
+    '@list-entities-vue': './src/export',
     '@lib': './src/lib'
   }
 }
