@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "description": "Generic components in Vue JS to view and list entities",
   "main": "dist/export/index.js",
+  "peerDependencies": {
+    "vue": "^3.2.40"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/emanuelmoraes-dev/list-entities-vue.git"
