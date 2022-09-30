@@ -12,7 +12,11 @@ export default {
       static: true
     }
   },
-  plugins: ['@snowpack/plugin-vue', 'snowpack-plugin-less'],
+  plugins: [
+    'snowpack-plugin-less',
+    '@snowpack/plugin-vue',
+    ['@snowpack/plugin-babel', { input: ['.js'] }]
+  ],
   routes: [
     { 'match': 'routes', 'src': '.*', 'dest': '/index.html' }
   ],
