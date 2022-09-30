@@ -30,7 +30,6 @@ export default {
   },
   alias: {
     '@list-entities-vue': './src/export',
-    '@lib': './src/lib',
     '@site': './src/site'
   }
 }

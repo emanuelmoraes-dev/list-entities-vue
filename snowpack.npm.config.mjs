@@ -34,7 +34,6 @@ export default {
     out: 'build/npm'
   },
   alias: {
-    '@list-entities-vue': './src/export',
-    '@lib': './src/lib'
+    '@list-entities-vue': './src/export'
   }
 }

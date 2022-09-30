@@ -1,4 +1,7 @@
 {
+  "private": true,
+  "description": "Website, demo, guides and documentation of the list-entities-vue package",
+  "workspaces": ["pkg"],
   "scripts": {
     "start": "snowpack dev --config ./snowpack.web.config.mjs",
     "build:web": "snowpack build --config ./snowpack.web.config.mjs",
