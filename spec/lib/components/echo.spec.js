@@ -1,8 +1,8 @@
 import { Echo } from '@list-entities-vue/components'
 import { mount } from '@vue/test-utils'
 
-describe('lib/components/Echo', () => {
-    it('must have one div.lev-echo when no property is passed', () => {
+describe('lib/components/echo', () => {
+    it('must have one .lev-echo when no property is passed', () => {
         const echo = mount(Echo)
         expect(echo.findAll('.lev-echo').length).toBe(1)
     })
