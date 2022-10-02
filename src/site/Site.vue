@@ -1,11 +1,11 @@
 <template>
-    <echo><h1>Welcome to list-entities-vue 3!</h1></echo>
+    <wrapper><h1>Welcome to list-entities-vue 3!</h1></wrapper>
 </template>
 
 <script>
-    import { Echo } from '@list-entities-vue'
+    import { Wrapper } from '@list-entities-vue'
     export default {
-        components: { Echo },
+        components: { Wrapper },
         setup() {
             return {}
         }
