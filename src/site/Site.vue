@@ -1,11 +1,11 @@
 <template>
-    <wrapper><h1>Welcome to list-entities-vue 3!</h1></wrapper>
+    <list-entities :useCard="true" :isCompact="false"></list-entities>
 </template>
 
 <script>
-    import { Wrapper } from '@list-entities-vue'
+    import { ListEntities } from '@list-entities-vue'
     export default {
-        components: { Wrapper },
+        components: { ListEntities },
         setup() {
             return {}
         }
