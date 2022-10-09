@@ -84,6 +84,7 @@ module.exports = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     "^@list-entities-vue$": "<rootDir>/src/export/index.js",
+    "^@list-entities-vue/lib/(.*)$": "<rootDir>/src/lib/$1",
     "^@list-entities-vue/(.*)$": "<rootDir>/src/export/$1",
     "^@site/(.*)$": "<rootDir>/src/site/$1"
   },
