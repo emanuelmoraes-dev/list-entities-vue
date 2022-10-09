@@ -29,6 +29,7 @@ export default {
     out: 'build/web'
   },
   alias: {
+    '@list-entities-vue/lib': './src/lib',
     '@list-entities-vue': './src/export',
     '@site': './src/site'
   }

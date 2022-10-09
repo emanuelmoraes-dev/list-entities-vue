@@ -7,7 +7,7 @@ export default {
       static: false
     },
     'src/lib': {
-      url: '/dist/lib',
+      url: '/dist/export/lib',
       resolve: false,
       static: false
     },
@@ -34,6 +34,7 @@ export default {
     out: 'build/npm'
   },
   alias: {
+    '@list-entities-vue/lib': './src/lib',
     '@list-entities-vue': './src/export'
   }
 }

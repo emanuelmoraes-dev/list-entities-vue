@@ -5,7 +5,6 @@
   "description": "Generic components in Vue JS to view and list entities",
   "main": "dist/export/index.js",
   "exports": {
-    "./dist/lib/*": "./dist/lib/*",
     "./*": "./dist/export/*"
   },
   "repository": {
